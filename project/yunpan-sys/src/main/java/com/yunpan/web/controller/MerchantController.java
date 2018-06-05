@@ -107,18 +107,45 @@ public class MerchantController {
 		 return "/merchantRechargeList";		
 	}
 	
+	
+	/**
+	 * 商户注册
+	 * @param request
+	 */
+	@RequestMapping(value ="/merchantRegister")
+	public String merchantRegister(HttpServletRequest request){
+		return "/merchantRegister";
+	}
+	
+	/**
+	 * 商户注册
+	 * @param request
+	 */
+	@RequestMapping(value ="/merchantRegister2")
+	public String merchantRegister2(HttpServletRequest request){
+		return "/merchantRegConfirm";
+	}
+	
+	
 	/**
 	 * 增加商户
 	 * @param request
 	 */
-	@RequestMapping(value ="/addMerchant")
-	public void addMerchant(HttpServletRequest request){
-		String merchantName=request.getParameter("merchantName");
-		String mobile=request.getParameter("mobile");		
-		MerchantEntity merchantEntity=new MerchantEntity();
-		merchantEntity.setName(merchantName);
-		merchantEntity.setMobile(mobile);		
-		merchantService.addMerchant(merchantEntity);
+	@RequestMapping(value ="/addMerchantInfo")
+	@ResponseBody
+	public Map addMerchant(HttpServletRequest request){
+		try {
+			String merchantName=request.getParameter("merchantName");
+			String mobile=request.getParameter("mobile");		
+			MerchantEntity merchantEntity=new MerchantEntity();
+			merchantEntity.setName(merchantName);
+			merchantEntity.setMobile(mobile);		
+			merchantService.addMerchant(merchantEntity);
+			return Result.success();
+		} catch (Exception e) {
+			logger.info("添加商户信息失败",e);
+		}
+		return Result.failed("添加商户信息失败");
 	}
 	
 	/**
