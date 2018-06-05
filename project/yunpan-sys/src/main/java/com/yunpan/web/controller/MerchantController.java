@@ -3,7 +3,6 @@ package com.yunpan.web.controller;
 
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +25,7 @@ import com.yunpan.data.entity.MerchantEntity;
 import com.yunpan.data.entity.MerchantRechargeEntity;
 import com.yunpan.service.bean.AppCommon;
 import com.yunpan.service.exception.MerchantException;
+import com.yunpan.service.service.MerchantAccountService;
 import com.yunpan.service.service.MerchantRechargeService;
 import com.yunpan.service.service.MerchantService;
 import com.yunpan.service.service.PaymentService;
@@ -43,6 +43,9 @@ public class MerchantController {
 	
 	@Autowired
 	private MerchantRechargeService merchantRechargeService;
+	
+	@Autowired
+	private MerchantAccountService merchantAccountService;
 	
 	/**
 	 * 商户充值
@@ -142,9 +145,36 @@ public class MerchantController {
 		MerchantAccountEntity merchantAccountEntity=merchantService.queryMerchantAccountByMerchantId(Long.valueOf(merchantId));	
 		model.addAttribute("merchantEntity", merchantEntity);
 		model.addAttribute("merchantAccountEntity", merchantAccountEntity);
-		return "/merchantAccount";
-	
+		return "/merchantAccount";	
 	}
+	
+	@RequestMapping(value ="/merchantWithdraw")
+	@ResponseBody
+    public Map merchantWithdraw(HttpServletRequest request,final ModelMap model){      
+        try {
+            String merchantId=request.getParameter("merchantId");
+            String amount=request.getParameter("amount");
+            int amt=new BigDecimal(amount).multiply(new BigDecimal(100)).intValue();
+            boolean result=merchantAccountService.withdrawByMerchantId(Long.valueOf(merchantId), amt);
+            return Result.success(result);
+        } catch (Exception e) {
+         
+        }
+        return Result.failed("failed","下单失败");
+    }
+	
+	@RequestMapping(value ="/confirmWithdraw")
+	@ResponseBody
+    public Map confirmWithdraw(HttpServletRequest request,final ModelMap model){
+        try {
+            String transId=request.getParameter("transId");       
+            boolean result=merchantAccountService.confirmWithdrawByTransId(Long.valueOf(transId));
+            return Result.success(result);
+        } catch (Exception e) {
+            
+        }  
+        return Result.failed("failed","下单失败");
+    }
 	
 	
 

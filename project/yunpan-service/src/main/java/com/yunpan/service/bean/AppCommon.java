@@ -1,6 +1,16 @@
 package com.yunpan.service.bean;
 
 public class AppCommon {
+    
+    /**
+     * 充值
+     */
+    public static String TRANS_TYPE_I="I";
+    
+    /**
+     * 提现
+     */
+    public static String TRANS_TYPE_O="O";
 	
 	/*
 	 * 支付状态（初始化）

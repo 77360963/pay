@@ -17,7 +17,7 @@
             <property name="javaFileEncoding" value="UTF-8" />
         </commentGenerator>
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-            connectionURL="jdbc:mysql://192.168.121.130:3306/yunpan?useUnicode=true&amp;characterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull"
+            connectionURL="jdbc:mysql://192.168.111.111:3306/yunpan?useUnicode=true&amp;characterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull"
             userId="root" password="123456" />
         <javaTypeResolver>
             <!-- This property is used to specify whether MyBatis Generator should
