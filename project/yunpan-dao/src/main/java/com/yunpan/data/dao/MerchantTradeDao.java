@@ -1,5 +1,7 @@
 package com.yunpan.data.dao;
 
+import java.util.List;
+
 import com.yunpan.data.entity.MerchantTradeEntity;
 
 public interface MerchantTradeDao {
@@ -35,4 +37,18 @@ public interface MerchantTradeDao {
      * @param record
      */
     int updateByPrimaryKey(MerchantTradeEntity record);
+    
+    /**
+    *
+    * @param record
+    */
+   int updateMerchantTradeStatus(MerchantTradeEntity record);
+   
+   
+   /**
+    * 查询指定商户的充值记录
+    * @param merchantId
+    * @return
+    */
+   List<MerchantTradeEntity> queryMerchantTradeByMerchantId(Long merchantId);
 }

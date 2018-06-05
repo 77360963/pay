@@ -2,7 +2,7 @@ package com.yunpan.service.service;
 
 import java.util.List;
 
-import com.yunpan.data.entity.MerchantRechargeEntity;
+import com.yunpan.data.entity.MerchantTradeEntity;
 import com.yunpan.service.exception.MerchantException;
 
 public interface MerchantRechargeService {
@@ -12,7 +12,7 @@ public interface MerchantRechargeService {
 	 * @param merchantRechargeEntity
 	 * @return
 	 */
-	public long merchantRechargeAddOrder(MerchantRechargeEntity merchantRechargeEntity) throws MerchantException;
+	public long merchantRechargeAddOrder(MerchantTradeEntity merchantTradeEntity) throws MerchantException;
 	
 	/**
 	 * 商户充值成功
@@ -27,6 +27,6 @@ public interface MerchantRechargeService {
 	 * @param merchantId
 	 * @return
 	 */
-	public List<MerchantRechargeEntity> queryMerchantRechargeByMerchantId(long merchantId);
+	public List<MerchantTradeEntity> queryMerchantRechargeByMerchantId(long merchantId);
 
 }

@@ -178,4 +178,45 @@
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  
+  <update id="updateMerchantTradeStatus" parameterType="com.yunpan.data.entity.MerchantTradeEntity">
+    <!--
+    @mbggenerated
+    -->
+    update t_merchant_trade
+    <set>
+      <if test="merchantId != null">
+        merchant_id = #{merchantId,jdbcType=BIGINT},
+      </if>
+      <if test="payAmount != null">
+        pay_amount = #{payAmount,jdbcType=INTEGER},
+      </if>
+      <if test="needPayAmount != null">
+        need_pay_amount = #{needPayAmount,jdbcType=INTEGER},
+      </if>
+      <if test="payStatus != null">
+        pay_status = #{payStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createdTime != null">
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedTime != null">
+        updated_time = #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT} and pay_status=0
+  </update>
+  
+  <select id="queryMerchantTradeByMerchantId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--
+    @mbggenerated
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from t_merchant_trade
+    where merchant_id = #{merchantId,jdbcType=BIGINT}
+  </select>
 </mapper>

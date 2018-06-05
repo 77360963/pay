@@ -11,10 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.yunpan.data.dao.MerchantAccountDao;
 import com.yunpan.data.dao.MerchantDao;
-import com.yunpan.data.dao.MerchantRechargeDao;
+import com.yunpan.data.dao.MerchantTradeDao;
 import com.yunpan.data.entity.MerchantAccountEntity;
 import com.yunpan.data.entity.MerchantEntity;
-import com.yunpan.data.entity.MerchantRechargeEntity;
+import com.yunpan.data.entity.MerchantTradeEntity;
 import com.yunpan.service.bean.AppCommon;
 import com.yunpan.service.bean.PaymentResult;
 import com.yunpan.service.exception.MerchantException;
@@ -33,51 +33,52 @@ public class MerchantRechargeServiceImpl implements MerchantRechargeService {
 	private MerchantAccountDao merchantAccountDao;
 	
 	@Autowired
-	private MerchantRechargeDao merchantRechargeDao;
+	private MerchantTradeDao merchantTradeDao;
 	
 	@Autowired
 	private PaymentService paymentService;
 
 	@Override
-	public long merchantRechargeAddOrder(MerchantRechargeEntity merchantRechargeEntity) throws MerchantException{		
-		MerchantEntity merchantEntity=merchantDao.selectByPrimaryKey(merchantRechargeEntity.getMerchantId());
+	public long merchantRechargeAddOrder(MerchantTradeEntity merchantTradeEntity) throws MerchantException{		
+	    merchantTradeEntity.setTransType(AppCommon.TRANS_TYPE_I);
+	    MerchantEntity merchantEntity=merchantDao.selectByPrimaryKey(merchantTradeEntity.getMerchantId());
 		if(null==merchantEntity){
-			logger.info("未找到相关商户信息，商户id={}",merchantRechargeEntity.getMerchantId());
+			logger.info("未找到相关商户信息，商户id={}",merchantTradeEntity.getMerchantId());
 			throw new MerchantException("", "未找到相关商户信息");
 		}	
 	    try {	    	
-			merchantRechargeDao.insertSelective(merchantRechargeEntity);			
+	        merchantTradeDao.insertSelective(merchantTradeEntity);			
 		} catch (Exception e) {
 			logger.info("商户充值下单失败",e);
 			throw new MerchantException("", "商户充值下单失败");
 		}
-	    return merchantRechargeEntity.getId(); 
+	    return merchantTradeEntity.getId(); 
 	}
 
 	@Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public boolean merchantRechargePaySuccess(String orderId) throws MerchantException{
 		boolean paymentStatus=false;
-		MerchantRechargeEntity merchantRechargeEntity=merchantRechargeDao.selectByPrimaryKey(Long.valueOf(orderId));		
-		if(null==merchantRechargeEntity){
+		MerchantTradeEntity merchantTradeEntity=merchantTradeDao.selectByPrimaryKey(Long.valueOf(orderId));		
+		if(null==merchantTradeEntity){
 			logger.info("充值订单不存在,充值订单号={}",orderId);
 			throw new MerchantException("", "充值订单不存在");
 		}
-		MerchantAccountEntity merchantAccountEntity=merchantAccountDao.selectByMerchantId(merchantRechargeEntity.getMerchantId());
+		MerchantAccountEntity merchantAccountEntity=merchantAccountDao.selectByMerchantId(merchantTradeEntity.getMerchantId());
 		if(null==merchantAccountEntity){
-			logger.info("未找到相关商户资金账户,商户id={}",merchantRechargeEntity.getMerchantId());
+			logger.info("未找到相关商户资金账户,商户id={}",merchantTradeEntity.getMerchantId());
 			throw new MerchantException("", "未找到相关商户资金账户");
 		}
 		try {
 			PaymentResult paymentResult=paymentService.queryOrder(String.valueOf(orderId));
 			if(null!=paymentResult&& AppCommon.PAY_STATUS_SUCCESS==paymentResult.getPaymentStatus()){
-				MerchantRechargeEntity updateMerchantRechargeEntity=new MerchantRechargeEntity();
-				updateMerchantRechargeEntity.setId(merchantRechargeEntity.getId());
-				updateMerchantRechargeEntity.setNeedPayAmount(paymentResult.getNeedPayAmount());
-				updateMerchantRechargeEntity.setPayStatus(AppCommon.PAY_STATUS_SUCCESS);
-				int updateCount=merchantRechargeDao.updateMerchantRechargeStatus(updateMerchantRechargeEntity);
+				MerchantTradeEntity updateMerchantTradeEntity=new MerchantTradeEntity();
+				updateMerchantTradeEntity.setId(merchantTradeEntity.getId());
+				updateMerchantTradeEntity.setNeedPayAmount(paymentResult.getNeedPayAmount());
+				updateMerchantTradeEntity.setPayStatus(AppCommon.PAY_STATUS_SUCCESS);
+				int updateCount=merchantTradeDao.updateMerchantTradeStatus(updateMerchantTradeEntity);
 				if(updateCount>0){
-					int updateAccount=merchantAccountDao.merchantRecharge(merchantRechargeEntity.getMerchantId(), paymentResult.getNeedPayAmount());
+					int updateAccount=merchantAccountDao.merchantRecharge(merchantTradeEntity.getMerchantId(), paymentResult.getNeedPayAmount());
 					if(updateAccount!=1){
 						throw new MerchantException("", "商户充值失败,请联系管理员");
 					}else{
@@ -98,8 +99,8 @@ public class MerchantRechargeServiceImpl implements MerchantRechargeService {
 	}
 
 	@Override
-	public List<MerchantRechargeEntity> queryMerchantRechargeByMerchantId(long merchantId) {		
-		List<MerchantRechargeEntity> list=merchantRechargeDao.queryMerchantRechargeByMerchantId(merchantId);		
+	public List<MerchantTradeEntity> queryMerchantRechargeByMerchantId(long merchantId) {		
+		List<MerchantTradeEntity> list=merchantTradeDao.queryMerchantTradeByMerchantId(merchantId);		
 		return list;
 	}
 

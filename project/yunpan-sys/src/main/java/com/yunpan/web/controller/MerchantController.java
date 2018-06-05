@@ -22,7 +22,7 @@ import com.yunpan.base.tool.DeviceUtils;
 import com.yunpan.base.web.util.Result;
 import com.yunpan.data.entity.MerchantAccountEntity;
 import com.yunpan.data.entity.MerchantEntity;
-import com.yunpan.data.entity.MerchantRechargeEntity;
+import com.yunpan.data.entity.MerchantTradeEntity;
 import com.yunpan.service.bean.AppCommon;
 import com.yunpan.service.exception.MerchantException;
 import com.yunpan.service.service.MerchantAccountService;
@@ -61,13 +61,13 @@ public class MerchantController {
 		}
 		Long merchantId=Long.valueOf(request.getParameter("merchantId"));		
 		int payAmount=new BigDecimal(request.getParameter("payAmount")).multiply(new BigDecimal(100)).intValue();
-		MerchantRechargeEntity merchantRechargeEntity=new MerchantRechargeEntity();
-		merchantRechargeEntity.setMerchantId(merchantId);
-		merchantRechargeEntity.setPayAmount(payAmount);
-		merchantRechargeEntity.setPayStatus(AppCommon.PAY_STATUS_INIT);
+		MerchantTradeEntity merchantTradeEntity=new MerchantTradeEntity();
+		merchantTradeEntity.setMerchantId(merchantId);
+		merchantTradeEntity.setPayAmount(payAmount);
+		merchantTradeEntity.setPayStatus(AppCommon.PAY_STATUS_INIT);
 		Long rechargeId;
 		try {
-			rechargeId = merchantRechargeService.merchantRechargeAddOrder(merchantRechargeEntity);
+			rechargeId = merchantRechargeService.merchantRechargeAddOrder(merchantTradeEntity);
 			Map map=paymentService.webPayMap(payAmount, String.valueOf(rechargeId));
 			return Result.success(map);
 		} catch (MerchantException e) {				
@@ -102,7 +102,7 @@ public class MerchantController {
 	@RequestMapping(value ="/queryMerchantRechargeList")
 	public String queryMerchantRechargeList(HttpServletRequest request,final ModelMap model){
 		 String merchantId=request.getParameter("merchantId");		
-		 List<MerchantRechargeEntity> merchantRechargeList=merchantRechargeService.queryMerchantRechargeByMerchantId(Long.valueOf(merchantId));
+		 List<MerchantTradeEntity> merchantRechargeList=merchantRechargeService.queryMerchantRechargeByMerchantId(Long.valueOf(merchantId));
 		 model.addAttribute("merchantRechargeList", merchantRechargeList);
 		 return "/merchantRechargeList";		
 	}
