@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<title>Insert title here</title>
+<script src="/js/jquery.min.js"></script>
+
+</head>
+<body>
+   <form action="/openapi/user/saveUser">
+            姓名：<input type="text" id="userName" value=""/>
+           性别：<input type="text" id ="sex" value="" />
+   <input type="button" value="提交" id="submitUser" />    
+   </form>
+</body>
+</html>
+
+<script language="javascript" type="text/javascript">
+     $(function(){               
+        $("#submitUser").click(function(){             
+           alert("根据ID绑定单击事件");
+           $.ajax({ 
+               type : "POST",
+               dataType : "json",
+               url : "/openapi/user/saveUser",
+               data : {
+            	   userName : $("#userName").val(),
+            	   sex : $("#sex").val(),
+               },                        
+               success : function(msg) {            	  
+            	   if (msg.responseCode=="success"){
+            		   alert(msg.data);
+            	   }else{
+            		  alert("系统出错")
+            	   }
+               }
+           });                  
+        });
+     
+              
+    });
+
+            
+</script>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"  
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"> 
+<head>
+<meta charset="UTF-8"/>
+<title>Insert title here</title>
+</head>
+<body>
+    <table border="1">  
+         <tr>  
+           <th>日期</th>  
+           <th>充值金额</th>  
+           <th>充值状态</th>            
+         </tr> 
+          <tr th:each="recharge,rechargeStat: ${merchantRechargeList}">  
+                <td th:text="${recharge.createdTime}"></td>  
+                <td th:text="${recharge.payAmount}"></td>  
+                <td th:text="${recharge.payStatus}"></td>
+         </tr>
+  </table> 
+</body>
+</html>

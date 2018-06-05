@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+ <br/>
+  增加商户
+  <form action="/addMerchant" method="post">
+    <input type="text" name="merchantName" id="merchantName" value="" />
+    <input type="text" name="mobile" id="mobile" value="" />
+    <input type="submit" value="提交">
+  </form>
+  
+   <br/>
+      指定商户充值记录
+   <form action="/queryMerchantRechargeList" method="post">
+    <input type="text" name="merchantId" id="merchantId" value="" />   
+    <input type="submit" value="提交">
+  </form> 
+  
+  
+   <br/>
+      <a href="/queryMerchantInfoById?merchantId=16">指定商户充值</a>
+   <br/>
+      <a href="/queryMerchantAccountByMerchantId?merchantId=16">指定商户余额</a>
+    <br/>
+   <a href="/queryMerchantRechargeList?merchantId=16">指定商户充值记录</a>
+    
+  
+</body>
+</html>

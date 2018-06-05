@@ -1,0 +1,20 @@
+.project
+.gradletasknamecache
+.settings/
+.gradle/
+target/
+bin/
+out/
+.classpath
+.springBeans
+*.iml
+.idea
+*/build
+*.bak
+.DS_Store
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear

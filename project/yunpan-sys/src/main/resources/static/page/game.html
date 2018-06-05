@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>2018年-给母亲的检讨书</title>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/html2canvas.min.js"></script>
+<script src="../js/canvas2image.js"></script>
+<style type="text/css">
+li {
+	display: inline-block
+}
+
+A:link {
+	COLOR: inherit;
+	TEXT-DECORATION: none
+}
+
+A:visited {
+	COLOR: inherit;
+	TEXT-DECORATION: none
+}
+
+A:active {
+	COLOR: inherit;
+	TEXT-DECORATION: none
+}
+
+A:hover {
+	COLOR: inherit;
+	TEXT-DECORATION: none
+}
+
+button {
+	width: 100%;
+	text-align: center;
+	border-radius: 3px;
+}
+
+.button2 {
+	font-size: 16px;
+	padding: 8px 0;
+	border: 1px solid #adadab;
+	color: #000000;
+	background-color: #e8e8e8;
+	background-image: linear-gradient(to top, #dbdbdb, #f4f4f4);
+	background-image: -webkit-gradient(linear, 0 100%, 0 0, from(#dbdbdb),
+		to(#f4f4f4));
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.45), inset 0 1px 1px #efefef;
+	text-shadow: 0.5px 0.5px 1px #ffffff;
+}
+
+.button2:active {
+	background-color: #dedede;
+	background-image: linear-gradient(to top, #cacaca, #e0e0e0);
+	background-image: -webkit-gradient(linear, 0 100%, 0 0, from(#cacaca),
+		to(#e0e0e0));
+}
+
+#mess_share {
+	margin: 15px 0;
+}
+
+#share_1 {
+	float: left;
+	width: 49%;
+}
+
+#share_2 {
+	float: right;
+	width: 49%;
+}
+
+#mess_share img {
+	width: 22px;
+	height: 22px;
+}
+
+#cover {
+	display: none;
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 18888;
+	background-color: #000000;
+	opacity: 0.7;
+}
+
+#guide {
+	display: none;
+	position: absolute;
+	right: 18px;
+	top: 5px;
+	z-index: 19999;
+}
+
+#guide img {
+	width: 360px;
+	height: 380px;
+}
+
+.swiper-container {
+	width: 100%;
+}
+
+.swiper-slide {
+	text-align: center;
+	font-size: 18px;
+	background: #fff;
+	height: 100%;
+	/* Center slide text vertically */
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: center;
+	-ms-flex-pack: center;
+	-webkit-justify-content: center;
+	justify-content: center;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	-webkit-align-items: center;
+	align-items: center;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+	display: -webkit-flex;
+	display: flex;
+	display: flex;
+}
+
+.txtMarquee-left .notifybd .tempWrap {
+	width: 425px !important;
+} /* 用 !important覆盖SuperSlide自动生成的宽度，这样就可以手动控制可视宽度。 */
+.txtMarquee-left .bd ul {
+	overflow: hidden;
+	zoom: 1;
+}
+
+.txtMarquee-left .notifybd ul li {
+	margin-right: 20px;
+	float: left;
+	height: 24px;
+	line-height: 24px;
+	text-align: left;
+	_display: inline;
+	width: auto !important;
+} /* 用 width:auto !important 覆盖SuperSlide自动生成的宽度，解决文字不衔接问题 */
+.txtMarquee-left .notifybd ul li span {
+	color: #999;
+}
+</style>
+</head>
+<body>
+	<form>
+		<div id="start" style="text-align: center;display: block">
+			<div style="width: 1000px;margin: auto;position: absolute;">
+				<div>
+					<img src="../img/index.jpg" style="width: 1000px;height: 1600px;">
+				</div>
+				<div style="position: absolute;left: 109px;top: 783px;">
+					<input name="userName" id="userName"
+						style="height: 75px;width: 700px;font-size: 60px;text-align: center;border: 0px;outline:none;">
+				</div>
+				<div
+					style="position: absolute;left: 165px;top: 1000px;z-index: 1888;">
+					<input type="radio" name="sex" checked="checked" value="男"
+						style=" width: 30px;height: 30px;">
+				</div>
+				<div style="position: absolute;left: 540px;top: 1000px;">
+					<input type="radio" name="sex" value="女"
+						style="width: 30px; height: 30px;">
+				</div>
+				<div
+					style="width: 787px;height: 138px;position: absolute;left: 103px;top: 1185px;"
+					id="submitUser"></div>
+				<div></div>
+			</div>
+		</div>
+
+		<div id="result" style="text-align: center;display: none">
+			<div style="width:1000px ;margin: auto;position: relative">
+				<div id="imgSrc">
+					<div>
+						<img src="../img/result1.jpg"
+							style="width: 1000px;height: 1200px;">
+					</div>
+
+
+					<div style="position: absolute;left: 104px;top: 248px;">
+						<img id="contentImg" style="width: 830px;height: 600px;">
+					</div>
+					<div style="position: absolute;left: 174px;top: 871px;">
+						<img id="scoreImg" style="width: 240px;height: 200px;">
+					</div>
+
+					<div
+						style="width: 240px;height: 25px;position: absolute;left: 161px;top: 1096px;">
+						<span id="myName" style="font-size: 30px;"></span><span
+							style="font-size: 30px;">熊孩子值</span>
+					</div>
+				</div>
+
+				<div>
+					<img src="../img/result2.jpg" style="width: 1000px;height: 400px;">
+				</div>
+
+
+				<div
+					style="width: 410px;height: 101px;position: absolute;left: 76px;top: 1402px;/* background: red; */"
+					id="reWrite"></div>
+				<div
+					style="width: 410px;height: 101px;position: absolute;left: 514px;top: 1402px;"
+					id="inviteFriend"></div>
+				<div
+					style="width: 467px;height: 107px;position: absolute;left: 246px;top: 1226px;"
+					id="saveImg"></div>
+			</div>
+		</div>
+	</form>
+	<div id="resultImg" style="text-align: center;display: none">
+		<div style="width:1000px ;margin: auto;position: relative">
+			<img src="" width="1000px" height="1200px">
+		</div>
+	</div>
+
+	<div id="cover"></div>
+
+	<div id="guide">
+		<img src="../img/guide1.png">
+	</div>
+</body>
+</html>
+
+<script language="javascript" type="text/javascript">
+	var reContent = false;
+	var dataURL = "";
+	var userName = "";
+	var sex = "";
+
+	function genImg() {
+		html2canvas(document.querySelector("#imgSrc")).then(function(canvas) {
+			$("#start").hide();
+			$("#result").hide();
+			//alert(canvas.width);
+			// alert(canvas.height);
+			/*  var img = Canvas2Image.convertToImage(canvas, canvas.width, canvas.height);
+			  document.body.appendChild(img);
+			  $(img).wrap("<div id=\"result\" style=\"text-align: center;\">\n" +
+			      "        <div style=\"width:1000px ;margin: auto;position: relative\"></div></div>");*/
+			// document.body.appendChild(canvas);
+			dataURL = canvas.toDataURL("image/png");
+			// alert(dataURL);
+			$("#resultImg").show();
+			$("#resultImg img").attr("src", dataURL);
+		});
+	}
+
+	$(function() {
+
+		$("#saveImg").click(function() {
+			genImg();
+		});
+		$("#inviteFriend").click(function() {
+			_system._guide(true);
+		});
+		$("#reWrite").click(
+				function() {
+					$.ajax({
+						type : "POST",
+						dataType : "json",
+						url : "/openapi/user/saveUser",
+						data : {
+							userName : userName,
+							sex : sex,
+							reContent : true
+						},
+						success : function(msg) {
+							if (msg.responseCode == "success") {
+								$("#start").hide();
+								$("#result").show();
+								reContent = false;
+								$("#myName").text($("#userName").val());
+								$("#contentImg").attr(
+										"src",
+										"../img/content/" + msg.data.contentId
+												+ ".png");
+								//genImg();
+								//生成图片
+							} else {
+								alert("系统出错")
+							}
+						}
+					});
+				});
+		$("#submitUser").click(
+				function() {
+					if ($("#userName").val() == "") {
+						alert("姓名不能为空!");
+						return;
+					}
+
+					if ($("#userName").val().length >= 5) {
+						alert("名字需小于5个字符");
+						return;
+					}
+
+					var userName = $("#userName").val();
+					var sex = $("input[name='sex']:checked").val();
+
+					$.ajax({
+						type : "POST",
+						dataType : "json",
+						url : "/openapi/user/saveUser",
+						data : {
+							userName : $("#userName").val(),
+							sex : $("input[name='sex']:checked").val(),
+							reContent : reContent
+						},
+						success : function(msg) {
+							if (msg.responseCode == "success") {
+								$("#start").hide();
+								$("#result").show();
+								reContent = false;
+								$("#myName").text($("#userName").val());
+								$("#contentImg").attr(
+										"src",
+										"../img/content/" + msg.data.contentId
+												+ ".png");
+								$("#scoreImg").attr(
+										"src",
+										"../img/score/" + msg.data.scoreId
+												+ ".png");
+								//genImg();
+								//生成图片
+							} else {
+								alert("系统出错")
+							}
+						}
+					});
+				});
+
+		var _system = {
+			$ : function(id) {
+				return document.getElementById(id);
+			},
+			_client : function() {
+				return {
+					w : document.documentElement.scrollWidth,
+					h : document.documentElement.scrollHeight,
+					bw : document.documentElement.clientWidth,
+					bh : document.documentElement.clientHeight
+				};
+			},
+			_scroll : function() {
+				return {
+					x : document.documentElement.scrollLeft ? document.documentElement.scrollLeft
+							: document.body.scrollLeft,
+					y : document.documentElement.scrollTop ? document.documentElement.scrollTop
+							: document.body.scrollTop
+				};
+			},
+			_cover : function(show) {
+
+				if (show) {
+
+					this.$("cover").style.display = "block";
+
+					this.$("cover").style.width = (this._client().bw > this
+							._client().w ? this._client().bw : this._client().w)
+							+ "px";
+
+					this.$("cover").style.height = (this._client().bh > this
+							._client().h ? this._client().bh : this._client().h)
+							+ "px";
+
+				} else {
+
+					this.$("cover").style.display = "none";
+
+				}
+
+			},
+
+			_guide : function(click) {
+
+				this._cover(true);
+
+				this.$("guide").style.display = "block";
+
+				this.$("guide").style.top = (_system._scroll().y + 5) + "px";
+
+				window.onresize = function() {
+					_system._cover(true);
+					_system.$("guide").style.top = (_system._scroll().y + 5)
+							+ "px";
+				};
+
+				if (click) {
+					_system.$("cover").onclick = function() {
+
+						_system._cover();
+
+						_system.$("guide").style.display = "none";
+
+						_system.$("cover").onclick = null;
+
+						window.onresize = null;
+
+					};
+				}
+
+			},
+
+			_zero : function(n) {
+
+				return n < 0 ? 0 : n;
+
+			}
+
+		}
+
+		/*function showRes(data) {
+		    $.ajax({
+		        type: "POST",
+		        dataType: "json",
+		        url: "/openapi/user/getUser",
+		        data: {
+		            id: data,
+		        },
+		        success: function (msg) {
+		            if (msg.responseCode == "success") {
+		                $("#name").html(msg.data.user.userName);
+		                $("#content").attr("src", msg.data.content.contentImagePath);
+		                $("#score").html(msg.data.score.id);
+		            } else {
+		                alert("系统出错")
+		            }
+		        }
+		    });
+		}*/
+
+	});
+</script>

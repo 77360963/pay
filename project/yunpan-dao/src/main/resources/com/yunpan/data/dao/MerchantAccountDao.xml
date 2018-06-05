@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yunpan.data.dao.MerchantAccountDao">
+  <resultMap id="BaseResultMap" type="com.yunpan.data.entity.MerchantAccountEntity">
+    <!--
+    @mbggenerated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="merchant_id" jdbcType="BIGINT" property="merchantId" />
+    <result column="share_amt" jdbcType="INTEGER" property="shareAmt" />
+    <result column="avl_amt" jdbcType="INTEGER" property="avlAmt" />
+    <result column="fre_amt" jdbcType="INTEGER" property="freAmt" />
+    <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
+    <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+    @mbggenerated
+    -->
+    id, merchant_id, share_amt, avl_amt, fre_amt, created_time, updated_time, status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--
+    @mbggenerated
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from t_merchant_account
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <insert id="insert" parameterType="com.yunpan.data.entity.MerchantAccountEntity">
+    <!--
+    @mbggenerated
+    -->
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_merchant_account (merchant_id, share_amt, avl_amt, 
+      fre_amt, created_time, updated_time, 
+      status)
+    values (#{merchantId,jdbcType=BIGINT}, #{shareAmt,jdbcType=INTEGER}, #{avlAmt,jdbcType=INTEGER}, 
+      #{freAmt,jdbcType=INTEGER}, #{createdTime,jdbcType=TIMESTAMP}, #{updatedTime,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yunpan.data.entity.MerchantAccountEntity">
+    <!--
+    @mbggenerated
+    -->
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_merchant_account
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="merchantId != null">
+        merchant_id,
+      </if>
+      <if test="shareAmt != null">
+        share_amt,
+      </if>
+      <if test="avlAmt != null">
+        avl_amt,
+      </if>
+      <if test="freAmt != null">
+        fre_amt,
+      </if>
+      <if test="createdTime != null">
+        created_time,
+      </if>
+      <if test="updatedTime != null">
+        updated_time,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="merchantId != null">
+        #{merchantId,jdbcType=BIGINT},
+      </if>
+      <if test="shareAmt != null">
+        #{shareAmt,jdbcType=INTEGER},
+      </if>
+      <if test="avlAmt != null">
+        #{avlAmt,jdbcType=INTEGER},
+      </if>
+      <if test="freAmt != null">
+        #{freAmt,jdbcType=INTEGER},
+      </if>
+      <if test="createdTime != null">
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedTime != null">
+        #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yunpan.data.entity.MerchantAccountEntity">
+    <!--
+    @mbggenerated
+    -->
+    update t_merchant_account
+    <set>
+      <if test="merchantId != null">
+        merchant_id = #{merchantId,jdbcType=BIGINT},
+      </if>
+      <if test="shareAmt != null">
+        share_amt = #{shareAmt,jdbcType=INTEGER},
+      </if>
+      <if test="avlAmt != null">
+        avl_amt = #{avlAmt,jdbcType=INTEGER},
+      </if>
+      <if test="freAmt != null">
+        fre_amt = #{freAmt,jdbcType=INTEGER},
+      </if>
+      <if test="createdTime != null">
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedTime != null">
+        updated_time = #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yunpan.data.entity.MerchantAccountEntity">
+    <!--
+    @mbggenerated
+    -->
+    update t_merchant_account
+    set merchant_id = #{merchantId,jdbcType=BIGINT},
+      share_amt = #{shareAmt,jdbcType=INTEGER},
+      avl_amt = #{avlAmt,jdbcType=INTEGER},
+      fre_amt = #{freAmt,jdbcType=INTEGER},
+      created_time = #{createdTime,jdbcType=TIMESTAMP},
+      updated_time = #{updatedTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="selectByMerchantId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--
+    @mbggenerated
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from t_merchant_account
+    where merchant_id = #{merchantId,jdbcType=BIGINT}
+  </select>
+  
+  <!-- 商户充值 -->
+  <update id="merchantRecharge">   
+    update t_merchant_account set 
+      share_amt = share_amt + #{rechargeAmount,jdbcType=INTEGER},
+      avl_amt =avl_amt + #{rechargeAmount,jdbcType=INTEGER}     
+    where  merchant_id = #{merchantId,jdbcType=BIGINT}   
+  </update>
+  
+  <!-- 商户提现 -->
+  <update id="merchantWithdraw">   
+    update t_merchant_account set 
+      avl_amt = avl_amt - #{withdrawAmount,jdbcType=INTEGER},
+      fre_amt =fre_amt + #{withdrawAmount,jdbcType=INTEGER}     
+    where  merchant_id = #{merchantId,jdbcType=BIGINT}
+    and avl_amt - #{withdrawAmount,jdbcType=INTEGER} >=0
+  </update>
+  
+   <!-- 商户打款 -->
+  <update id="merchantWithdrawConfirm">   
+    update t_merchant_account set 
+      share_amt = share_amt - #{withdrawAmount,jdbcType=INTEGER},
+      fre_amt =fre_amt - #{withdrawAmount,jdbcType=INTEGER}     
+    where  merchant_id = #{merchantId,jdbcType=BIGINT}
+    and share_amt - #{withdrawAmount,jdbcType=INTEGER}>=0
+    and fre_amt - #{withdrawAmount,jdbcType=INTEGER} >=0
+  </update>
+  
+</mapper>
