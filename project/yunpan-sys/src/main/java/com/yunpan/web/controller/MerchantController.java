@@ -109,21 +109,21 @@ public class MerchantController {
 	
 	
 	/**
-	 * 商户注册
+	 * 商户登录
 	 * @param request
 	 */
-	@RequestMapping(value ="/merchantRegister")
-	public String merchantRegister(HttpServletRequest request){
-		return "/merchantRegister";
+	@RequestMapping(value ="/merchantLogin")
+	public String merchantLogin(HttpServletRequest request){
+		return "/merchantLogin";
 	}
 	
 	/**
 	 * 商户注册
 	 * @param request
 	 */
-	@RequestMapping(value ="/merchantRegister2")
-	public String merchantRegister2(HttpServletRequest request){
-		return "/merchantRegConfirm";
+	@RequestMapping(value ="/merchantRegister")
+	public String merchantRegister(HttpServletRequest request){
+		return "/merchantRegister";
 	}
 	
 	

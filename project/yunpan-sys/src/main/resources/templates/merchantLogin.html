@@ -44,38 +44,32 @@
                 <div class="sform p-l-30 p-r-30 m-t-40">
                     <div class="sformdiv m-b-20">
                         <div class="sforspan floatLeft">
-                            商户名称：
+                            登录名：
                         </div>
                         <div class="sfroinput floatLeft">
-                            <input type="text" id="merchantName" name="merchantName" class="sforinwidt"/>
+                            <input type="text" class="sforinwidt"/>
                         </div>
                     </div>
                      <div class="sformdiv m-b-20">
                         <div class="sforspan floatLeft">
-                            收款支付宝账户：
+                            密码：
                         </div>
                         <div class="sfroinput floatLeft">
                             <input type="text" class="sforinwidt"/>
                         </div>
                     </div>
-         <div class="sformdiv m-b-20">
-                        <div class="sforspan floatLeft">
-                            联系电话：
-                        </div>
-                        <div class="sfroinput floatLeft">
-                            <input type="text" id="mobile" name="mobile" class="sforinwidt"/>
-                        </div>
-                    </div>            
-           <div class="sformdiv m-b-20">
-                        <div class="sforspan floatLeft">
-                            联系地址：
-                        </div>
-                        <div class="sfroinput floatLeft">
+                    <div class="sformdiv m-b-20">
+                    <div class="sfroinput floatLeft">
                             <input type="text" class="sforinwidt"/>
                         </div>
-                    </div>               
+                        <div class="sforspan floatLeft">
+                           <img id="vcode" style="vertical-align: middle;" title="点击更换" alt="验证图片" src="/kaptcha" height="40" width="85">
+                        </div>
+                        
+                    </div>
+                   
 
-                     <a id="submitPay" class="denglusub denglusuba">确认提交</a>
+                    <a href="shengqing2.html" class="denglusub denglusuba">登录</a>
 
 
                 </div>
@@ -84,26 +78,6 @@
             </div>
 
         </div>
-        
-         <!--弹出-->
-        <div class="tjch relative">
-            <div class="tjcha">
-                <img src="images/cgimg.png" alt="" width="50%"/>               
-            </div>
-        </div>
-        
-         <!--弹出-->
-        <div class="tjch relative">
-            <div class="tjcha">               
-                <img src="images/sbimg.png" alt="" width="50%"/>
-            </div>
-        </div>
-
-        <!--弹出 end-->
-
-        <!--弹出 end-->
-        
-        
 
     </div>
 
@@ -135,33 +109,13 @@
     <!--</a>-->
     <!--返回顶部-->
 
+
+
+
+
+
 </div>
 <!--wapper end-->
 
 </body>
-
-<script language="javascript" type="text/javascript">
-
-$("#submitPay").click(function(){
-	 $.ajax({ 
-         type : "POST",
-         dataType : "json",
-         url : "/addMerchantInfo",
-         data : {
-        	 merchantName : $("#merchantName").val(),
-        	 mobile : $("#mobile").val(),
-         },                        
-         success : function(msg) {            	  
-      	   if (msg.responseCode=="success"){
-      		 alert("添加成功");      		
-      	   }else{
-      		  alert("系统出错")
-      	   }
-         }
-     });              
-})
-
-</script>
-
-
 </html>

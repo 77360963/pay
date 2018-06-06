@@ -5,33 +5,19 @@
 <title>Insert title here</title>
 </head>
 <body>
- <br/>
-  增加商户
-  <form action="/addMerchant" method="post">
-    <input type="text" name="merchantName" id="merchantName" value="" />
-    <input type="text" name="mobile" id="mobile" value="" />
-    <input type="submit" value="提交">
-  </form>
-  
-   <br/>
-      指定商户充值记录
-   <form action="/queryMerchantRechargeList" method="post">
-    <input type="text" name="merchantId" id="merchantId" value="" />   
-    <input type="submit" value="提交">
-  </form> 
   
   <br/>
-      <a href="/merchantRegister2">商户注册</a>
-  
+      <a href="/merchantLogin">商户登录</a>  
+  <br/>
+      <a href="/merchantRegister">商户注册</a>  
    <br/>
       <a href="/queryMerchantInfoById?merchantId=16">指定商户充值</a>
    <br/>
-      <a href="/queryMerchantAccountByMerchantId?merchantId=16">指定商户余额</a>
+      <a href="/queryMerchantAccountByMerchantId?merchantId=16">指定商户提现</a>
     <br/>
    <a href="/queryMerchantRechargeList?merchantId=16">指定商户充值记录</a>
-     <br/>
-   <a href="/merchantWithdraw?merchantId=222734644&amount=1">指定商户提现</a>
+
     <br/>
-   <a href="/confirmWithdraw?transId=222734644">指定商户提现确认</a>
+   <a href="/confirmWithdraw?transId=222734647">指定商户提现确认</a>
 </body>
 </html>
