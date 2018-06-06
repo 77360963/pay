@@ -18,6 +18,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.code.kaptcha.Constants;
 import com.yunpan.base.tool.DeviceUtils;
 import com.yunpan.base.web.util.Result;
 import com.yunpan.data.entity.MerchantAccountEntity;
@@ -112,10 +113,39 @@ public class MerchantController {
 	 * 商户登录
 	 * @param request
 	 */
-	@RequestMapping(value ="/merchantLogin")
-	public String merchantLogin(HttpServletRequest request){
+	@RequestMapping(value ="/merchantLoginIndex")
+	public String merchantIndex(HttpServletRequest request){
 		return "/merchantLogin";
 	}
+	
+	/**
+     * 商户登录
+     * @param request
+     */
+    @RequestMapping(value ="/merchantLogin")
+    @ResponseBody
+    public Map merchantLogin(HttpServletRequest request){
+        String  name=request.getParameter("name");
+        String password=request.getParameter("password");
+        String kaptcha=request.getParameter("kaptcha");
+        if(this.verify(request)){
+            return Result.failed("验证码错误");
+        }
+        if("1".equals(name)&&"1".equals(password)){
+            return Result.success();
+        }
+        return Result.failed("用户或密码错误");
+    }
+    
+    public static boolean verify(HttpServletRequest request) {
+          //从session中取出servlet生成的验证码text值
+          String expected = (String) request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
+          //获取用户页面输入的验证码
+          String received = request.getParameter("kaptcha");
+          return received != null && received.equalsIgnoreCase(expected);
+      }
+
+	
 	
 	/**
 	 * 商户注册
