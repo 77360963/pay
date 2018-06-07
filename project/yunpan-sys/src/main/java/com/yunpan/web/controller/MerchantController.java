@@ -128,7 +128,7 @@ public class MerchantController {
         String  name=request.getParameter("name");
         String password=request.getParameter("password");
         String kaptcha=request.getParameter("kaptcha");
-        if(this.verify(request)){
+        if(!this.verify(request)){
             return Result.failed("验证码错误");
         }
         if("1".equals(name)&&"1".equals(password)){
@@ -179,17 +179,28 @@ public class MerchantController {
 	}
 	
 	/**
-	 * 查询指定商户信息
+	 * 查询指定商户收款二维码
 	 * @param request
 	 */
-	@RequestMapping(value ="/queryMerchantInfoById")	
+	@RequestMapping(value ="/merchantInfoScanQR")	
 	public String queryMerchantById(HttpServletRequest request,final ModelMap model){
 		String merchantId=request.getParameter("merchantId");
 		MerchantEntity merchantEntity=merchantService.queryMerchantInfoById(Long.valueOf(merchantId));		
 		model.addAttribute("merchantEntity", merchantEntity);
-		return "/user";
-	
+		return "/merchantInfoScanQR";	
 	}
+	
+	/**
+     * 查询指定商户收款二维码
+     * @param request
+     */
+    @RequestMapping(value ="/merchantPayment")   
+    public String merchantPayment(HttpServletRequest request,final ModelMap model){
+        String merchantId=request.getParameter("merchantId");
+        MerchantEntity merchantEntity=merchantService.queryMerchantInfoById(Long.valueOf(merchantId));      
+        model.addAttribute("merchantEntity", merchantEntity);
+        return "/pay";   
+    }
 	
 	/**
 	 * 查询指定商户账户信息

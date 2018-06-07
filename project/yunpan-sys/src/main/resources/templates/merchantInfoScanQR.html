@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>推广二维码-悟空源码分享网 www.5kym.com</title>
+    <meta content="yes" name="apple-mobile-web-app-capable"><!-- 这meta的作用就是删除默认的苹果工具栏和菜单栏允许全屏模式浏览-->
+    <meta name="apple-touch-fullscreen" content="yes"><!-- 开启对web app程序的支持  -->
+    <meta content="telephone=no,email=no" name="format-detection"><!-- iPhone会自动把你这个文字加链接样式、并且点击这个数字还会自动拨号！telephone=no就忽略页面中的数字识别为电话号码 ,email=no 忽略识别邮箱 -->
+    <!--base css-->
+    <link rel="stylesheet" href="css/reset.css"/>
+    <link rel="stylesheet" href="css/index.css"/>
+    <link rel="stylesheet" href="font/iconfont.css"/>
+    <!--base css end-->
+    <!--base js-->
+    <!--<meta content="yes" name="apple-mobile-web-app-capable">-->
+    <script>
+        window.scrollTo(0, 0);
+    </script>
+    <!--<meta content="yes" name="apple-mobile-web-app-capable"> end-->
+    <script src="js/reset.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/zepto.min.js"></script>
+    <script src="js/TouchSlide.js"></script>
+    <!--base js end-->
+    <script src="js/add.js"></script>
+    <script type="text/javascript" src="http://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="http://static.runoob.com/assets/qrcode/qrcode.min.js"></script>
+</head>
+
+<body>
+<!--wapper-->
+<div class="wapper">
+    <!--推广-->
+    <div class="dp-list p-l-30 p-r-30 bag-fff">
+        <!--list-->
+        <div class="dp-listcon m-b-50">
+            <div class="dianping p-t-30 p-b-30 ">
+                <div class="dp-user b-b-dcdcdc p-t-20 p-b-20">
+                    <img src="images/user.png" alt="" class="dp-userimg"/>
+                    <span class="f24 text-3c3c3c p-l-5"><label th:text="${merchantEntity.name}"></label></span>
+                </div>
+                <div class="dp-contetn text-center p-t-20 p-b-20">
+                    <br><br>                   
+                    <div id="qrcode" style="width: 90%"></div>
+                </div>               
+            </div>
+        </div>
+        <br><br>
+        <!--list end-->
+    </div>
+
+</div>
+<!--wapper end-->
+</body>
+
+<script language="javascript" type="text/javascript">
+var qrcode = new QRCode(document.getElementById("qrcode"), {
+    width : 300,
+    height : 300
+});
+
+function makeCode () {     
+    qrcode.makeCode("http://192.168.31.195:8082/queryMerchantInfoById?merchantId=16");
+}
+makeCode();
+</script>
+</html>

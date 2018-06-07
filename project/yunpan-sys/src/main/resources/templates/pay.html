@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>个人中心-悟空源码分享网 www.5kym.com</title>
+    <meta content="yes" name="apple-mobile-web-app-capable"><!-- 这meta的作用就是删除默认的苹果工具栏和菜单栏允许全屏模式浏览-->
+    <meta name="apple-touch-fullscreen" content="yes"><!-- 开启对web app程序的支持  -->
+    <meta content="telephone=no,email=no" name="format-detection"><!-- iPhone会自动把你这个文字加链接样式、并且点击这个数字还会自动拨号！telephone=no就忽略页面中的数字识别为电话号码 ,email=no 忽略识别邮箱 -->
+    <!--base css-->
+    <link rel="stylesheet" href="css/reset.css"/>
+    <link rel="stylesheet" href="css/index.css"/>
+    <link rel="stylesheet" href="font/iconfont.css"/>
+    <!--base css end-->
+    <!--base js-->
+    <!--<meta content="yes" name="apple-mobile-web-app-capable">-->
+    <script>
+        window.scrollTo(0, 0);
+    </script>
+    <!--<meta content="yes" name="apple-mobile-web-app-capable"> end-->
+    <script src="js/reset.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/zepto.min.js"></script>
+    <script src="js/TouchSlide.js"></script>
+    <script src="js/notice.js"></script>
+    <script src="js/screen.js"></script>
+    <script src="js/back.js"></script>
+    <!--base js end-->
+    <script src="js/add.js"></script>
+    <!-- no base -->
+    <style type="text/css">
+        .dpbtn{
+            position: relative;
+        }
+        .hto-img-content{
+            width: 2.5rem;
+            height: 2.5rem;
+        }
+        .hto-img-content img{
+            width: 2.5rem;
+            height: 2.5rem;
+            -webkit-border-radius: 100%;
+            -moz-border-radius: 100%;
+            border-radius: 100%;
+        }
+        .hto-ph3{
+            line-height: 0.796875rem;
+            color: #fff;
+        }
+        .hto-title{
+            line-height: 0.796875rem;
+            color: #fff;
+        }
+    </style>
+    <!-- no base end -->
+</head>
+<body>
+<!--wapper-->
+<div class="wapper">
+    <!--glogin-->
+    <div class="glogin bag-ea4821">
+        <div class="hot-content p-l-30 p-r-30">
+            <ul class="clearFloat">
+                <li class="b-b-e6e6e6">
+                    <div class="hto-img">
+                        <a href="loupan-page.html">
+                            <div class="hto-img-content m-r-16">
+                                <img src="images/gricon.png" alt=""/>
+                            </div>
+                        </a>
+                        <div class="hto-p">
+                            <a href="#">
+                                <p class="hto-title clearFloat f28">商户名称: </p>   
+                                <h3 class="hto-ph3 m-b-5 f28"><label th:text="${merchantEntity.name}"></label></h3>
+                            </a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--glogin end-->
+    <div class="bag-ebebeb m-b-50">
+        <div class="gul m-b-50">
+            <a href="#">
+                <div class="gli relative f26 p-t-30 p-b-30 b-b-e6e6e6  p-l-30 p-r-30 m-t-30">
+                     <form action="" id="payment" method="post">
+                    <i class="icon iconfont text-ed5565">&#xe641;</i> 付款金额：                    
+                    <input id="payAmount" type="number" placeholder="请输入付款金额"  class="tphone2"/>
+                     <input type="hidden" id ="merchantId" name="merchantId" th:value="${merchantEntity.id}" /> 
+                     <input type="hidden" id ="merchantId" name="merchantId" th:value="${merchantEntity.id}" />
+			         <input type="hidden" id ="merchant_id" name="merchant_id" value="" />   
+			         <input type="hidden" id ="nonce_str" name="nonce_str" value="" />
+			         <input type="hidden" id ="total_fee" name="total_fee" value="" />
+			         <input type="hidden" id ="m_out_trade_no" name="m_out_trade_no" value="" />
+			         <input type="hidden" id ="return_url" name="return_url" value="" />
+			         <input type="hidden" id ="sign" name="sign" value="" />
+			         <input type="hidden" id ="post_url" name="post_url" value="" />  			          
+                  </form>              
+                </div>
+            </a>          
+            <a href="#">
+                <div class="gli relative f26 p-t-30 p-b-30 b-b-e6e6e6  p-l-30 p-r-30">                   
+                       <a id="submitPay" class="denglusub denglusuba">确认提交</a>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+<!--wapper end-->
+</body>
+<script language="javascript" type="text/javascript">
+$(function(){               
+    $("#submitPay").click(function(){
+       $.ajax({ 
+           type : "POST",
+           dataType : "json",
+           url : "/merchantRecharge",
+           data : {
+        	   merchantId : $("#merchantId").val(),
+        	   payAmount : $("#payAmount").val(),
+           },                        
+           success : function(msg) {            	  
+        	   if (msg.responseCode=="success"){
+        		   $("#merchant_id").val(msg.data.merchant_id);
+        		   $("#nonce_str").val(msg.data.nonce_str);        		  
+        		   $("#total_fee").val(msg.data.total_fee);
+        		   $("#m_out_trade_no").val(msg.data.m_out_trade_no);
+        		   $("#return_url").val(msg.data.return_url);
+        		   $("#sign").val(msg.data.sign);
+        		   $("#payment").attr('action',msg.data.post_url); 
+        		   $("#payment").submit();         		 
+        	   }else{
+        		  alert("系统出错")
+        	   }
+           }
+       });                  
+    });          
+});
+</script>
+</html>
