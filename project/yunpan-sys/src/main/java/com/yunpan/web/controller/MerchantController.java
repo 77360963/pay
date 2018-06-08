@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.code.kaptcha.Constants;
+import com.yunpan.base.annotation.IfNeedLogin;
 import com.yunpan.base.tool.DeviceUtils;
 import com.yunpan.base.web.util.Result;
 import com.yunpan.data.entity.MerchantAccountEntity;
@@ -100,6 +101,7 @@ public class MerchantController {
 	 * 查询商户充值记录
 	 * @param request
 	 */
+	@IfNeedLogin
 	@RequestMapping(value ="/queryMerchantRechargeList")
 	public String queryMerchantRechargeList(HttpServletRequest request,final ModelMap model){
 		 String merchantId=request.getParameter("merchantId");		
