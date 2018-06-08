@@ -35,4 +35,7 @@ public interface MerchantDao {
      * @param record
      */
     int updateByPrimaryKey(MerchantEntity record);
+    
+    
+    MerchantEntity selectMerchantEntityByUserId(Long userId);
 }

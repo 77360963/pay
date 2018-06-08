@@ -26,5 +26,8 @@ public interface MerchantService {
 	 */
 	public MerchantAccountEntity queryMerchantAccountByMerchantId(long merchantId);
 	
+	
+	public MerchantEntity merchantLogin(String loginName,String password);
+	
 
 }

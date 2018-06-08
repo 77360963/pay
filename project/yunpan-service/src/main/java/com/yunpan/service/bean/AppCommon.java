@@ -21,5 +21,19 @@ public class AppCommon {
 	 * 支付状态（支付成功）
 	 */
 	public static int  PAY_STATUS_SUCCESS=1;
+	
+	
+	/*
+	 * 支付状态（支付成功）
+	 */
+	public static int  USER_STATUS_OPEN=1;
+	
+	/*
+	 * 支付状态（支付成功）
+	 */
+	public static int  USER_STATUS_STOP=0;
+	
+	
+	public static String SESSION_KEY="merchantEntityKey";
 
 }

@@ -153,4 +153,14 @@
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  
+  <select id="selectMerchantEntityByUserId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--
+    @mbggenerated
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from t_merchant
+    where id = #{id,jdbcType=BIGINT}
+  </select>
 </mapper>
