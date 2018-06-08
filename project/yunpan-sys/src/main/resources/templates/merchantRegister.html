@@ -42,6 +42,22 @@
             <div class="denglu">
                
                 <div class="sform p-l-30 p-r-30 m-t-40">
+                 <div class="sformdiv m-b-20">
+                        <div class="sforspan floatLeft">
+                            登录名：
+                        </div>
+                        <div class="sfroinput floatLeft">
+                            <input type="text" id="loginName" name="loginName" class="sforinwidt"/>
+                        </div>
+                    </div>
+                     <div class="sformdiv m-b-20">
+                        <div class="sforspan floatLeft">
+                            登录密码：
+                        </div>
+                        <div class="sfroinput floatLeft">
+                            <input type="text" id="password" name="password" class="sforinwidt"/>
+                        </div>
+                    </div>
                     <div class="sformdiv m-b-20">
                         <div class="sforspan floatLeft">
                             商户名称：
@@ -71,7 +87,7 @@
                             联系地址：
                         </div>
                         <div class="sfroinput floatLeft">
-                            <input type="text" class="sforinwidt"/>
+                            <input type="text" id="address" class="sforinwidt"/>
                         </div>
                     </div>               
 
@@ -99,12 +115,16 @@ $("#submitPay").click(function(){
          dataType : "json",
          url : "/addMerchantInfo",
          data : {
+        	 loginName : $("#loginName").val(),
+        	 password : $("#password").val(),
         	 merchantName : $("#merchantName").val(),
         	 mobile : $("#mobile").val(),
+        	 address : $("#address").val(),        	
          },                        
          success : function(msg) {            	  
       	   if (msg.responseCode=="success"){
-      		 alert("添加成功");      		
+      		 alert("用户注册成功，请登录");
+      		window.location.href="/merchantLoginIndex"; 
       	   }else{
       		  alert("系统出错")
       	   }

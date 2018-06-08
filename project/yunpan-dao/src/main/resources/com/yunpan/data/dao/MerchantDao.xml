@@ -6,6 +6,7 @@
     @mbggenerated
     -->
     <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="address" jdbcType="VARCHAR" property="address" />
     <result column="contacts" jdbcType="VARCHAR" property="contacts" />
@@ -19,7 +20,8 @@
     <!--
     @mbggenerated
     -->
-    id, name, address, contacts, mobile, image, created_time, updated_time, status
+    id, user_id, name, address, contacts, mobile, image, created_time, updated_time, 
+    status
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--
@@ -37,12 +39,14 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into t_merchant (name, address, contacts, 
-      mobile, image, created_time, 
-      updated_time, status)
-    values (#{name,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{contacts,jdbcType=VARCHAR}, 
-      #{mobile,jdbcType=VARCHAR}, #{image,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP}, 
-      #{updatedTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER})
+    insert into t_merchant (user_id, name, address, 
+      contacts, mobile, image, 
+      created_time, updated_time, status
+      )
+    values (#{userId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{contacts,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{image,jdbcType=VARCHAR}, 
+      #{createdTime,jdbcType=TIMESTAMP}, #{updatedTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.yunpan.data.entity.MerchantEntity">
     <!--
@@ -53,6 +57,9 @@
     </selectKey>
     insert into t_merchant
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
       <if test="name != null">
         name,
       </if>
@@ -79,6 +86,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
@@ -111,6 +121,9 @@
     -->
     update t_merchant
     <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
@@ -143,7 +156,8 @@
     @mbggenerated
     -->
     update t_merchant
-    set name = #{name,jdbcType=VARCHAR},
+    set user_id = #{userId,jdbcType=BIGINT},
+      name = #{name,jdbcType=VARCHAR},
       address = #{address,jdbcType=VARCHAR},
       contacts = #{contacts,jdbcType=VARCHAR},
       mobile = #{mobile,jdbcType=VARCHAR},
@@ -154,7 +168,7 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   
-  <select id="selectMerchantEntityByUserId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+   <select id="selectMerchantEntityByUserId" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--
     @mbggenerated
     -->

@@ -18,6 +18,7 @@ import com.yunpan.data.entity.UniUserEntity;
 import com.yunpan.service.bean.AppCommon;
 import com.yunpan.service.exception.MerchantException;
 import com.yunpan.service.service.MerchantService;
+import com.yunpan.service.service.bean.MerchantRegisterBean;
 
 @Service
 public class MerchantServiceImpl implements MerchantService {
@@ -38,8 +39,25 @@ public class MerchantServiceImpl implements MerchantService {
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public boolean addMerchant(MerchantEntity merchantEntity) {		
+	public boolean addMerchant(MerchantRegisterBean merchantRegisterBean) {
+		
+		//统一用户表
+		UniUserEntity uniUserEntity=new UniUserEntity();
+		uniUserEntity.setLoginName(merchantRegisterBean.getLoginName());
+		uniUserEntity.setPassword(merchantRegisterBean.getPassword());
+		uniUserEntity.setUserState(AppCommon.USER_STATUS_OPEN);
+		uniUserEntity.setRole(AppCommon.USER_TYPE_MERCHANT);
+		uniUserEntity.setPlatform(AppCommon.PLATFORM);
+		UniUserDao.insertSelective(uniUserEntity);
+		
 		 //商户信息表
+		MerchantEntity merchantEntity=new MerchantEntity();
+		merchantEntity.setUserId(uniUserEntity.getId());
+		merchantEntity.setName(merchantRegisterBean.getName());
+		merchantEntity.setAddress(merchantRegisterBean.getAddress());
+		merchantEntity.setContacts(merchantRegisterBean.getContacts());
+		merchantEntity.setMobile(merchantRegisterBean.getMobile());
+		merchantEntity.setImage(merchantRegisterBean.getImage());
 		 merchantDao.insertSelective(merchantEntity);
 		//商户账户表
 		 MerchantAccountEntity merchantAccountEntity=new MerchantAccountEntity();

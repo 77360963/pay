@@ -13,6 +13,14 @@ public class MerchantEntity {
 
     /**
      * <pre>
+     * 
+     * 表字段 : t_merchant.user_id
+     * </pre>
+     */
+    private Long userId;
+
+    /**
+     * <pre>
      * 商户名称
      * 表字段 : t_merchant.name
      * </pre>
@@ -98,6 +106,31 @@ public class MerchantEntity {
      */
     public void setId(Long id) {
         this.id = id;
+    }
+
+    /**
+     * <pre>
+     * 获取：
+     * 表字段：t_merchant.user_id
+     * </pre>
+     *
+     * @return t_merchant.user_id：
+     */
+    public Long getUserId() {
+        return userId;
+    }
+
+    /**
+     * <pre>
+     * 设置：
+     * 表字段：t_merchant.user_id
+     * </pre>
+     *
+     * @param userId
+     *            t_merchant.user_id：
+     */
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     /**
@@ -317,6 +350,7 @@ public class MerchantEntity {
         }
         MerchantEntity other = (MerchantEntity) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
+            && (this.getUserId() == null ? other.getUserId() == null : this.getUserId().equals(other.getUserId()))
             && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
             && (this.getAddress() == null ? other.getAddress() == null : this.getAddress().equals(other.getAddress()))
             && (this.getContacts() == null ? other.getContacts() == null : this.getContacts().equals(other.getContacts()))
@@ -335,6 +369,7 @@ public class MerchantEntity {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
+        result = prime * result + ((getUserId() == null) ? 0 : getUserId().hashCode());
         result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
         result = prime * result + ((getAddress() == null) ? 0 : getAddress().hashCode());
         result = prime * result + ((getContacts() == null) ? 0 : getContacts().hashCode());
@@ -356,6 +391,7 @@ public class MerchantEntity {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
+        sb.append(", userId=").append(userId);
         sb.append(", name=").append(name);
         sb.append(", address=").append(address);
         sb.append(", contacts=").append(contacts);

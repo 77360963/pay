@@ -2,6 +2,7 @@ package com.yunpan.service.service;
 
 import com.yunpan.data.entity.MerchantAccountEntity;
 import com.yunpan.data.entity.MerchantEntity;
+import com.yunpan.service.service.bean.MerchantRegisterBean;
 
 public interface MerchantService {
 	
@@ -10,7 +11,7 @@ public interface MerchantService {
 	 * @param merchantEntity
 	 * @return
 	 */
-	public boolean addMerchant(MerchantEntity merchantEntity);
+	public boolean addMerchant(MerchantRegisterBean merchantRegisterBean);
 	
 	/**
 	 * 根据Id查询商户信息

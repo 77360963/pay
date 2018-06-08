@@ -87,14 +87,18 @@ $("#loginSubmit").click(function(){
         dataType : "json",
         url : "/merchantLogin",
         data : {
-	         name : $("#name").val(),
+	        
 	       	 password : $("#password").val(),
+	       	 name : $("#name").val(),
 	       	 kaptcha: $("#kaptcha").val(),
         },                        
-        success : function(msg) {            	  
-     	   alert(msg);
-     	  alert(msg.responseCode);
-     	  alert(msg.responseMsg);
+        success : function(msg) {     	 
+     	   if (msg.responseCode=="success"){      		
+      		  window.location.href="/queryMerchantAccountByMerchantId?merchantId=16"; 
+      	   }else{
+      		  alert(msg.responseMsg)
+      	   }
+     	  
         }
     });       
 	

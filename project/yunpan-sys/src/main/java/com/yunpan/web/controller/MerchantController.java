@@ -31,6 +31,7 @@ import com.yunpan.service.service.MerchantAccountService;
 import com.yunpan.service.service.MerchantRechargeService;
 import com.yunpan.service.service.MerchantService;
 import com.yunpan.service.service.PaymentService;
+import com.yunpan.service.service.bean.MerchantRegisterBean;
 
 @Controller
 public class MerchantController {
@@ -127,16 +128,20 @@ public class MerchantController {
     @RequestMapping(value ="/merchantLogin")
     @ResponseBody
     public Map merchantLogin(HttpServletRequest request){
-        String  name=request.getParameter("name");
+        String loginName=request.getParameter("name");
         String password=request.getParameter("password");
         String kaptcha=request.getParameter("kaptcha");
         if(!this.verify(request)){
             return Result.failed("验证码错误");
         }
-        if("1".equals(name)&&"1".equals(password)){
-            return Result.success();
-        }
-        return Result.failed("用户或密码错误");
+        try {
+        	MerchantEntity merchantEntity=merchantService.merchantLogin(loginName, password);
+			request.getSession().setAttribute(AppCommon.SESSION_KEY, merchantEntity);
+			 return Result.success();
+		} catch (Exception e) {
+			 return Result.failed(e.getMessage());
+		}
+       
     }
     
     public static boolean verify(HttpServletRequest request) {
@@ -167,12 +172,16 @@ public class MerchantController {
 	@ResponseBody
 	public Map addMerchant(HttpServletRequest request){
 		try {
+			String loginName=request.getParameter("loginName");
+			String password=request.getParameter("password");
 			String merchantName=request.getParameter("merchantName");
 			String mobile=request.getParameter("mobile");		
-			MerchantEntity merchantEntity=new MerchantEntity();
-			merchantEntity.setName(merchantName);
-			merchantEntity.setMobile(mobile);		
-			merchantService.addMerchant(merchantEntity);
+			MerchantRegisterBean merchantRegisterBean=new MerchantRegisterBean();
+			merchantRegisterBean.setLoginName(loginName);
+			merchantRegisterBean.setPassword(password);
+			merchantRegisterBean.setName(merchantName);
+			merchantRegisterBean.setMobile(mobile);		
+			merchantService.addMerchant(merchantRegisterBean);
 			return Result.success();
 		} catch (Exception e) {
 			logger.info("添加商户信息失败",e);
