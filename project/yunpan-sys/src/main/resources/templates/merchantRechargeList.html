@@ -63,13 +63,14 @@
                             </div>
                         </a>
                         <div class="hto-p">
-                            <a href="loupan-page.html">
+                            <a href="#">
                                 <h3 class="hto-ph3 m-b-5 f28">支付金额：<label th:text="${recharge.payAmount}"></label></h3>
-                                <p class="hto-title clearFloat  f28">结算金额：<label th:text="${recharge.payStatus}"></label> </p>
+                                <p class="hto-title clearFloat  f28">结算金额：<label th:text="${recharge.needPayAmount}"></label> </p>
                                 <p class="hto-title clearFloat  f28">支付状态：<label th:text="${recharge.payStatus}"></label> </p>
-                                <p class="hto-title clearFloat f28">时间：<label th:text="${recharge.createdTime}"></label> </p>
+                                <p class="hto-title clearFloat f28">时间：<label th:text="${recharge.createdTime}"></label> </p>                                                                
                             </a>
                         </div>
+                        <a href="/queryOrder?orderId=" order="">手动刷新订单</a> 
                     </div>
                 </li>              
             </ul>
