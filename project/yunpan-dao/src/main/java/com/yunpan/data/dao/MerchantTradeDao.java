@@ -52,4 +52,14 @@ public interface MerchantTradeDao {
    List<MerchantTradeEntity> queryTradeByUserId(long userId);
    
    
+   /**
+    * 查询交易
+    * @param userId
+    * @return
+    */
+   List<MerchantTradeEntity> queryTrade(MerchantTradeEntity record);
+   
+   
+   
+   
 }

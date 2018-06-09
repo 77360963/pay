@@ -248,18 +248,7 @@ public class MerchantController {
         }       
     }
 	
-	@RequestMapping(value ="/confirmWithdraw")
-	@ResponseBody
-    public Map confirmWithdraw(HttpServletRequest request,final ModelMap model){
-        try {
-            String transId=request.getParameter("transId");       
-            boolean result=merchantAccountService.confirmWithdrawByTransId(Long.valueOf(transId));
-            return Result.success(result);
-        } catch (Exception e) {
-            
-        }  
-        return Result.failed("failed","下单失败");
-    }
+	
 	
 	
 	public MerchantEntity getUserSession(HttpServletRequest request,HttpServletResponse response) throws Exception{		
@@ -271,18 +260,6 @@ public class MerchantController {
 	}
 	
 	
-	@RequestMapping(value ="/queryOrder")
-	@ResponseBody
-    public Map queryOrder(HttpServletRequest request,final ModelMap model){
-        try {
-            String orderId=request.getParameter("orderId");
-            boolean result=merchantRechargeService.merchantRechargePaySuccess(orderId);
-            return Result.success(result);
-        } catch (Exception e) {
-            
-        }  
-        return Result.failed("failed","下单失败");
-    }
 	
 
 }

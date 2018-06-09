@@ -111,6 +111,8 @@ public class MerchantRechargeServiceImpl implements MerchantRechargeService {
 				}else{
 					throw new MerchantException("", "商户充值成功,请检查订单状态");
 				}
+			}else{
+				throw new MerchantException("", "渠道未找到相关订单");
 			}
 		} catch (MerchantException e) {
 			logger.info("商户充值失败",e);
