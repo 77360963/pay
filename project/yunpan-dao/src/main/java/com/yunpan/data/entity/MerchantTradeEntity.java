@@ -17,7 +17,7 @@ public class MerchantTradeEntity {
      * 表字段 : t_merchant_trade.merchant_id
      * </pre>
      */
-    private Long merchantId;
+    private Long userId;
 
     /**
      * <pre>
@@ -116,32 +116,17 @@ public class MerchantTradeEntity {
         this.id = id;
     }
 
-    /**
-     * <pre>
-     * 获取：客户id
-     * 表字段：t_merchant_trade.merchant_id
-     * </pre>
-     *
-     * @return t_merchant_trade.merchant_id：客户id
-     */
-    public Long getMerchantId() {
-        return merchantId;
-    }
+   
 
-    /**
-     * <pre>
-     * 设置：客户id
-     * 表字段：t_merchant_trade.merchant_id
-     * </pre>
-     *
-     * @param merchantId
-     *            t_merchant_trade.merchant_id：客户id
-     */
-    public void setMerchantId(Long merchantId) {
-        this.merchantId = merchantId;
-    }
+    public Long getUserId() {
+		return userId;
+	}
 
-    /**
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+
+	/**
      * <pre>
      * 获取：交易金额
      * 表字段：t_merchant_trade.pay_amount
@@ -383,7 +368,7 @@ public class MerchantTradeEntity {
         }
         MerchantTradeEntity other = (MerchantTradeEntity) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getMerchantId() == null ? other.getMerchantId() == null : this.getMerchantId().equals(other.getMerchantId()))
+            && (this.getUserId() == null ? other.getUserId() == null : this.getUserId().equals(other.getUserId()))
             && (this.getPayAmount() == null ? other.getPayAmount() == null : this.getPayAmount().equals(other.getPayAmount()))
             && (this.getNeedPayAmount() == null ? other.getNeedPayAmount() == null : this.getNeedPayAmount().equals(other.getNeedPayAmount()))
             && (this.getConfirmPayAmount() == null ? other.getConfirmPayAmount() == null : this.getConfirmPayAmount().equals(other.getConfirmPayAmount()))
@@ -403,7 +388,7 @@ public class MerchantTradeEntity {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getMerchantId() == null) ? 0 : getMerchantId().hashCode());
+        result = prime * result + ((getUserId() == null) ? 0 : getUserId().hashCode());
         result = prime * result + ((getPayAmount() == null) ? 0 : getPayAmount().hashCode());
         result = prime * result + ((getNeedPayAmount() == null) ? 0 : getNeedPayAmount().hashCode());
         result = prime * result + ((getConfirmPayAmount() == null) ? 0 : getConfirmPayAmount().hashCode());
@@ -426,7 +411,7 @@ public class MerchantTradeEntity {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", merchantId=").append(merchantId);
+        sb.append(", userId=").append(userId);
         sb.append(", payAmount=").append(payAmount);
         sb.append(", needPayAmount=").append(needPayAmount);
         sb.append(", confirmPayAmount=").append(confirmPayAmount);

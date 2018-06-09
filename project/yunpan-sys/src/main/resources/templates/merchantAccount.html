@@ -187,9 +187,9 @@ $("#merchantWithdraw").click(function(){
          },                        
          success : function(msg) {            	  
       	   if (msg.responseCode=="success"){
-      		 alert("添加成功");      		
+      		 alert("提现成功");      		
       	   }else{
-      		  alert("系统出错")
+      		 alert(msg.responseMsg);
       	   }
          }
      });              

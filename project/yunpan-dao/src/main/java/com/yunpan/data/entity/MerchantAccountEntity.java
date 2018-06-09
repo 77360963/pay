@@ -17,7 +17,7 @@ public class MerchantAccountEntity {
      * 表字段 : t_merchant_account.merchant_id
      * </pre>
      */
-    private Long merchantId;
+    private Long userId;
 
     /**
      * <pre>
@@ -92,32 +92,17 @@ public class MerchantAccountEntity {
         this.id = id;
     }
 
-    /**
-     * <pre>
-     * 获取：客户id
-     * 表字段：t_merchant_account.merchant_id
-     * </pre>
-     *
-     * @return t_merchant_account.merchant_id：客户id
-     */
-    public Long getMerchantId() {
-        return merchantId;
-    }
+   
 
-    /**
-     * <pre>
-     * 设置：客户id
-     * 表字段：t_merchant_account.merchant_id
-     * </pre>
-     *
-     * @param merchantId
-     *            t_merchant_account.merchant_id：客户id
-     */
-    public void setMerchantId(Long merchantId) {
-        this.merchantId = merchantId;
-    }
+    public Long getUserId() {
+		return userId;
+	}
 
-    /**
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+
+	/**
      * <pre>
      * 获取：总金额
      * 表字段：t_merchant_account.share_amt
@@ -284,7 +269,7 @@ public class MerchantAccountEntity {
         }
         MerchantAccountEntity other = (MerchantAccountEntity) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getMerchantId() == null ? other.getMerchantId() == null : this.getMerchantId().equals(other.getMerchantId()))
+            && (this.getUserId() == null ? other.getUserId() == null : this.getUserId().equals(other.getUserId()))
             && (this.getShareAmt() == null ? other.getShareAmt() == null : this.getShareAmt().equals(other.getShareAmt()))
             && (this.getAvlAmt() == null ? other.getAvlAmt() == null : this.getAvlAmt().equals(other.getAvlAmt()))
             && (this.getFreAmt() == null ? other.getFreAmt() == null : this.getFreAmt().equals(other.getFreAmt()))
@@ -301,7 +286,7 @@ public class MerchantAccountEntity {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getMerchantId() == null) ? 0 : getMerchantId().hashCode());
+        result = prime * result + ((getUserId() == null) ? 0 : getUserId().hashCode());
         result = prime * result + ((getShareAmt() == null) ? 0 : getShareAmt().hashCode());
         result = prime * result + ((getAvlAmt() == null) ? 0 : getAvlAmt().hashCode());
         result = prime * result + ((getFreAmt() == null) ? 0 : getFreAmt().hashCode());
@@ -321,7 +306,7 @@ public class MerchantAccountEntity {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", merchantId=").append(merchantId);
+        sb.append(", merchantId=").append(userId);
         sb.append(", shareAmt=").append(shareAmt);
         sb.append(", avlAmt=").append(avlAmt);
         sb.append(", freAmt=").append(freAmt);

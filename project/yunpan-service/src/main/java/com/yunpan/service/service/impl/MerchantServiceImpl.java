@@ -61,23 +61,23 @@ public class MerchantServiceImpl implements MerchantService {
 		 merchantDao.insertSelective(merchantEntity);
 		//商户账户表
 		 MerchantAccountEntity merchantAccountEntity=new MerchantAccountEntity();
-		 merchantAccountEntity.setMerchantId(merchantEntity.getId());
+		 merchantAccountEntity.setUserId(uniUserEntity.getId());
 		 merchantAccountDao.insertSelective(merchantAccountEntity);
 		//商户费率表
 		 MerchantRateEntity merchantRateEntity=new MerchantRateEntity();
-		 merchantRateEntity.setMerchantId(merchantEntity.getId());
+		 merchantRateEntity.setMerchantId(uniUserEntity.getId());
 		 merchantRateDao.insertSelective(merchantRateEntity);
 		 return true;
 	}
 
 	@Override
-	public MerchantEntity queryMerchantInfoById(long merchantId) {	
-		return merchantDao.selectByPrimaryKey(merchantId);
+	public MerchantEntity queryMerchantInfoByUserId(long userId) {	
+		return merchantDao.selectMerchantEntityByUserId(userId);
 	}
 
 	@Override
-	public MerchantAccountEntity queryMerchantAccountByMerchantId(long merchantId) {
-		return merchantAccountDao.selectByMerchantId(merchantId);
+	public MerchantAccountEntity queryMerchantAccountByUserId(long userId) {
+		return merchantAccountDao.selectByUserId(userId);
 	}
 
 	@Override

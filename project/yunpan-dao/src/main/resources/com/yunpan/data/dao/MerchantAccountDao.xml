@@ -6,7 +6,7 @@
     @mbggenerated
     -->
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="merchant_id" jdbcType="BIGINT" property="merchantId" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
     <result column="share_amt" jdbcType="INTEGER" property="shareAmt" />
     <result column="avl_amt" jdbcType="INTEGER" property="avlAmt" />
     <result column="fre_amt" jdbcType="INTEGER" property="freAmt" />
@@ -18,7 +18,7 @@
     <!--
     @mbggenerated
     -->
-    id, merchant_id, share_amt, avl_amt, fre_amt, created_time, updated_time, status
+    id, user_id, share_amt, avl_amt, fre_amt, created_time, updated_time, status
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--
@@ -36,10 +36,10 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into t_merchant_account (merchant_id, share_amt, avl_amt, 
+    insert into t_merchant_account (user_id, share_amt, avl_amt, 
       fre_amt, created_time, updated_time, 
       status)
-    values (#{merchantId,jdbcType=BIGINT}, #{shareAmt,jdbcType=INTEGER}, #{avlAmt,jdbcType=INTEGER}, 
+    values (#{userId,jdbcType=BIGINT}, #{shareAmt,jdbcType=INTEGER}, #{avlAmt,jdbcType=INTEGER}, 
       #{freAmt,jdbcType=INTEGER}, #{createdTime,jdbcType=TIMESTAMP}, #{updatedTime,jdbcType=TIMESTAMP}, 
       #{status,jdbcType=INTEGER})
   </insert>
@@ -52,8 +52,8 @@
     </selectKey>
     insert into t_merchant_account
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="merchantId != null">
-        merchant_id,
+      <if test="userId != null">
+        user_id,
       </if>
       <if test="shareAmt != null">
         share_amt,
@@ -75,8 +75,8 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="merchantId != null">
-        #{merchantId,jdbcType=BIGINT},
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
       </if>
       <if test="shareAmt != null">
         #{shareAmt,jdbcType=INTEGER},
@@ -104,8 +104,8 @@
     -->
     update t_merchant_account
     <set>
-      <if test="merchantId != null">
-        merchant_id = #{merchantId,jdbcType=BIGINT},
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
       </if>
       <if test="shareAmt != null">
         share_amt = #{shareAmt,jdbcType=INTEGER},
@@ -133,7 +133,7 @@
     @mbggenerated
     -->
     update t_merchant_account
-    set merchant_id = #{merchantId,jdbcType=BIGINT},
+    set user_id = #{userId,jdbcType=BIGINT},
       share_amt = #{shareAmt,jdbcType=INTEGER},
       avl_amt = #{avlAmt,jdbcType=INTEGER},
       fre_amt = #{freAmt,jdbcType=INTEGER},
@@ -143,14 +143,14 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   
-  <select id="selectByMerchantId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  <select id="selectByUserId" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--
     @mbggenerated
     -->
     select 
     <include refid="Base_Column_List" />
     from t_merchant_account
-    where merchant_id = #{merchantId,jdbcType=BIGINT}
+    where user_id = #{userId,jdbcType=BIGINT}
   </select>
   
   <!-- 商户充值 -->
@@ -158,7 +158,7 @@
     update t_merchant_account set 
       share_amt = share_amt + #{rechargeAmount,jdbcType=INTEGER},
       avl_amt =avl_amt + #{rechargeAmount,jdbcType=INTEGER}     
-    where  merchant_id = #{merchantId,jdbcType=BIGINT}   
+    where  user_id = #{userId,jdbcType=BIGINT}   
   </update>
   
   <!-- 商户提现 -->
@@ -166,7 +166,7 @@
     update t_merchant_account set 
       avl_amt = avl_amt - #{withdrawAmount,jdbcType=INTEGER},
       fre_amt =fre_amt + #{withdrawAmount,jdbcType=INTEGER}     
-    where  merchant_id = #{merchantId,jdbcType=BIGINT}
+    where  user_id = #{userId,jdbcType=BIGINT}
     and avl_amt - #{withdrawAmount,jdbcType=INTEGER} >=0
   </update>
   
@@ -175,7 +175,7 @@
     update t_merchant_account set 
       share_amt = share_amt - #{withdrawAmount,jdbcType=INTEGER},
       fre_amt =fre_amt - #{withdrawAmount,jdbcType=INTEGER}     
-    where  merchant_id = #{merchantId,jdbcType=BIGINT}
+    where  user_id = #{userId,jdbcType=BIGINT}
     and share_amt - #{withdrawAmount,jdbcType=INTEGER}>=0
     and fre_amt - #{withdrawAmount,jdbcType=INTEGER} >=0
   </update>

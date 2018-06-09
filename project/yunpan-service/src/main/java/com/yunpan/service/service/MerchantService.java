@@ -18,14 +18,14 @@ public interface MerchantService {
 	 * @param merchantId
 	 * @return
 	 */
-	public MerchantEntity queryMerchantInfoById(long merchantId);
+	public MerchantEntity queryMerchantInfoByUserId(long userId);
 	
 	/**
 	 * 根据Id查询商户账户信息
 	 * @param merchantId
 	 * @return
 	 */
-	public MerchantAccountEntity queryMerchantAccountByMerchantId(long merchantId);
+	public MerchantAccountEntity queryMerchantAccountByUserId(long userId);
 	
 	
 	public MerchantEntity merchantLogin(String loginName,String password);

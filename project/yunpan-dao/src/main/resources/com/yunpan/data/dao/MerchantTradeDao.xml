@@ -6,7 +6,7 @@
     @mbggenerated
     -->
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="merchant_id" jdbcType="BIGINT" property="merchantId" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
     <result column="pay_amount" jdbcType="INTEGER" property="payAmount" />
     <result column="need_pay_amount" jdbcType="INTEGER" property="needPayAmount" />
     <result column="confirm_pay_amount" jdbcType="INTEGER" property="confirmPayAmount" />
@@ -21,7 +21,7 @@
     <!--
     @mbggenerated
     -->
-    id, merchant_id, pay_amount, need_pay_amount, confirm_pay_amount, trans_type, pay_status, 
+    id, user_id, pay_amount, need_pay_amount, confirm_pay_amount, trans_type, pay_status, 
     confirm_pay_time, created_time, updated_time, status
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
@@ -40,11 +40,11 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into t_merchant_trade (merchant_id, pay_amount, need_pay_amount, 
+    insert into t_merchant_trade (user_id, pay_amount, need_pay_amount, 
       confirm_pay_amount, trans_type, pay_status, 
       confirm_pay_time, created_time, updated_time, 
       status)
-    values (#{merchantId,jdbcType=BIGINT}, #{payAmount,jdbcType=INTEGER}, #{needPayAmount,jdbcType=INTEGER}, 
+    values (#{userId,jdbcType=BIGINT}, #{payAmount,jdbcType=INTEGER}, #{needPayAmount,jdbcType=INTEGER}, 
       #{confirmPayAmount,jdbcType=INTEGER}, #{transType,jdbcType=VARCHAR}, #{payStatus,jdbcType=INTEGER}, 
       #{confirmPayTime,jdbcType=TIMESTAMP}, #{createdTime,jdbcType=TIMESTAMP}, #{updatedTime,jdbcType=TIMESTAMP}, 
       #{status,jdbcType=INTEGER})
@@ -58,8 +58,8 @@
     </selectKey>
     insert into t_merchant_trade
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="merchantId != null">
-        merchant_id,
+      <if test="userId != null">
+        user_id,
       </if>
       <if test="payAmount != null">
         pay_amount,
@@ -90,8 +90,8 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="merchantId != null">
-        #{merchantId,jdbcType=BIGINT},
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
       </if>
       <if test="payAmount != null">
         #{payAmount,jdbcType=INTEGER},
@@ -128,8 +128,8 @@
     -->
     update t_merchant_trade
     <set>
-      <if test="merchantId != null">
-        merchant_id = #{merchantId,jdbcType=BIGINT},
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
       </if>
       <if test="payAmount != null">
         pay_amount = #{payAmount,jdbcType=INTEGER},
@@ -166,7 +166,7 @@
     @mbggenerated
     -->
     update t_merchant_trade
-    set merchant_id = #{merchantId,jdbcType=BIGINT},
+    set user_id = #{userId,jdbcType=BIGINT},
       pay_amount = #{payAmount,jdbcType=INTEGER},
       need_pay_amount = #{needPayAmount,jdbcType=INTEGER},
       confirm_pay_amount = #{confirmPayAmount,jdbcType=INTEGER},
@@ -185,8 +185,8 @@
     -->
     update t_merchant_trade
     <set>
-      <if test="merchantId != null">
-        merchant_id = #{merchantId,jdbcType=BIGINT},
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
       </if>
       <if test="payAmount != null">
         pay_amount = #{payAmount,jdbcType=INTEGER},
@@ -210,13 +210,13 @@
     where id = #{id,jdbcType=BIGINT} and pay_status=0
   </update>
   
-  <select id="queryMerchantTradeByMerchantId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  <select id="queryMerchantTradeByuserId"  resultMap="BaseResultMap">
     <!--
     @mbggenerated
     -->
     select 
     <include refid="Base_Column_List" />
     from t_merchant_trade
-    where merchant_id = #{merchantId,jdbcType=BIGINT}
+    where user_id = #{userId,jdbcType=BIGINT}
   </select>
 </mapper>

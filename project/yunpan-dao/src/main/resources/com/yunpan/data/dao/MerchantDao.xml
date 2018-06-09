@@ -175,6 +175,6 @@
     select 
     <include refid="Base_Column_List" />
     from t_merchant
-    where id = #{id,jdbcType=BIGINT}
+    where user_id = #{user_id,jdbcType=BIGINT}
   </select>
 </mapper>

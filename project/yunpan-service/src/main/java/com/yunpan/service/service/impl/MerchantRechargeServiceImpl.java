@@ -41,9 +41,9 @@ public class MerchantRechargeServiceImpl implements MerchantRechargeService {
 	@Override
 	public long merchantRechargeAddOrder(MerchantTradeEntity merchantTradeEntity) throws MerchantException{		
 	    merchantTradeEntity.setTransType(AppCommon.TRANS_TYPE_I);
-	    MerchantEntity merchantEntity=merchantDao.selectByPrimaryKey(merchantTradeEntity.getMerchantId());
+	    MerchantEntity merchantEntity=merchantDao.selectMerchantEntityByUserId(merchantTradeEntity.getUserId());
 		if(null==merchantEntity){
-			logger.info("未找到相关商户信息，商户id={}",merchantTradeEntity.getMerchantId());
+			logger.info("未找到相关商户信息，商户id={}",merchantTradeEntity.getUserId());
 			throw new MerchantException("", "未找到相关商户信息");
 		}	
 	    try {	    	
@@ -64,9 +64,9 @@ public class MerchantRechargeServiceImpl implements MerchantRechargeService {
 			logger.info("充值订单不存在,充值订单号={}",orderId);
 			throw new MerchantException("", "充值订单不存在");
 		}
-		MerchantAccountEntity merchantAccountEntity=merchantAccountDao.selectByMerchantId(merchantTradeEntity.getMerchantId());
+		MerchantAccountEntity merchantAccountEntity=merchantAccountDao.selectByUserId(merchantTradeEntity.getUserId());
 		if(null==merchantAccountEntity){
-			logger.info("未找到相关商户资金账户,商户id={}",merchantTradeEntity.getMerchantId());
+			logger.info("未找到相关商户资金账户,商户id={}",merchantTradeEntity.getUserId());
 			throw new MerchantException("", "未找到相关商户资金账户");
 		}
 		try {
@@ -78,7 +78,7 @@ public class MerchantRechargeServiceImpl implements MerchantRechargeService {
 				updateMerchantTradeEntity.setPayStatus(AppCommon.PAY_STATUS_SUCCESS);
 				int updateCount=merchantTradeDao.updateMerchantTradeStatus(updateMerchantTradeEntity);
 				if(updateCount>0){
-					int updateAccount=merchantAccountDao.merchantRecharge(merchantTradeEntity.getMerchantId(), paymentResult.getNeedPayAmount());
+					int updateAccount=merchantAccountDao.merchantRecharge(merchantTradeEntity.getUserId(), paymentResult.getNeedPayAmount());
 					if(updateAccount!=1){
 						throw new MerchantException("", "商户充值失败,请联系管理员");
 					}else{
@@ -99,8 +99,8 @@ public class MerchantRechargeServiceImpl implements MerchantRechargeService {
 	}
 
 	@Override
-	public List<MerchantTradeEntity> queryMerchantRechargeByMerchantId(long merchantId) {		
-		List<MerchantTradeEntity> list=merchantTradeDao.queryMerchantTradeByMerchantId(merchantId);		
+	public List<MerchantTradeEntity> queryMerchantTradeByUserId(long userId) {		
+		List<MerchantTradeEntity> list=merchantTradeDao.queryMerchantTradeByUserId(userId);		
 		return list;
 	}
 

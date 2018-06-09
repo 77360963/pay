@@ -33,30 +33,30 @@ public class MerchantAccountServiceImpl implements MerchantAccountService {
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public boolean withdrawByMerchantId(long merchantId, int amount) {
-	    MerchantEntity merchantEntity=merchantDao.selectByPrimaryKey(merchantId);
+	public boolean withdrawByUserId(long userId, int amount) {
+	    MerchantEntity merchantEntity=merchantDao.selectMerchantEntityByUserId(userId);
         if(null==merchantEntity){
-            logger.info("未找到相关商户信息，商户id={}",merchantId);
+            logger.info("未找到相关商户信息，userId={}",userId);
             throw new MerchantException("", "未找到相关商户信息");
         }
-        MerchantAccountEntity merchantAccountEntity=merchantAccountDao.selectByMerchantId(merchantId);
+        MerchantAccountEntity merchantAccountEntity=merchantAccountDao.selectByUserId(userId);
         if(null==merchantAccountEntity){
-            logger.info("未找到相关商户资金账户,商户id={}",merchantId);
+            logger.info("未找到相关商户资金账户,userId={}",userId);
             throw new MerchantException("", "未找到相关商户资金账户");
         }
         if(amount>merchantAccountEntity.getAvlAmt()){
-            logger.info("账户余额不足,商户id={},余额={},取现={}",merchantId,merchantAccountEntity.getAvlAmt(),amount);
+            logger.info("账户余额不足,userId={},余额={},取现={}",userId,merchantAccountEntity.getAvlAmt(),amount);
             throw new MerchantException("", "账户余额不足");
         }
 	    MerchantTradeEntity merchantTradeEntity=new MerchantTradeEntity();
-	    merchantTradeEntity.setMerchantId(merchantId);
+	    merchantTradeEntity.setUserId(userId);
 	    merchantTradeEntity.setPayAmount(amount);
 	    merchantTradeEntity.setNeedPayAmount(amount); 
 	    merchantTradeEntity.setConfirmPayAmount(amount);	
 	    merchantTradeEntity.setTransType(AppCommon.TRANS_TYPE_O);
 	    merchantTradeEntity.setPayStatus(AppCommon.PAY_STATUS_INIT);
 	    merchantTradeDao.insertSelective(merchantTradeEntity);
-		int updateCount= merchantAccountDao.merchantWithdraw(merchantId, amount);
+		int updateCount= merchantAccountDao.merchantWithdraw(userId, amount);
 		if(updateCount!=1){
 		    throw new MerchantException("", "更新相关份额出错");
 		}
@@ -77,7 +77,7 @@ public class MerchantAccountServiceImpl implements MerchantAccountService {
 	    if(updateCount!=1){
 	        throw new MerchantException("", "更新相关订单出错");
 	    }
-		int updateCount1= merchantAccountDao.merchantWithdrawConfirm(queryMerchantTradeEntity.getMerchantId(), queryMerchantTradeEntity.getPayAmount());
+		int updateCount1= merchantAccountDao.merchantWithdrawConfirm(queryMerchantTradeEntity.getUserId(), queryMerchantTradeEntity.getPayAmount());
 		if(updateCount1!=1){
 		    throw new MerchantException("", "更新相关份额出错");
 		}

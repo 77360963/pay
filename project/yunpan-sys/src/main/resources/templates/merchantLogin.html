@@ -94,9 +94,9 @@ $("#loginSubmit").click(function(){
         },                        
         success : function(msg) {     	 
      	   if (msg.responseCode=="success"){      		
-      		  window.location.href="/queryMerchantAccountByMerchantId?merchantId=16"; 
+      		  window.location.href="/queryMerchantAccount"; 
       	   }else{
-      		  alert(msg.responseMsg)
+      		  alert(msg.responseMsg);
       	   }
      	  
         }

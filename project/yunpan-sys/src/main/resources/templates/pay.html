@@ -86,8 +86,7 @@
                      <form action="" id="payment" method="post">
                     <i class="icon iconfont text-ed5565">&#xe641;</i> 付款金额：                    
                     <input id="payAmount" type="number" placeholder="请输入付款金额"  class="tphone2"/>
-                     <input type="hidden" id ="merchantId" name="merchantId" th:value="${merchantEntity.id}" /> 
-                     <input type="hidden" id ="merchantId" name="merchantId" th:value="${merchantEntity.id}" />
+                     <input type="hidden" id ="merchantId" name="merchantId" th:value="${merchantEntity.userId}" /> 
 			         <input type="hidden" id ="merchant_id" name="merchant_id" value="" />   
 			         <input type="hidden" id ="nonce_str" name="nonce_str" value="" />
 			         <input type="hidden" id ="total_fee" name="total_fee" value="" />

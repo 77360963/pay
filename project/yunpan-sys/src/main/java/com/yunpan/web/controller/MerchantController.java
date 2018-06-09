@@ -65,7 +65,7 @@ public class MerchantController {
 		Long merchantId=Long.valueOf(request.getParameter("merchantId"));		
 		int payAmount=new BigDecimal(request.getParameter("payAmount")).multiply(new BigDecimal(100)).intValue();
 		MerchantTradeEntity merchantTradeEntity=new MerchantTradeEntity();
-		merchantTradeEntity.setMerchantId(merchantId);
+		merchantTradeEntity.setUserId(merchantId);
 		merchantTradeEntity.setPayAmount(payAmount);
 		merchantTradeEntity.setPayStatus(AppCommon.PAY_STATUS_INIT);
 		Long rechargeId;
@@ -99,14 +99,15 @@ public class MerchantController {
 	}
 	
 	/**
-	 * 查询商户充值记录
+	 * 查询商户交易记录
 	 * @param request
+	 * @throws Exception 
 	 */
-	@IfNeedLogin
-	@RequestMapping(value ="/queryMerchantRechargeList")
-	public String queryMerchantRechargeList(HttpServletRequest request,final ModelMap model){
-		 String merchantId=request.getParameter("merchantId");		
-		 List<MerchantTradeEntity> merchantRechargeList=merchantRechargeService.queryMerchantRechargeByMerchantId(Long.valueOf(merchantId));
+	
+	@RequestMapping(value ="/queryMerchantTrade")
+	public String queryMerchantRechargeList(HttpServletRequest request,HttpServletResponse response,final ModelMap model) throws Exception{
+		MerchantEntity merchantEntity=getUserSession(request,response);			
+		 List<MerchantTradeEntity> merchantRechargeList=merchantRechargeService.queryMerchantTradeByUserId(merchantEntity.getUserId());
 		 model.addAttribute("merchantRechargeList", merchantRechargeList);
 		 return "/merchantRechargeList";		
 	}
@@ -192,11 +193,12 @@ public class MerchantController {
 	/**
 	 * 查询指定商户收款二维码
 	 * @param request
+	 * @throws Exception 
 	 */
 	@RequestMapping(value ="/merchantInfoScanQR")	
-	public String queryMerchantById(HttpServletRequest request,final ModelMap model){
-		String merchantId=request.getParameter("merchantId");
-		MerchantEntity merchantEntity=merchantService.queryMerchantInfoById(Long.valueOf(merchantId));		
+	public String queryMerchantById(HttpServletRequest request,HttpServletResponse response,final ModelMap model) throws Exception{
+		Long userId=getUserSession(request,response).getUserId();
+		MerchantEntity merchantEntity=merchantService.queryMerchantInfoByUserId(userId); 	
 		model.addAttribute("merchantEntity", merchantEntity);
 		return "/merchantInfoScanQR";	
 	}
@@ -204,11 +206,12 @@ public class MerchantController {
 	/**
      * 查询指定商户收款二维码
      * @param request
+	 * @throws IOException 
      */
     @RequestMapping(value ="/merchantPayment")   
-    public String merchantPayment(HttpServletRequest request,final ModelMap model){
-        String merchantId=request.getParameter("merchantId");
-        MerchantEntity merchantEntity=merchantService.queryMerchantInfoById(Long.valueOf(merchantId));      
+    public String merchantPayment(HttpServletRequest request,HttpServletResponse response,final ModelMap model) throws Exception{
+    	String userId=request.getParameter("merchantId");		
+		MerchantEntity merchantEntity=merchantService.queryMerchantInfoByUserId(Long.valueOf(userId));    
         model.addAttribute("merchantEntity", merchantEntity);
         return "/pay";   
     }
@@ -216,12 +219,12 @@ public class MerchantController {
 	/**
 	 * 查询指定商户账户信息
 	 * @param request
+	 * @throws IOException 
 	 */
-	@RequestMapping(value ="/queryMerchantAccountByMerchantId")	
-	public String queryMerchantAccountByMerchantId(HttpServletRequest request,final ModelMap model){
-		String merchantId=request.getParameter("merchantId");
-		MerchantEntity merchantEntity=merchantService.queryMerchantInfoById(Long.valueOf(merchantId));		
-		MerchantAccountEntity merchantAccountEntity=merchantService.queryMerchantAccountByMerchantId(Long.valueOf(merchantId));	
+	@RequestMapping(value ="/queryMerchantAccount")	
+	public String queryMerchantAccountByMerchantId(HttpServletRequest request,HttpServletResponse response,final ModelMap model) throws Exception{		
+		MerchantEntity merchantEntity=getUserSession(request,response);	
+		MerchantAccountEntity merchantAccountEntity=merchantService.queryMerchantAccountByUserId(merchantEntity.getUserId());	
 		model.addAttribute("merchantEntity", merchantEntity);
 		model.addAttribute("merchantAccountEntity", merchantAccountEntity);
 		return "/merchantAccount";	
@@ -229,17 +232,16 @@ public class MerchantController {
 	
 	@RequestMapping(value ="/merchantWithdraw")
 	@ResponseBody
-    public Map merchantWithdraw(HttpServletRequest request,final ModelMap model){      
+    public Map merchantWithdraw(HttpServletRequest request,HttpServletResponse response,final ModelMap model){      
         try {
-            String merchantId=request.getParameter("merchantId");
+        	MerchantEntity merchantEntity=getUserSession(request,response);	
             String amount=request.getParameter("amount");
             int amt=new BigDecimal(amount).multiply(new BigDecimal(100)).intValue();
-            boolean result=merchantAccountService.withdrawByMerchantId(Long.valueOf(merchantId), amt);
+            boolean result=merchantAccountService.withdrawByUserId(merchantEntity.getUserId(), amt);
             return Result.success(result);
         } catch (Exception e) {
-         
-        }
-        return Result.failed("failed","下单失败");
+        	 return Result.failed("failed",e.getMessage());
+        }       
     }
 	
 	@RequestMapping(value ="/confirmWithdraw")
@@ -256,5 +258,12 @@ public class MerchantController {
     }
 	
 	
+	public MerchantEntity getUserSession(HttpServletRequest request,HttpServletResponse response) throws Exception{		
+		MerchantEntity merchantEntity=(MerchantEntity)request.getSession().getAttribute(AppCommon.SESSION_KEY);
+		if(null==merchantEntity){
+			  response.sendRedirect(request.getContextPath()+"/merchantLoginIndex");
+		}
+		return merchantEntity;
+	}
 
 }

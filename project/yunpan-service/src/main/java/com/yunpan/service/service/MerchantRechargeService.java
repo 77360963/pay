@@ -27,6 +27,6 @@ public interface MerchantRechargeService {
 	 * @param merchantId
 	 * @return
 	 */
-	public List<MerchantTradeEntity> queryMerchantRechargeByMerchantId(long merchantId);
+	public List<MerchantTradeEntity> queryMerchantTradeByUserId(long merchantId);
 
 }

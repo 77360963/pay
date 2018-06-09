@@ -2,6 +2,8 @@ package com.yunpan.data.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.yunpan.data.entity.MerchantTradeEntity;
 
 public interface MerchantTradeDao {
@@ -50,5 +52,5 @@ public interface MerchantTradeDao {
     * @param merchantId
     * @return
     */
-   List<MerchantTradeEntity> queryMerchantTradeByMerchantId(Long merchantId);
+   List<MerchantTradeEntity> queryMerchantTradeByUserId(@Param("userId") Long userId);
 }

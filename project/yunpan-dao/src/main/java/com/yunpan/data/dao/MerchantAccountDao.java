@@ -47,7 +47,7 @@ public interface MerchantAccountDao {
      * @param record
      * @return
      */
-    MerchantAccountEntity selectByMerchantId(Long merchantId);
+    MerchantAccountEntity selectByUserId(Long userId);
     
     /**
      * 
@@ -63,7 +63,7 @@ public interface MerchantAccountDao {
      * @param withdrawAmount
      * @return
      */
-    int merchantWithdraw(@Param("merchantId") Long merchantId,@Param("withdrawAmount") int withdrawAmount);
+    int merchantWithdraw(@Param("merchantId") Long userId,@Param("withdrawAmount") int withdrawAmount);
     
     /**
      * 商户打款

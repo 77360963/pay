@@ -9,7 +9,7 @@ public interface MerchantAccountService {
 	 * @param amount
 	 * @return
 	 */
-	public boolean  withdrawByMerchantId(long merchantId,int amount);
+	public boolean  withdrawByUserId(long userId,int amount);
 	
 	
 	/**
