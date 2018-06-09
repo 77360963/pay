@@ -2,8 +2,6 @@ package com.yunpan.data.dao;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
-
 import com.yunpan.data.entity.MerchantTradeEntity;
 
 public interface MerchantTradeDao {
@@ -46,11 +44,12 @@ public interface MerchantTradeDao {
     */
    int updateMerchantTradeStatus(MerchantTradeEntity record);
    
-   
    /**
-    * 查询指定商户的充值记录
-    * @param merchantId
+    * 查询交易
+    * @param userId
     * @return
     */
-   List<MerchantTradeEntity> queryMerchantTradeByUserId(@Param("userId") Long userId);
+   List<MerchantTradeEntity> queryTradeByUserId(long userId);
+   
+   
 }

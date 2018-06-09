@@ -1,7 +1,9 @@
 package com.yunpan.service.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.yunpan.base.tool.DateTool;
+import com.yunpan.base.tool.MoneyUtil;
 import com.yunpan.data.dao.MerchantAccountDao;
 import com.yunpan.data.dao.MerchantDao;
 import com.yunpan.data.dao.MerchantTradeDao;
@@ -16,6 +20,7 @@ import com.yunpan.data.entity.MerchantAccountEntity;
 import com.yunpan.data.entity.MerchantEntity;
 import com.yunpan.data.entity.MerchantTradeEntity;
 import com.yunpan.service.bean.AppCommon;
+import com.yunpan.service.bean.MerchantTradeEntityBean;
 import com.yunpan.service.bean.PaymentResult;
 import com.yunpan.service.exception.MerchantException;
 import com.yunpan.service.service.MerchantRechargeService;
@@ -99,9 +104,23 @@ public class MerchantRechargeServiceImpl implements MerchantRechargeService {
 	}
 
 	@Override
-	public List<MerchantTradeEntity> queryMerchantTradeByUserId(long userId) {		
-		List<MerchantTradeEntity> list=merchantTradeDao.queryMerchantTradeByUserId(userId);		
-		return list;
+	public List<MerchantTradeEntityBean> queryMerchantTradeByUserId(long userId) {		
+		List<MerchantTradeEntity> list=merchantTradeDao.queryTradeByUserId(userId);
+		List<MerchantTradeEntityBean> listBean=new ArrayList<MerchantTradeEntityBean>();
+		MerchantTradeEntityBean merchantTradeEntityBean=null;
+		for(MerchantTradeEntity entity:list){
+			merchantTradeEntityBean=new MerchantTradeEntityBean();
+			merchantTradeEntityBean.setId(entity.getId());
+			merchantTradeEntityBean.setPayAmount(MoneyUtil.parseFromFenAmountToRMB(entity.getPayAmount().toString()));
+			if(null!=entity.getNeedPayAmount()){
+				merchantTradeEntityBean.setNeedPayAmount(MoneyUtil.parseFromFenAmountToRMB(entity.getNeedPayAmount().toString()));
+			}
+			
+			merchantTradeEntityBean.setPayStatus(entity.getPayStatus());
+			merchantTradeEntityBean.setCreatedTime(DateTool.formatFullDate(entity.getCreatedTime()));
+			listBean.add(merchantTradeEntityBean);
+		}
+		return listBean;
 	}
 
 }

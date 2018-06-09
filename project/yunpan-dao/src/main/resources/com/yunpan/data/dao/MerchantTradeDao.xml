@@ -208,9 +208,10 @@
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT} and pay_status=0
-  </update>
-  
-  <select id="queryMerchantTradeByuserId"  resultMap="BaseResultMap">
+  </update>  
+ 
+ 
+ <select id="queryTradeByUserId" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--
     @mbggenerated
     -->
@@ -219,4 +220,6 @@
     from t_merchant_trade
     where user_id = #{userId,jdbcType=BIGINT}
   </select>
+  
+  
 </mapper>

@@ -55,7 +55,7 @@ public interface MerchantAccountDao {
      * @param rechargeAmount
      * @return
      */
-    int merchantRecharge(@Param("merchantId") Long merchantId,@Param("rechargeAmount") int rechargeAmount);
+    int merchantRecharge(@Param("userId") Long userId,@Param("rechargeAmount") int rechargeAmount);
     
     /**
      * 商户提现
@@ -63,7 +63,7 @@ public interface MerchantAccountDao {
      * @param withdrawAmount
      * @return
      */
-    int merchantWithdraw(@Param("merchantId") Long userId,@Param("withdrawAmount") int withdrawAmount);
+    int merchantWithdraw(@Param("userId") Long userId,@Param("withdrawAmount") int withdrawAmount);
     
     /**
      * 商户打款
@@ -71,5 +71,5 @@ public interface MerchantAccountDao {
      * @param withdrawAmount
      * @return
      */
-    int merchantWithdrawConfirm(@Param("merchantId") Long merchantId,@Param("withdrawAmount") int withdrawAmount);
+    int merchantWithdrawConfirm(@Param("userId") Long userId,@Param("withdrawAmount") int withdrawAmount);
 }

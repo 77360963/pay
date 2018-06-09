@@ -48,20 +48,44 @@
         <br><br>
         <!--list end-->
     </div>
+    
+     <div class="footer">
+        <a href="#">
+            <i class="icon iconfont">&#xe608;</i><br>
+            首页
+        </a>
+        <a href="/queryMerchantTrade">
+            <i class="icon iconfont">&#xe647;</i><br>
+           交易明细
+        </a>
+        <a href="/merchantInfoScanQR">
+            <i class="icon iconfont">&#xe689;</i><br>
+            二维码收款
+        </a>
+        <a href="/queryMerchantAccount">
+            <i class="icon iconfont">&#xe60a;</i><br>
+            提现中心
+        </a>
+    </div>
 
 </div>
 <!--wapper end-->
 </body>
 
-<script language="javascript" type="text/javascript">
+<script th:inline="javascript">
 var qrcode = new QRCode(document.getElementById("qrcode"), {
     width : 300,
     height : 300
 });
 
-function makeCode () {     
-    qrcode.makeCode("http://192.168.31.195:8082/queryMerchantInfoById?merchantId=16");
+function makeCode () {   	
+	var userId = [[${merchantEntity.userId}]];	
+    qrcode.makeCode("http://192.168.31.195:8082/merchantPayment?merchantId="+userId);
 }
 makeCode();
 </script>
+
+
+
+
 </html>

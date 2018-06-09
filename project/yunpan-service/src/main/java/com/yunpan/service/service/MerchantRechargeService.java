@@ -3,6 +3,7 @@ package com.yunpan.service.service;
 import java.util.List;
 
 import com.yunpan.data.entity.MerchantTradeEntity;
+import com.yunpan.service.bean.MerchantTradeEntityBean;
 import com.yunpan.service.exception.MerchantException;
 
 public interface MerchantRechargeService {
@@ -27,6 +28,6 @@ public interface MerchantRechargeService {
 	 * @param merchantId
 	 * @return
 	 */
-	public List<MerchantTradeEntity> queryMerchantTradeByUserId(long merchantId);
+	public List<MerchantTradeEntityBean> queryMerchantTradeByUserId(long merchantId);
 
 }

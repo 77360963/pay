@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.yunpan.base.tool.MoneyUtil;
 import com.yunpan.data.dao.MerchantAccountDao;
 import com.yunpan.data.dao.MerchantDao;
 import com.yunpan.data.dao.MerchantRateDao;
@@ -16,6 +17,7 @@ import com.yunpan.data.entity.MerchantEntity;
 import com.yunpan.data.entity.MerchantRateEntity;
 import com.yunpan.data.entity.UniUserEntity;
 import com.yunpan.service.bean.AppCommon;
+import com.yunpan.service.bean.MerchantAccountEntityBean;
 import com.yunpan.service.exception.MerchantException;
 import com.yunpan.service.service.MerchantService;
 import com.yunpan.service.service.bean.MerchantRegisterBean;
@@ -76,8 +78,14 @@ public class MerchantServiceImpl implements MerchantService {
 	}
 
 	@Override
-	public MerchantAccountEntity queryMerchantAccountByUserId(long userId) {
-		return merchantAccountDao.selectByUserId(userId);
+	public MerchantAccountEntityBean queryMerchantAccountByUserId(long userId) {
+		MerchantAccountEntity merchantAccountEntity=merchantAccountDao.selectByUserId(userId);
+		MerchantAccountEntityBean merchantAccountEntityBean=new MerchantAccountEntityBean();
+		merchantAccountEntityBean.setId(merchantAccountEntity.getId());
+		merchantAccountEntityBean.setShareAmt(MoneyUtil.parseFromFenAmountToRMB(merchantAccountEntity.getShareAmt().toString()));
+		merchantAccountEntityBean.setAvlAmt(MoneyUtil.parseFromFenAmountToRMB(merchantAccountEntity.getAvlAmt().toString()));
+		merchantAccountEntityBean.setFreAmt(MoneyUtil.parseFromFenAmountToRMB(merchantAccountEntity.getFreAmt().toString()));
+		return merchantAccountEntityBean;
 	}
 
 	@Override

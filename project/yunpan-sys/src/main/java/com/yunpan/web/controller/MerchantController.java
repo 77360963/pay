@@ -26,6 +26,8 @@ import com.yunpan.data.entity.MerchantAccountEntity;
 import com.yunpan.data.entity.MerchantEntity;
 import com.yunpan.data.entity.MerchantTradeEntity;
 import com.yunpan.service.bean.AppCommon;
+import com.yunpan.service.bean.MerchantAccountEntityBean;
+import com.yunpan.service.bean.MerchantTradeEntityBean;
 import com.yunpan.service.exception.MerchantException;
 import com.yunpan.service.service.MerchantAccountService;
 import com.yunpan.service.service.MerchantRechargeService;
@@ -106,8 +108,8 @@ public class MerchantController {
 	
 	@RequestMapping(value ="/queryMerchantTrade")
 	public String queryMerchantRechargeList(HttpServletRequest request,HttpServletResponse response,final ModelMap model) throws Exception{
-		MerchantEntity merchantEntity=getUserSession(request,response);			
-		 List<MerchantTradeEntity> merchantRechargeList=merchantRechargeService.queryMerchantTradeByUserId(merchantEntity.getUserId());
+		  MerchantEntity merchantEntity=getUserSession(request,response);			
+		 List<MerchantTradeEntityBean> merchantRechargeList=merchantRechargeService.queryMerchantTradeByUserId(merchantEntity.getUserId());
 		 model.addAttribute("merchantRechargeList", merchantRechargeList);
 		 return "/merchantRechargeList";		
 	}
@@ -185,9 +187,9 @@ public class MerchantController {
 			merchantService.addMerchant(merchantRegisterBean);
 			return Result.success();
 		} catch (Exception e) {
-			logger.info("添加商户信息失败",e);
+			logger.info("注册商户信息失败",e);
 		}
-		return Result.failed("添加商户信息失败");
+		return Result.failed("注册商户信息失败");
 	}
 	
 	/**
@@ -211,7 +213,10 @@ public class MerchantController {
     @RequestMapping(value ="/merchantPayment")   
     public String merchantPayment(HttpServletRequest request,HttpServletResponse response,final ModelMap model) throws Exception{
     	String userId=request.getParameter("merchantId");		
-		MerchantEntity merchantEntity=merchantService.queryMerchantInfoByUserId(Long.valueOf(userId));    
+		MerchantEntity merchantEntity=merchantService.queryMerchantInfoByUserId(Long.valueOf(userId)); 
+		if(null==merchantEntity){
+			throw new MerchantException("", "非法商户");
+		}
         model.addAttribute("merchantEntity", merchantEntity);
         return "/pay";   
     }
@@ -224,9 +229,9 @@ public class MerchantController {
 	@RequestMapping(value ="/queryMerchantAccount")	
 	public String queryMerchantAccountByMerchantId(HttpServletRequest request,HttpServletResponse response,final ModelMap model) throws Exception{		
 		MerchantEntity merchantEntity=getUserSession(request,response);	
-		MerchantAccountEntity merchantAccountEntity=merchantService.queryMerchantAccountByUserId(merchantEntity.getUserId());	
+		MerchantAccountEntityBean merchantAccountEntityBean=merchantService.queryMerchantAccountByUserId(merchantEntity.getUserId());	
 		model.addAttribute("merchantEntity", merchantEntity);
-		model.addAttribute("merchantAccountEntity", merchantAccountEntity);
+		model.addAttribute("merchantAccountEntity", merchantAccountEntityBean);
 		return "/merchantAccount";	
 	}
 	
@@ -265,5 +270,20 @@ public class MerchantController {
 		}
 		return merchantEntity;
 	}
+	
+	
+	@RequestMapping(value ="/queryOrder")
+	@ResponseBody
+    public Map queryOrder(HttpServletRequest request,final ModelMap model){
+        try {
+            String orderId="222734650"; 
+            boolean result=merchantRechargeService.merchantRechargePaySuccess(orderId);
+            return Result.success(result);
+        } catch (Exception e) {
+            
+        }  
+        return Result.failed("failed","下单失败");
+    }
+	
 
 }
