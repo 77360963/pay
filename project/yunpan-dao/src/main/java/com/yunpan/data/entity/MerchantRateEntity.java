@@ -1,5 +1,6 @@
 package com.yunpan.data.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class MerchantRateEntity {
@@ -17,7 +18,7 @@ public class MerchantRateEntity {
      * 表字段 : t_merchant_rate.merchant_id
      * </pre>
      */
-    private Long merchantId;
+    private Long userId;
 
     /**
      * <pre>
@@ -25,7 +26,7 @@ public class MerchantRateEntity {
      * 表字段 : t_merchant_rate.rate
      * </pre>
      */
-    private Long rate;
+    private BigDecimal rate;
 
     /**
      * <pre>
@@ -76,32 +77,17 @@ public class MerchantRateEntity {
         this.id = id;
     }
 
-    /**
-     * <pre>
-     * 获取：商户id
-     * 表字段：t_merchant_rate.merchant_id
-     * </pre>
-     *
-     * @return t_merchant_rate.merchant_id：商户id
-     */
-    public Long getMerchantId() {
-        return merchantId;
-    }
+   
 
-    /**
-     * <pre>
-     * 设置：商户id
-     * 表字段：t_merchant_rate.merchant_id
-     * </pre>
-     *
-     * @param merchantId
-     *            t_merchant_rate.merchant_id：商户id
-     */
-    public void setMerchantId(Long merchantId) {
-        this.merchantId = merchantId;
-    }
+    public Long getUserId() {
+		return userId;
+	}
 
-    /**
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+
+	/**
      * <pre>
      * 获取：交易费率
      * 表字段：t_merchant_rate.rate
@@ -109,7 +95,7 @@ public class MerchantRateEntity {
      *
      * @return t_merchant_rate.rate：交易费率
      */
-    public Long getRate() {
+    public BigDecimal getRate() {
         return rate;
     }
 
@@ -122,7 +108,7 @@ public class MerchantRateEntity {
      * @param rate
      *            t_merchant_rate.rate：交易费率
      */
-    public void setRate(Long rate) {
+    public void setRate(BigDecimal rate) {
         this.rate = rate;
     }
 
@@ -218,7 +204,7 @@ public class MerchantRateEntity {
         }
         MerchantRateEntity other = (MerchantRateEntity) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getMerchantId() == null ? other.getMerchantId() == null : this.getMerchantId().equals(other.getMerchantId()))
+            && (this.getUserId() == null ? other.getUserId() == null : this.getUserId().equals(other.getUserId()))
             && (this.getRate() == null ? other.getRate() == null : this.getRate().equals(other.getRate()))
             && (this.getCreatedTime() == null ? other.getCreatedTime() == null : this.getCreatedTime().equals(other.getCreatedTime()))
             && (this.getUpdatedTime() == null ? other.getUpdatedTime() == null : this.getUpdatedTime().equals(other.getUpdatedTime()))
@@ -233,7 +219,7 @@ public class MerchantRateEntity {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getMerchantId() == null) ? 0 : getMerchantId().hashCode());
+        result = prime * result + ((getUserId() == null) ? 0 : getUserId().hashCode());
         result = prime * result + ((getRate() == null) ? 0 : getRate().hashCode());
         result = prime * result + ((getCreatedTime() == null) ? 0 : getCreatedTime().hashCode());
         result = prime * result + ((getUpdatedTime() == null) ? 0 : getUpdatedTime().hashCode());
@@ -251,7 +237,7 @@ public class MerchantRateEntity {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", merchantId=").append(merchantId);
+        sb.append(", userId=").append(userId);
         sb.append(", rate=").append(rate);
         sb.append(", createdTime=").append(createdTime);
         sb.append(", updatedTime=").append(updatedTime);

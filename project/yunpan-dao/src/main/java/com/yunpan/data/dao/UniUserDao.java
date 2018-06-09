@@ -43,4 +43,10 @@ public interface UniUserDao {
      * @return
      */
     UniUserEntity selectByLoginPassword(@Param("loginName") String loginName,@Param("password") String password);
+    
+    /**
+     * 根据用户和密码登录
+     * @return
+     */
+    UniUserEntity selectByLoginName(@Param("loginName") String loginName);
 }

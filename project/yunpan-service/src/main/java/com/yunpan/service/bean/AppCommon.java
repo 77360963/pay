@@ -1,5 +1,7 @@
 package com.yunpan.service.bean;
 
+import java.math.BigDecimal;
+
 public class AppCommon {
     
     /**
@@ -41,7 +43,11 @@ public class AppCommon {
 	
 	public static int  USER_TYPE_CUSTOMER=2; 
 	
-	
+	/**
+	 * 来源平台
+	 */
 	public static int PLATFORM=1;
+	
+	public static BigDecimal PLATFORM_RATE=new BigDecimal("0.006");
 
 }

@@ -43,6 +43,11 @@ public class MerchantServiceImpl implements MerchantService {
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public boolean addMerchant(MerchantRegisterBean merchantRegisterBean) {
 		
+		UniUserEntity queryUniUserEntity=UniUserDao.selectByLoginName(merchantRegisterBean.getLoginName());
+		if(null!=queryUniUserEntity){
+			throw new MerchantException("", "该用户已存在");
+		}		
+		
 		//统一用户表
 		UniUserEntity uniUserEntity=new UniUserEntity();
 		uniUserEntity.setLoginName(merchantRegisterBean.getLoginName());
@@ -67,7 +72,8 @@ public class MerchantServiceImpl implements MerchantService {
 		 merchantAccountDao.insertSelective(merchantAccountEntity);
 		//商户费率表
 		 MerchantRateEntity merchantRateEntity=new MerchantRateEntity();
-		 merchantRateEntity.setMerchantId(uniUserEntity.getId());
+		 merchantRateEntity.setUserId(uniUserEntity.getId());
+		 merchantRateEntity.setRate(AppCommon.PLATFORM_RATE);
 		 merchantRateDao.insertSelective(merchantRateEntity);
 		 return true;
 	}

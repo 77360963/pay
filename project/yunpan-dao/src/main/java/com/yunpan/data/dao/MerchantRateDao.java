@@ -35,4 +35,12 @@ public interface MerchantRateDao {
      * @param record
      */
     int updateByPrimaryKey(MerchantRateEntity record);
+    
+    
+    /**
+     * 根据主键获取一条数据库记录
+     *
+     * @param id
+     */
+    MerchantRateEntity selectByUserId(Long userId);
 }

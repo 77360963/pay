@@ -194,6 +194,9 @@
       <if test="needPayAmount != null">
         need_pay_amount = #{needPayAmount,jdbcType=INTEGER},
       </if>
+       <if test="confirmPayAmount != null">
+        confirm_pay_amount = #{confirmPayAmount,jdbcType=INTEGER},
+      </if>
       <if test="payStatus != null">
         pay_status = #{payStatus,jdbcType=INTEGER},
       </if>
@@ -219,6 +222,7 @@
     <include refid="Base_Column_List" />
     from t_merchant_trade
     where user_id = #{userId,jdbcType=BIGINT}
+    order by created_time desc
   </select>
   
   

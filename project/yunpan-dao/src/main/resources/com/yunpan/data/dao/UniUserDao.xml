@@ -179,4 +179,15 @@
     and login_name = #{loginName,jdbcType=VARCHAR}
     and password = #{password,jdbcType=VARCHAR}
   </select>
+  
+  <select id="selectByLoginName" resultMap="BaseResultMap">
+    <!--
+    @mbggenerated
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from t_uniuser
+    where 1=1
+    and login_name = #{loginName,jdbcType=VARCHAR}   
+  </select>
 </mapper>

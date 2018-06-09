@@ -19,10 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.code.kaptcha.Constants;
-import com.yunpan.base.annotation.IfNeedLogin;
 import com.yunpan.base.tool.DeviceUtils;
 import com.yunpan.base.web.util.Result;
-import com.yunpan.data.entity.MerchantAccountEntity;
 import com.yunpan.data.entity.MerchantEntity;
 import com.yunpan.data.entity.MerchantTradeEntity;
 import com.yunpan.service.bean.AppCommon;
@@ -188,8 +186,9 @@ public class MerchantController {
 			return Result.success();
 		} catch (Exception e) {
 			logger.info("注册商户信息失败",e);
+			return Result.failed(e.getMessage());
 		}
-		return Result.failed("注册商户信息失败");
+		
 	}
 	
 	/**
@@ -276,7 +275,7 @@ public class MerchantController {
 	@ResponseBody
     public Map queryOrder(HttpServletRequest request,final ModelMap model){
         try {
-            String orderId="222734650"; 
+            String orderId=request.getParameter("orderId");
             boolean result=merchantRechargeService.merchantRechargePaySuccess(orderId);
             return Result.success(result);
         } catch (Exception e) {

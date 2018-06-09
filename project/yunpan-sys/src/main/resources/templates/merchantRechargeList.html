@@ -51,7 +51,10 @@
     <!--热闹活动-->
     <div class="hot p-l-30 p-r-30  p-b-27 clearFloat bag-fff">
         <div class="hot-content">
-            <ul class="clearFloat">            
+            <ul class="clearFloat">  
+               <div th:if="${#lists.isEmpty(merchantRechargeList)}">
+                    <li class="b-b-e6e6e6">暂无交易记录</li>
+               </div>          
                 <li class="b-b-e6e6e6" th:each="recharge,rechargeStat: ${merchantRechargeList}">
                     <div class="hto-img">
                         <a href="#">
@@ -61,9 +64,10 @@
                         </a>
                         <div class="hto-p">
                             <a href="loupan-page.html">
-                                <h3 class="hto-ph3 m-b-5 f28">金额：<label th:text="${recharge.payAmount}"></label></h3>
-                                <p class="hto-title clearFloat f28">支付时间：<label th:text="${recharge.createdTime}"></label> </p>
+                                <h3 class="hto-ph3 m-b-5 f28">支付金额：<label th:text="${recharge.payAmount}"></label></h3>
+                                <p class="hto-title clearFloat  f28">结算金额：<label th:text="${recharge.payStatus}"></label> </p>
                                 <p class="hto-title clearFloat  f28">支付状态：<label th:text="${recharge.payStatus}"></label> </p>
+                                <p class="hto-title clearFloat f28">时间：<label th:text="${recharge.createdTime}"></label> </p>
                             </a>
                         </div>
                     </div>

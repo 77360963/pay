@@ -1,9 +1,9 @@
 package com.yunpan.service.service.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +15,11 @@ import com.yunpan.base.tool.DateTool;
 import com.yunpan.base.tool.MoneyUtil;
 import com.yunpan.data.dao.MerchantAccountDao;
 import com.yunpan.data.dao.MerchantDao;
+import com.yunpan.data.dao.MerchantRateDao;
 import com.yunpan.data.dao.MerchantTradeDao;
 import com.yunpan.data.entity.MerchantAccountEntity;
 import com.yunpan.data.entity.MerchantEntity;
+import com.yunpan.data.entity.MerchantRateEntity;
 import com.yunpan.data.entity.MerchantTradeEntity;
 import com.yunpan.service.bean.AppCommon;
 import com.yunpan.service.bean.MerchantTradeEntityBean;
@@ -42,6 +44,9 @@ public class MerchantRechargeServiceImpl implements MerchantRechargeService {
 	
 	@Autowired
 	private PaymentService paymentService;
+	
+	@Autowired
+	private MerchantRateDao merchantRateDao;
 
 	@Override
 	public long merchantRechargeAddOrder(MerchantTradeEntity merchantTradeEntity) throws MerchantException{		
@@ -50,7 +55,13 @@ public class MerchantRechargeServiceImpl implements MerchantRechargeService {
 		if(null==merchantEntity){
 			logger.info("未找到相关商户信息，商户id={}",merchantTradeEntity.getUserId());
 			throw new MerchantException("", "未找到相关商户信息");
-		}	
+		}
+		MerchantRateEntity merchantRateEntity=merchantRateDao.selectByUserId(merchantTradeEntity.getUserId());
+		if(null==merchantRateEntity){
+			logger.info("未找到相关商户费率信息，商户id={}",merchantTradeEntity.getUserId());
+			throw new MerchantException("", "未找到相关商户信息");
+		}
+		
 	    try {	    	
 	        merchantTradeDao.insertSelective(merchantTradeEntity);			
 		} catch (Exception e) {
@@ -74,16 +85,24 @@ public class MerchantRechargeServiceImpl implements MerchantRechargeService {
 			logger.info("未找到相关商户资金账户,商户id={}",merchantTradeEntity.getUserId());
 			throw new MerchantException("", "未找到相关商户资金账户");
 		}
+		
+		MerchantRateEntity merchantRateEntity=merchantRateDao.selectByUserId(merchantTradeEntity.getUserId());
+		
 		try {
 			PaymentResult paymentResult=paymentService.queryOrder(String.valueOf(orderId));
 			if(null!=paymentResult&& AppCommon.PAY_STATUS_SUCCESS==paymentResult.getPaymentStatus()){
+				//平台收款金额
+				BigDecimal platform_rate=new BigDecimal(1).subtract(merchantRateEntity.getRate());
+				BigDecimal platform_needPayAmount=new BigDecimal(paymentResult.getPayAmount()).multiply(platform_rate).setScale(0, BigDecimal.ROUND_DOWN);
+				
 				MerchantTradeEntity updateMerchantTradeEntity=new MerchantTradeEntity();
 				updateMerchantTradeEntity.setId(merchantTradeEntity.getId());
-				updateMerchantTradeEntity.setNeedPayAmount(paymentResult.getNeedPayAmount());
+				updateMerchantTradeEntity.setNeedPayAmount(platform_needPayAmount.intValue());
+				updateMerchantTradeEntity.setConfirmPayAmount(paymentResult.getNeedPayAmount());
 				updateMerchantTradeEntity.setPayStatus(AppCommon.PAY_STATUS_SUCCESS);
 				int updateCount=merchantTradeDao.updateMerchantTradeStatus(updateMerchantTradeEntity);
 				if(updateCount>0){
-					int updateAccount=merchantAccountDao.merchantRecharge(merchantTradeEntity.getUserId(), paymentResult.getNeedPayAmount());
+					int updateAccount=merchantAccountDao.merchantRecharge(merchantTradeEntity.getUserId(), platform_needPayAmount.intValue());
 					if(updateAccount!=1){
 						throw new MerchantException("", "商户充值失败,请联系管理员");
 					}else{
