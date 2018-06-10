@@ -14,7 +14,7 @@ public class MerchantTradeEntity {
     /**
      * <pre>
      * 客户id
-     * 表字段 : t_merchant_trade.merchant_id
+     * 表字段 : t_merchant_trade.user_id
      * </pre>
      */
     private Long userId;
@@ -69,6 +69,22 @@ public class MerchantTradeEntity {
 
     /**
      * <pre>
+     * 支付渠道名称
+     * 表字段 : t_merchant_trade.out_channel_no
+     * </pre>
+     */
+    private String outChannelNo;
+
+    /**
+     * <pre>
+     * 渠道支付流水号
+     * 表字段 : t_merchant_trade.out_trade_No
+     * </pre>
+     */
+    private String outTradeNo;
+
+    /**
+     * <pre>
      * 创建时间
      * 表字段 : t_merchant_trade.created_time
      * </pre>
@@ -116,17 +132,32 @@ public class MerchantTradeEntity {
         this.id = id;
     }
 
-   
-
+    /**
+     * <pre>
+     * 获取：客户id
+     * 表字段：t_merchant_trade.user_id
+     * </pre>
+     *
+     * @return t_merchant_trade.user_id：客户id
+     */
     public Long getUserId() {
-		return userId;
-	}
+        return userId;
+    }
 
-	public void setUserId(Long userId) {
-		this.userId = userId;
-	}
+    /**
+     * <pre>
+     * 设置：客户id
+     * 表字段：t_merchant_trade.user_id
+     * </pre>
+     *
+     * @param userId
+     *            t_merchant_trade.user_id：客户id
+     */
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 
-	/**
+    /**
      * <pre>
      * 获取：交易金额
      * 表字段：t_merchant_trade.pay_amount
@@ -278,6 +309,56 @@ public class MerchantTradeEntity {
 
     /**
      * <pre>
+     * 获取：支付渠道名称
+     * 表字段：t_merchant_trade.out_channel_no
+     * </pre>
+     *
+     * @return t_merchant_trade.out_channel_no：支付渠道名称
+     */
+    public String getOutChannelNo() {
+        return outChannelNo;
+    }
+
+    /**
+     * <pre>
+     * 设置：支付渠道名称
+     * 表字段：t_merchant_trade.out_channel_no
+     * </pre>
+     *
+     * @param outChannelNo
+     *            t_merchant_trade.out_channel_no：支付渠道名称
+     */
+    public void setOutChannelNo(String outChannelNo) {
+        this.outChannelNo = outChannelNo == null ? null : outChannelNo.trim();
+    }
+
+    /**
+     * <pre>
+     * 获取：渠道支付流水号
+     * 表字段：t_merchant_trade.out_trade_No
+     * </pre>
+     *
+     * @return t_merchant_trade.out_trade_No：渠道支付流水号
+     */
+    public String getOutTradeNo() {
+        return outTradeNo;
+    }
+
+    /**
+     * <pre>
+     * 设置：渠道支付流水号
+     * 表字段：t_merchant_trade.out_trade_No
+     * </pre>
+     *
+     * @param outTradeNo
+     *            t_merchant_trade.out_trade_No：渠道支付流水号
+     */
+    public void setOutTradeNo(String outTradeNo) {
+        this.outTradeNo = outTradeNo == null ? null : outTradeNo.trim();
+    }
+
+    /**
+     * <pre>
      * 获取：创建时间
      * 表字段：t_merchant_trade.created_time
      * </pre>
@@ -375,6 +456,8 @@ public class MerchantTradeEntity {
             && (this.getTransType() == null ? other.getTransType() == null : this.getTransType().equals(other.getTransType()))
             && (this.getPayStatus() == null ? other.getPayStatus() == null : this.getPayStatus().equals(other.getPayStatus()))
             && (this.getConfirmPayTime() == null ? other.getConfirmPayTime() == null : this.getConfirmPayTime().equals(other.getConfirmPayTime()))
+            && (this.getOutChannelNo() == null ? other.getOutChannelNo() == null : this.getOutChannelNo().equals(other.getOutChannelNo()))
+            && (this.getOutTradeNo() == null ? other.getOutTradeNo() == null : this.getOutTradeNo().equals(other.getOutTradeNo()))
             && (this.getCreatedTime() == null ? other.getCreatedTime() == null : this.getCreatedTime().equals(other.getCreatedTime()))
             && (this.getUpdatedTime() == null ? other.getUpdatedTime() == null : this.getUpdatedTime().equals(other.getUpdatedTime()))
             && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()));
@@ -395,6 +478,8 @@ public class MerchantTradeEntity {
         result = prime * result + ((getTransType() == null) ? 0 : getTransType().hashCode());
         result = prime * result + ((getPayStatus() == null) ? 0 : getPayStatus().hashCode());
         result = prime * result + ((getConfirmPayTime() == null) ? 0 : getConfirmPayTime().hashCode());
+        result = prime * result + ((getOutChannelNo() == null) ? 0 : getOutChannelNo().hashCode());
+        result = prime * result + ((getOutTradeNo() == null) ? 0 : getOutTradeNo().hashCode());
         result = prime * result + ((getCreatedTime() == null) ? 0 : getCreatedTime().hashCode());
         result = prime * result + ((getUpdatedTime() == null) ? 0 : getUpdatedTime().hashCode());
         result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
@@ -418,6 +503,8 @@ public class MerchantTradeEntity {
         sb.append(", transType=").append(transType);
         sb.append(", payStatus=").append(payStatus);
         sb.append(", confirmPayTime=").append(confirmPayTime);
+        sb.append(", outChannelNo=").append(outChannelNo);
+        sb.append(", outTradeNo=").append(outTradeNo);
         sb.append(", createdTime=").append(createdTime);
         sb.append(", updatedTime=").append(updatedTime);
         sb.append(", status=").append(status);

@@ -34,6 +34,8 @@ public class MerchantSettlementServiceImpl implements MerchantSettlementService 
 			}
 			merchantTradeEntityBean.setTransType(entity.getTransType());
 			merchantTradeEntityBean.setPayStatus(entity.getPayStatus());
+			merchantTradeEntityBean.setOutChannelNo(entity.getOutChannelNo());
+			merchantTradeEntityBean.setOutTradeNo(entity.getOutTradeNo());
 			merchantTradeEntityBean.setCreatedTime(DateTool.formatFullDate(entity.getCreatedTime()));
 			listBean.add(merchantTradeEntityBean);
 		}

@@ -129,6 +129,8 @@ public class MerchantRechargeServiceImpl implements MerchantRechargeService {
 				updateMerchantTradeEntity.setNeedPayAmount(platform_needPayAmount.intValue());
 				updateMerchantTradeEntity.setConfirmPayAmount(paymentResult.getNeedPayAmount());
 				updateMerchantTradeEntity.setPayStatus(AppCommon.PAY_STATUS_SUCCESS);
+				updateMerchantTradeEntity.setOutTradeNo(paymentResult.getOrderNo());
+				updateMerchantTradeEntity.setOutChannelNo(AppCommon.CHANNEL_NO);
 				int updateCount=merchantTradeDao.updateMerchantTradeStatus(updateMerchantTradeEntity);
 				if(updateCount>0){
 					int updateAccount=merchantAccountDao.merchantRecharge(merchantTradeEntity.getUserId(), platform_needPayAmount.intValue());

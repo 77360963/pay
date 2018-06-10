@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.code.kaptcha.Constants;
+import com.yunpan.base.annotation.IfNeedLogin;
 import com.yunpan.base.tool.DeviceUtils;
 import com.yunpan.base.web.util.Result;
 import com.yunpan.data.entity.MerchantEntity;
@@ -102,7 +103,7 @@ public class MerchantController {
 	 * @param request
 	 * @throws Exception 
 	 */
-	
+	@IfNeedLogin
 	@RequestMapping(value ="/queryMerchantTrade")
 	public String queryMerchantRechargeList(HttpServletRequest request,HttpServletResponse response,final ModelMap model) throws Exception{
 		  MerchantEntity merchantEntity=getUserSession(request,response);			
@@ -199,13 +200,16 @@ public class MerchantController {
 	 * @param request
 	 * @throws Exception 
 	 */
+	@IfNeedLogin
 	@RequestMapping(value ="/merchantInfoScanQR")	
 	public String queryMerchantById(HttpServletRequest request,HttpServletResponse response,final ModelMap model) throws Exception{
 		Long userId=getUserSession(request,response).getUserId();
 		MerchantEntity merchantEntity=merchantService.queryMerchantInfoByUserId(userId);
-		String aa=request.getContextPath();
-		System.out.println(aa);
+		String path = request.getContextPath();
+        String basePath = request.getScheme() + "://"+ request.getServerName() + ":" + request.getServerPort()+ path + "/merchantPayment?merchantId="+userId;
+		System.out.println(basePath);
 		model.addAttribute("merchantEntity", merchantEntity);
+		model.addAttribute("basePath", basePath);
 		return "/merchantInfoScanQR";	
 	}
 	
@@ -214,6 +218,7 @@ public class MerchantController {
      * @param request
 	 * @throws IOException 
      */
+	@IfNeedLogin
     @RequestMapping(value ="/merchantPayment")   
     public String merchantPayment(HttpServletRequest request,HttpServletResponse response,final ModelMap model) throws Exception{
     	String userId=request.getParameter("merchantId");		
@@ -230,6 +235,7 @@ public class MerchantController {
 	 * @param request
 	 * @throws IOException 
 	 */
+    @IfNeedLogin
 	@RequestMapping(value ="/queryMerchantAccount")	
 	public String queryMerchantAccountByMerchantId(HttpServletRequest request,HttpServletResponse response,final ModelMap model) throws Exception{		
 		MerchantEntity merchantEntity=getUserSession(request,response);	
@@ -239,6 +245,7 @@ public class MerchantController {
 		return "/merchantAccount";	
 	}
 	
+	@IfNeedLogin
 	@RequestMapping(value ="/merchantWithdraw")
 	@ResponseBody
     public Map merchantWithdraw(HttpServletRequest request,HttpServletResponse response,final ModelMap model){      

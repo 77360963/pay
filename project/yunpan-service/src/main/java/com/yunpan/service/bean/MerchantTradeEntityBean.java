@@ -65,6 +65,22 @@ public class MerchantTradeEntityBean {
      * </pre>
      */
     private String confirmPayTime;
+    
+    /**
+     * <pre>
+     * 支付渠道名称
+     * 表字段 : t_merchant_trade.out_channel_no
+     * </pre>
+     */
+    private String outChannelNo;
+
+    /**
+     * <pre>
+     * 渠道支付流水号
+     * 表字段 : t_merchant_trade.out_trade_No
+     * </pre>
+     */
+    private String outTradeNo;
 
     /**
      * <pre>
@@ -144,6 +160,22 @@ public class MerchantTradeEntityBean {
 
 	public void setCreatedTime(String createdTime) {
 		this.createdTime = createdTime;
+	}
+
+	public String getOutChannelNo() {
+		return outChannelNo;
+	}
+
+	public void setOutChannelNo(String outChannelNo) {
+		this.outChannelNo = outChannelNo;
+	}
+
+	public String getOutTradeNo() {
+		return outTradeNo;
+	}
+
+	public void setOutTradeNo(String outTradeNo) {
+		this.outTradeNo = outTradeNo;
 	}
     
     

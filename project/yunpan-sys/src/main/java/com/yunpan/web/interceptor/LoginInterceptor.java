@@ -10,6 +10,8 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.yunpan.base.annotation.IfNeedLogin;
+import com.yunpan.base.web.util.Result;
+import com.yunpan.service.bean.AppCommon;
 
 @Component
 public class LoginInterceptor  extends HandlerInterceptorAdapter{
@@ -23,8 +25,19 @@ public class LoginInterceptor  extends HandlerInterceptorAdapter{
         final Method method = handlerMethod.getMethod();
         final Class<?> clazz = method.getDeclaringClass();
        if (clazz.isAnnotationPresent(IfNeedLogin.class) || method.isAnnotationPresent(IfNeedLogin.class)) {  
-           if(request.getAttribute("xx") == null){                
-               response.sendRedirect(request.getContextPath()+"/merchantLoginIndex");
+           if(request.getSession().getAttribute(AppCommon.SESSION_KEY) == null){        	   
+        	   String requestType = request.getHeader("X-Requested-With");
+        	 //判断是否是ajax请求
+        	   if(requestType!=null && "XMLHttpRequest".equals(requestType)){
+        		   // ajax请求
+                   response.setHeader("SESSIONSTATUS", "TIMEOUT");
+                   response.setHeader("CONTEXTPATH",request.getContextPath()+"/login");
+                   response.setStatus(HttpServletResponse.SC_FORBIDDEN);//403 禁止
+                   return false;
+        	   }else{
+        		   response.sendRedirect(request.getContextPath()+"/login");
+        	   }        	   
+               
            }else{  
                return true;  
            }  

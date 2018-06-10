@@ -13,6 +13,8 @@
     <result column="trans_type" jdbcType="VARCHAR" property="transType" />
     <result column="pay_status" jdbcType="INTEGER" property="payStatus" />
     <result column="confirm_pay_time" jdbcType="TIMESTAMP" property="confirmPayTime" />
+    <result column="out_channel_no" jdbcType="VARCHAR" property="outChannelNo" />
+    <result column="out_trade_No" jdbcType="VARCHAR" property="outTradeNo" />
     <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
     <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime" />
     <result column="status" jdbcType="INTEGER" property="status" />
@@ -22,7 +24,7 @@
     @mbggenerated
     -->
     id, user_id, pay_amount, need_pay_amount, confirm_pay_amount, trans_type, pay_status, 
-    confirm_pay_time, created_time, updated_time, status
+    confirm_pay_time, out_channel_no, out_trade_No, created_time, updated_time, status
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--
@@ -42,12 +44,14 @@
     </selectKey>
     insert into t_merchant_trade (user_id, pay_amount, need_pay_amount, 
       confirm_pay_amount, trans_type, pay_status, 
-      confirm_pay_time, created_time, updated_time, 
-      status)
+      confirm_pay_time, out_channel_no, out_trade_No, 
+      created_time, updated_time, status
+      )
     values (#{userId,jdbcType=BIGINT}, #{payAmount,jdbcType=INTEGER}, #{needPayAmount,jdbcType=INTEGER}, 
       #{confirmPayAmount,jdbcType=INTEGER}, #{transType,jdbcType=VARCHAR}, #{payStatus,jdbcType=INTEGER}, 
-      #{confirmPayTime,jdbcType=TIMESTAMP}, #{createdTime,jdbcType=TIMESTAMP}, #{updatedTime,jdbcType=TIMESTAMP}, 
-      #{status,jdbcType=INTEGER})
+      #{confirmPayTime,jdbcType=TIMESTAMP}, #{outChannelNo,jdbcType=VARCHAR}, #{outTradeNo,jdbcType=VARCHAR}, 
+      #{createdTime,jdbcType=TIMESTAMP}, #{updatedTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.yunpan.data.entity.MerchantTradeEntity">
     <!--
@@ -78,6 +82,12 @@
       </if>
       <if test="confirmPayTime != null">
         confirm_pay_time,
+      </if>
+      <if test="outChannelNo != null">
+        out_channel_no,
+      </if>
+      <if test="outTradeNo != null">
+        out_trade_No,
       </if>
       <if test="createdTime != null">
         created_time,
@@ -110,6 +120,12 @@
       </if>
       <if test="confirmPayTime != null">
         #{confirmPayTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="outChannelNo != null">
+        #{outChannelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="outTradeNo != null">
+        #{outTradeNo,jdbcType=VARCHAR},
       </if>
       <if test="createdTime != null">
         #{createdTime,jdbcType=TIMESTAMP},
@@ -149,6 +165,12 @@
       <if test="confirmPayTime != null">
         confirm_pay_time = #{confirmPayTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="outChannelNo != null">
+        out_channel_no = #{outChannelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="outTradeNo != null">
+        out_trade_No = #{outTradeNo,jdbcType=VARCHAR},
+      </if>
       <if test="createdTime != null">
         created_time = #{createdTime,jdbcType=TIMESTAMP},
       </if>
@@ -173,13 +195,15 @@
       trans_type = #{transType,jdbcType=VARCHAR},
       pay_status = #{payStatus,jdbcType=INTEGER},
       confirm_pay_time = #{confirmPayTime,jdbcType=TIMESTAMP},
+      out_channel_no = #{outChannelNo,jdbcType=VARCHAR},
+      out_trade_No = #{outTradeNo,jdbcType=VARCHAR},
       created_time = #{createdTime,jdbcType=TIMESTAMP},
       updated_time = #{updatedTime,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
   
-  <update id="updateMerchantTradeStatus" parameterType="com.yunpan.data.entity.MerchantTradeEntity">
+   <update id="updateMerchantTradeStatus" parameterType="com.yunpan.data.entity.MerchantTradeEntity">
     <!--
     @mbggenerated
     -->
@@ -200,6 +224,14 @@
       <if test="payStatus != null">
         pay_status = #{payStatus,jdbcType=INTEGER},
       </if>
+       <if test="outChannelNo != null">
+        out_channel_no = #{outChannelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="outTradeNo != null">
+        out_trade_No = #{outTradeNo,jdbcType=VARCHAR},
+      </if>
+      
+      
       <if test="createdTime != null">
         created_time = #{createdTime,jdbcType=TIMESTAMP},
       </if>

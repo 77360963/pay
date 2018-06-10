@@ -74,8 +74,8 @@ var qrcode = new QRCode(document.getElementById("qrcode"), {
 });
 
 function makeCode () {   	
-	var userId = [[${merchantEntity.userId}]];	
-    qrcode.makeCode("http://xmsig4.natappfree.cc/merchantPayment?merchantId="+userId);
+	var basePath = [[${basePath}]];	
+    qrcode.makeCode(basePath);
 }
 makeCode();
 </script>
