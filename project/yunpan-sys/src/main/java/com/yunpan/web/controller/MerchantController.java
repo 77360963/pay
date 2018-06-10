@@ -67,11 +67,10 @@ public class MerchantController {
 		MerchantTradeEntity merchantTradeEntity=new MerchantTradeEntity();
 		merchantTradeEntity.setUserId(merchantId);
 		merchantTradeEntity.setPayAmount(payAmount);
-		merchantTradeEntity.setPayStatus(AppCommon.PAY_STATUS_INIT);
-		Long rechargeId;
+		merchantTradeEntity.setPayStatus(AppCommon.PAY_STATUS_INIT);		
 		try {
-			rechargeId = merchantRechargeService.merchantRechargeAddOrder(merchantTradeEntity);
-			Map map=paymentService.webPayMap(payAmount, String.valueOf(rechargeId));
+			String rechargeRequestNo = merchantRechargeService.merchantRechargeAddOrder(merchantTradeEntity);
+			Map map=paymentService.webPayMap(payAmount,rechargeRequestNo);
 			return Result.success(map);
 		} catch (MerchantException e) {				
 			 return Result.failed("failed","下单失败");

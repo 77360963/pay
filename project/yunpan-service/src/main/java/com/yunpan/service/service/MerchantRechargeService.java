@@ -11,9 +11,9 @@ public interface MerchantRechargeService {
 	/**
 	 * 商户充值下单
 	 * @param merchantRechargeEntity
-	 * @return
+	 * @return 充值请求流水号
 	 */
-	public long merchantRechargeAddOrder(MerchantTradeEntity merchantTradeEntity) throws MerchantException;
+	public String merchantRechargeAddOrder(MerchantTradeEntity merchantTradeEntity) throws MerchantException;
 	
 	/**
 	 * 商户充值成功

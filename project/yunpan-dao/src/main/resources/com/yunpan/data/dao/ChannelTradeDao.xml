@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yunpan.data.dao.ChannelTradeDao">
+  <resultMap id="BaseResultMap" type="com.yunpan.data.entity.ChannelTradeEntity">
+    <!--
+    @mbggenerated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="merchant_trade_id" jdbcType="BIGINT" property="merchantTradeId" />
+    <result column="request_trade_No" jdbcType="VARCHAR" property="requestTradeNo" />
+    <result column="pay_amount" jdbcType="INTEGER" property="payAmount" />
+    <result column="need_pay_amount" jdbcType="INTEGER" property="needPayAmount" />
+    <result column="pay_status" jdbcType="INTEGER" property="payStatus" />
+    <result column="out_trade_No" jdbcType="VARCHAR" property="outTradeNo" />
+    <result column="out_trade_pay_time" jdbcType="VARCHAR" property="outTradePayTime" />
+    <result column="out_channel_no" jdbcType="VARCHAR" property="outChannelNo" />
+    <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
+    <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+    @mbggenerated
+    -->
+    id, user_id, merchant_trade_id, request_trade_No, pay_amount, need_pay_amount, pay_status, 
+    out_trade_No, out_trade_pay_time, out_channel_no, created_time, updated_time, status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--
+    @mbggenerated
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from t_channel_trade
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <insert id="insert" parameterType="com.yunpan.data.entity.ChannelTradeEntity">
+    <!--
+    @mbggenerated
+    -->
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_channel_trade (user_id, merchant_trade_id, request_trade_No, 
+      pay_amount, need_pay_amount, pay_status, 
+      out_trade_No, out_trade_pay_time, out_channel_no, 
+      created_time, updated_time, status
+      )
+    values (#{userId,jdbcType=BIGINT}, #{merchantTradeId,jdbcType=BIGINT}, #{requestTradeNo,jdbcType=VARCHAR}, 
+      #{payAmount,jdbcType=INTEGER}, #{needPayAmount,jdbcType=INTEGER}, #{payStatus,jdbcType=INTEGER}, 
+      #{outTradeNo,jdbcType=VARCHAR}, #{outTradePayTime,jdbcType=VARCHAR}, #{outChannelNo,jdbcType=VARCHAR}, 
+      #{createdTime,jdbcType=TIMESTAMP}, #{updatedTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yunpan.data.entity.ChannelTradeEntity">
+    <!--
+    @mbggenerated
+    -->
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_channel_trade
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="merchantTradeId != null">
+        merchant_trade_id,
+      </if>
+      <if test="requestTradeNo != null">
+        request_trade_No,
+      </if>
+      <if test="payAmount != null">
+        pay_amount,
+      </if>
+      <if test="needPayAmount != null">
+        need_pay_amount,
+      </if>
+      <if test="payStatus != null">
+        pay_status,
+      </if>
+      <if test="outTradeNo != null">
+        out_trade_No,
+      </if>
+      <if test="outTradePayTime != null">
+        out_trade_pay_time,
+      </if>
+      <if test="outChannelNo != null">
+        out_channel_no,
+      </if>
+      <if test="createdTime != null">
+        created_time,
+      </if>
+      <if test="updatedTime != null">
+        updated_time,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="merchantTradeId != null">
+        #{merchantTradeId,jdbcType=BIGINT},
+      </if>
+      <if test="requestTradeNo != null">
+        #{requestTradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="payAmount != null">
+        #{payAmount,jdbcType=INTEGER},
+      </if>
+      <if test="needPayAmount != null">
+        #{needPayAmount,jdbcType=INTEGER},
+      </if>
+      <if test="payStatus != null">
+        #{payStatus,jdbcType=INTEGER},
+      </if>
+      <if test="outTradeNo != null">
+        #{outTradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="outTradePayTime != null">
+        #{outTradePayTime,jdbcType=VARCHAR},
+      </if>
+      <if test="outChannelNo != null">
+        #{outChannelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null">
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedTime != null">
+        #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yunpan.data.entity.ChannelTradeEntity">
+    <!--
+    @mbggenerated
+    -->
+    update t_channel_trade
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="merchantTradeId != null">
+        merchant_trade_id = #{merchantTradeId,jdbcType=BIGINT},
+      </if>
+      <if test="requestTradeNo != null">
+        request_trade_No = #{requestTradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="payAmount != null">
+        pay_amount = #{payAmount,jdbcType=INTEGER},
+      </if>
+      <if test="needPayAmount != null">
+        need_pay_amount = #{needPayAmount,jdbcType=INTEGER},
+      </if>
+      <if test="payStatus != null">
+        pay_status = #{payStatus,jdbcType=INTEGER},
+      </if>
+      <if test="outTradeNo != null">
+        out_trade_No = #{outTradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="outTradePayTime != null">
+        out_trade_pay_time = #{outTradePayTime,jdbcType=VARCHAR},
+      </if>
+      <if test="outChannelNo != null">
+        out_channel_no = #{outChannelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null">
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedTime != null">
+        updated_time = #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yunpan.data.entity.ChannelTradeEntity">
+    <!--
+    @mbggenerated
+    -->
+    update t_channel_trade
+    set user_id = #{userId,jdbcType=BIGINT},
+      merchant_trade_id = #{merchantTradeId,jdbcType=BIGINT},
+      request_trade_No = #{requestTradeNo,jdbcType=VARCHAR},
+      pay_amount = #{payAmount,jdbcType=INTEGER},
+      need_pay_amount = #{needPayAmount,jdbcType=INTEGER},
+      pay_status = #{payStatus,jdbcType=INTEGER},
+      out_trade_No = #{outTradeNo,jdbcType=VARCHAR},
+      out_trade_pay_time = #{outTradePayTime,jdbcType=VARCHAR},
+      out_channel_no = #{outChannelNo,jdbcType=VARCHAR},
+      created_time = #{createdTime,jdbcType=TIMESTAMP},
+      updated_time = #{updatedTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="selectByRequestTradeNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!--
+    @mbggenerated
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from t_channel_trade
+    where request_trade_No = #{requestTradeNo,jdbcType=VARCHAR}
+  </select>
+</mapper>

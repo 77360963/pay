@@ -16,6 +16,10 @@ public class DateTool {
 	public static String getCurrentDateStr() {
 		return DateFormatUtils.format(new Date(), "yyyy-MM-dd");
 	}
+	
+	public static String getCurrentDateStr2() {
+		return DateFormatUtils.format(new Date(), "yyyyMMdd");
+	}
 	/**
 	 * @param args
 	 */

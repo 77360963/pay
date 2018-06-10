@@ -13,10 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.yunpan.base.tool.DateTool;
 import com.yunpan.base.tool.MoneyUtil;
+import com.yunpan.data.dao.ChannelTradeDao;
 import com.yunpan.data.dao.MerchantAccountDao;
 import com.yunpan.data.dao.MerchantDao;
 import com.yunpan.data.dao.MerchantRateDao;
 import com.yunpan.data.dao.MerchantTradeDao;
+import com.yunpan.data.entity.ChannelTradeEntity;
 import com.yunpan.data.entity.MerchantAccountEntity;
 import com.yunpan.data.entity.MerchantEntity;
 import com.yunpan.data.entity.MerchantRateEntity;
@@ -47,9 +49,12 @@ public class MerchantRechargeServiceImpl implements MerchantRechargeService {
 	
 	@Autowired
 	private MerchantRateDao merchantRateDao;
+	
+	@Autowired
+	private ChannelTradeDao channelTradeDao;
 
 	@Override
-	public long merchantRechargeAddOrder(MerchantTradeEntity merchantTradeEntity) throws MerchantException{		
+	public String merchantRechargeAddOrder(MerchantTradeEntity merchantTradeEntity) throws MerchantException{		
 	    merchantTradeEntity.setTransType(AppCommon.TRANS_TYPE_I);
 	    MerchantEntity merchantEntity=merchantDao.selectMerchantEntityByUserId(merchantTradeEntity.getUserId());
 		if(null==merchantEntity){
@@ -62,22 +67,39 @@ public class MerchantRechargeServiceImpl implements MerchantRechargeService {
 			throw new MerchantException("", "未找到相关商户信息");
 		}
 		
-	    try {	    	
-	        merchantTradeDao.insertSelective(merchantTradeEntity);			
+	    try {
+	    	//增加商户交易流水
+	        merchantTradeDao.insertSelective(merchantTradeEntity);	
+	        
+	        //增加渠道流水
+	        ChannelTradeEntity channelTradeEntity=new ChannelTradeEntity();
+	        channelTradeEntity.setUserId(merchantTradeEntity.getUserId());
+	        channelTradeEntity.setMerchantTradeId(merchantTradeEntity.getId());
+	        channelTradeEntity.setRequestTradeNo(DateTool.getCurrentDateStr2()+merchantTradeEntity.getId());
+	        channelTradeEntity.setPayAmount(merchantTradeEntity.getPayAmount());
+	        channelTradeDao.insertSelective(channelTradeEntity);
+	        return channelTradeEntity.getRequestTradeNo(); 
 		} catch (Exception e) {
 			logger.info("商户充值下单失败",e);
 			throw new MerchantException("", "商户充值下单失败");
 		}
-	    return merchantTradeEntity.getId(); 
+	    
 	}
 
 	@Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public boolean merchantRechargePaySuccess(String orderId) throws MerchantException{
+	public boolean merchantRechargePaySuccess(String requestTradeNo) throws MerchantException{
 		boolean paymentStatus=false;
-		MerchantTradeEntity merchantTradeEntity=merchantTradeDao.selectByPrimaryKey(Long.valueOf(orderId));		
+		
+		ChannelTradeEntity channelTradeEntity=channelTradeDao.selectByRequestTradeNo(requestTradeNo);
+		if(null==channelTradeEntity){
+			logger.info("渠道充值订单不存在,充值订单号={}",requestTradeNo);
+			throw new MerchantException("", "渠道充值订单不存在");
+		}
+		Long tradeOrderId=channelTradeEntity.getMerchantTradeId();
+		MerchantTradeEntity merchantTradeEntity=merchantTradeDao.selectByPrimaryKey(tradeOrderId);		
 		if(null==merchantTradeEntity){
-			logger.info("充值订单不存在,充值订单号={}",orderId);
+			logger.info("充值订单不存在,充值订单号={}",tradeOrderId);
 			throw new MerchantException("", "充值订单不存在");
 		}
 		MerchantAccountEntity merchantAccountEntity=merchantAccountDao.selectByUserId(merchantTradeEntity.getUserId());
@@ -89,11 +111,18 @@ public class MerchantRechargeServiceImpl implements MerchantRechargeService {
 		MerchantRateEntity merchantRateEntity=merchantRateDao.selectByUserId(merchantTradeEntity.getUserId());
 		
 		try {
-			PaymentResult paymentResult=paymentService.queryOrder(String.valueOf(orderId));
+			PaymentResult paymentResult=paymentService.queryOrder(requestTradeNo);
 			if(null!=paymentResult&& AppCommon.PAY_STATUS_SUCCESS==paymentResult.getPaymentStatus()){
 				//平台收款金额
 				BigDecimal platform_rate=new BigDecimal(1).subtract(merchantRateEntity.getRate());
 				BigDecimal platform_needPayAmount=new BigDecimal(paymentResult.getPayAmount()).multiply(platform_rate).setScale(0, BigDecimal.ROUND_DOWN);
+				
+				ChannelTradeEntity updateChannelTradeEntity=new ChannelTradeEntity();
+				updateChannelTradeEntity.setId(channelTradeEntity.getId());
+				updateChannelTradeEntity.setNeedPayAmount(paymentResult.getNeedPayAmount());
+				updateChannelTradeEntity.setPayStatus(AppCommon.PAY_STATUS_SUCCESS);
+				updateChannelTradeEntity.setOutTradeNo(paymentResult.getOrderNo());
+				channelTradeDao.updateByPrimaryKeySelective(updateChannelTradeEntity);
 				
 				MerchantTradeEntity updateMerchantTradeEntity=new MerchantTradeEntity();
 				updateMerchantTradeEntity.setId(merchantTradeEntity.getId());
