@@ -67,12 +67,13 @@
     </dependencies>
 
     <build>
+        <finalName>yunpan</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.dianhui.start.StartWebApp</mainClass>
+                    <mainClass>com.yunpan.start.StartWebApp</mainClass>
                 </configuration>
                 <executions>
                     <execution>
