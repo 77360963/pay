@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>提现-悟空源码分享网 www.5kym.com</title>
+    <title>商户收款后台管理系统</title>
     <meta content="yes" name="apple-mobile-web-app-capable"><!-- 这meta的作用就是删除默认的苹果工具栏和菜单栏允许全屏模式浏览-->
     <meta name="apple-touch-fullscreen" content="yes"><!-- 开启对web app程序的支持  -->
     <meta content="telephone=no,email=no" name="format-detection"><!-- iPhone会自动把你这个文字加链接样式、并且点击这个数字还会自动拨号！telephone=no就忽略页面中的数字识别为电话号码 ,email=no 忽略识别邮箱 -->
@@ -19,13 +19,7 @@
     <!--<meta content="yes" name="apple-mobile-web-app-capable"> end-->
     <script src="js/reset.js"></script>
     <script src="js/jquery.min.js"></script>
-    <script src="js/zepto.min.js"></script>
-    <script src="js/TouchSlide.js"></script>
-    <!--base js end-->
-    <!--no base js-->
-    <script src="js/add.js"></script>
-    <!--no base js end-->
-    <!--no base css-->
+   
     <style>
         .denglusub{
             width: 100%;
@@ -95,6 +89,14 @@
                             <span>¥<label th:text="${merchantAccountEntity.freAmt}"></label></span>
                         </div>
                     </div>
+                       <div class="sformdiv m-b-20">
+                        <div class="sforspan floatLeft">
+                            支付宝账户：
+                        </div>
+                        <div class="sfroinput floatLeft">
+                            <span><label th:text="${merchantEntity.paymentMethod}"></label></span>
+                        </div>
+                    </div>         
                     <div class="sformdiv m-b-20">
                         <div class="sforspan floatLeft">
                             本次提现金额：
@@ -105,14 +107,7 @@
                     </div>
 
  
-                    <div class="sformdiv m-b-20">
-                        <div class="sforspan floatLeft" id="Td_CashUserName">
-                            支付宝账号：
-                        </div>
-                        <div class="sfroinput floatLeft b-dcdcdc">
-                            <input type="text" class="sforinwidt p-l-10" placeholder="" style="width: 90%" readonly="readonly"/>
-                        </div>
-                    </div>                 
+                   
                    
 
                     <br><br>
@@ -121,7 +116,7 @@
                     <div class="yijian  f26  p-t-25">
                         <p class="text-666666 f24" style="line-height: 0.671875rem;">
                             温馨提示：<br>
-                            当前可提现金额超过20元时，可申请提现<br>
+                            当前可提现金额超过<label th:text="${merchantEntity.paymentMinamt/100}"></label>元时，可申请提现<br>
                             提现审核通过后，第二天到账
                         </p>
                     </div>

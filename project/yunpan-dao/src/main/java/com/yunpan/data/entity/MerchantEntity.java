@@ -61,6 +61,22 @@ public class MerchantEntity {
 
     /**
      * <pre>
+     * 
+     * 表字段 : t_merchant.payment_method
+     * </pre>
+     */
+    private String paymentMethod;
+
+    /**
+     * <pre>
+     * 
+     * 表字段 : t_merchant.payment_minAmt
+     * </pre>
+     */
+    private Integer paymentMinamt;
+
+    /**
+     * <pre>
      * 创建时间
      * 表字段 : t_merchant.created_time
      * </pre>
@@ -260,6 +276,56 @@ public class MerchantEntity {
 
     /**
      * <pre>
+     * 获取：
+     * 表字段：t_merchant.payment_method
+     * </pre>
+     *
+     * @return t_merchant.payment_method：
+     */
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    /**
+     * <pre>
+     * 设置：
+     * 表字段：t_merchant.payment_method
+     * </pre>
+     *
+     * @param paymentMethod
+     *            t_merchant.payment_method：
+     */
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod == null ? null : paymentMethod.trim();
+    }
+
+    /**
+     * <pre>
+     * 获取：
+     * 表字段：t_merchant.payment_minAmt
+     * </pre>
+     *
+     * @return t_merchant.payment_minAmt：
+     */
+    public Integer getPaymentMinamt() {
+        return paymentMinamt;
+    }
+
+    /**
+     * <pre>
+     * 设置：
+     * 表字段：t_merchant.payment_minAmt
+     * </pre>
+     *
+     * @param paymentMinamt
+     *            t_merchant.payment_minAmt：
+     */
+    public void setPaymentMinamt(Integer paymentMinamt) {
+        this.paymentMinamt = paymentMinamt;
+    }
+
+    /**
+     * <pre>
      * 获取：创建时间
      * 表字段：t_merchant.created_time
      * </pre>
@@ -356,6 +422,8 @@ public class MerchantEntity {
             && (this.getContacts() == null ? other.getContacts() == null : this.getContacts().equals(other.getContacts()))
             && (this.getMobile() == null ? other.getMobile() == null : this.getMobile().equals(other.getMobile()))
             && (this.getImage() == null ? other.getImage() == null : this.getImage().equals(other.getImage()))
+            && (this.getPaymentMethod() == null ? other.getPaymentMethod() == null : this.getPaymentMethod().equals(other.getPaymentMethod()))
+            && (this.getPaymentMinamt() == null ? other.getPaymentMinamt() == null : this.getPaymentMinamt().equals(other.getPaymentMinamt()))
             && (this.getCreatedTime() == null ? other.getCreatedTime() == null : this.getCreatedTime().equals(other.getCreatedTime()))
             && (this.getUpdatedTime() == null ? other.getUpdatedTime() == null : this.getUpdatedTime().equals(other.getUpdatedTime()))
             && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()));
@@ -375,6 +443,8 @@ public class MerchantEntity {
         result = prime * result + ((getContacts() == null) ? 0 : getContacts().hashCode());
         result = prime * result + ((getMobile() == null) ? 0 : getMobile().hashCode());
         result = prime * result + ((getImage() == null) ? 0 : getImage().hashCode());
+        result = prime * result + ((getPaymentMethod() == null) ? 0 : getPaymentMethod().hashCode());
+        result = prime * result + ((getPaymentMinamt() == null) ? 0 : getPaymentMinamt().hashCode());
         result = prime * result + ((getCreatedTime() == null) ? 0 : getCreatedTime().hashCode());
         result = prime * result + ((getUpdatedTime() == null) ? 0 : getUpdatedTime().hashCode());
         result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
@@ -397,6 +467,8 @@ public class MerchantEntity {
         sb.append(", contacts=").append(contacts);
         sb.append(", mobile=").append(mobile);
         sb.append(", image=").append(image);
+        sb.append(", paymentMethod=").append(paymentMethod);
+        sb.append(", paymentMinamt=").append(paymentMinamt);
         sb.append(", createdTime=").append(createdTime);
         sb.append(", updatedTime=").append(updatedTime);
         sb.append(", status=").append(status);

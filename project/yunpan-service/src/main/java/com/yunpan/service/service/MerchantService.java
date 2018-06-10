@@ -1,6 +1,5 @@
 package com.yunpan.service.service;
 
-import com.yunpan.data.entity.MerchantAccountEntity;
 import com.yunpan.data.entity.MerchantEntity;
 import com.yunpan.service.bean.MerchantAccountEntityBean;
 import com.yunpan.service.service.bean.MerchantRegisterBean;

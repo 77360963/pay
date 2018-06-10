@@ -49,5 +49,9 @@ public class AppCommon {
 	public static int PLATFORM=1;
 	
 	public static BigDecimal PLATFORM_RATE=new BigDecimal("0.006");
-
+    
+	/**
+	 * 提现最小金额
+	 */
+	public static int PAYMENTMINAMT=1000;
 }

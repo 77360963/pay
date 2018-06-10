@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>index-悟空源码分享网 www.5kym.com</title>
+    <title>商户收款后台管理系统</title>
     <meta content="yes" name="apple-mobile-web-app-capable"><!-- 这meta的作用就是删除默认的苹果工具栏和菜单栏允许全屏模式浏览-->
     <meta name="apple-touch-fullscreen" content="yes"><!-- 开启对web app程序的支持  -->
     <meta content="telephone=no,email=no" name="format-detection"><!-- iPhone会自动把你这个文字加链接样式、并且点击这个数字还会自动拨号！telephone=no就忽略页面中的数字识别为电话号码 ,email=no 忽略识别邮箱 -->
@@ -18,13 +18,7 @@
     </script>
     <!--<meta content="yes" name="apple-mobile-web-app-capable"> end-->
     <script src="js/reset.js"></script>
-    <script src="js/jquery.min.js"></script>
-    <script src="js/zepto.min.js"></script>
-    <script src="js/TouchSlide.js"></script>
-    <!--base js end-->
-    <script src="js/add.js"></script>
-    <!--no base js end-->
-    <!--no base css-->
+    <script src="js/jquery.min.js"></script>   
     <style>
         .denglusub{
             width: 100%;
@@ -71,7 +65,15 @@
                             收款支付宝账户：
                         </div>
                         <div class="sfroinput floatLeft">
-                            <input type="text" class="sforinwidt"/>
+                            <input id="paymentMethod" name="paymentMethod" type="text" class="sforinwidt"/>
+                        </div>
+                    </div>
+                     <div class="sformdiv m-b-20">
+                        <div class="sforspan floatLeft">
+                            真实姓名：
+                        </div>
+                        <div class="sfroinput floatLeft">
+                            <input id="contacts" name="contacts" type="text" class="sforinwidt"/>
                         </div>
                     </div>
          <div class="sformdiv m-b-20">
@@ -92,7 +94,7 @@
                     </div>               
 
                      <a id="submitPay" class="denglusub denglusuba">确认提交</a>
-
+ <br>  <a class="text-e94820" href="/login">商户登录>></a>
 
                 </div>
                 <br><br>
@@ -119,12 +121,14 @@ $("#submitPay").click(function(){
         	 password : $("#password").val(),
         	 merchantName : $("#merchantName").val(),
         	 mobile : $("#mobile").val(),
-        	 address : $("#address").val(),        	
+        	 address : $("#address").val(),
+        	 contacts : $("#contacts").val(), 
+        	 paymentMethod : $("#paymentMethod").val(), 
          },                        
          success : function(msg) {            	  
       	   if (msg.responseCode=="success"){
       		 alert("用户注册成功，请登录");
-      		window.location.href="/merchantLoginIndex"; 
+      		window.location.href="/login"; 
       	   }else{
       		 alert(msg.responseMsg);
       	   }

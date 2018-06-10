@@ -39,6 +39,14 @@ public class MerchantRegisterBean {
 	     * </pre>
 	     */
 	    private String image;
+	    
+	    /**
+	     * <pre>
+	     * 
+	     * 表字段 : t_merchant.payment_method
+	     * </pre>
+	     */
+	    private String paymentMethod;
 
 		public String getLoginName() {
 			return loginName;
@@ -94,6 +102,14 @@ public class MerchantRegisterBean {
 
 		public void setImage(String image) {
 			this.image = image;
+		}
+
+		public String getPaymentMethod() {
+			return paymentMethod;
+		}
+
+		public void setPaymentMethod(String paymentMethod) {
+			this.paymentMethod = paymentMethod;
 		}
         
 	    

@@ -117,7 +117,7 @@ public class MerchantController {
 	 * 商户登录
 	 * @param request
 	 */
-	@RequestMapping(value ="/merchantLoginIndex")
+	@RequestMapping(value ="/login")
 	public String merchantIndex(HttpServletRequest request){
 		return "/merchantLogin";
 	}
@@ -159,7 +159,7 @@ public class MerchantController {
 	 * 商户注册
 	 * @param request
 	 */
-	@RequestMapping(value ="/merchantRegister")
+	@RequestMapping(value ="/register")
 	public String merchantRegister(HttpServletRequest request){
 		return "/merchantRegister";
 	}
@@ -176,12 +176,16 @@ public class MerchantController {
 			String loginName=request.getParameter("loginName");
 			String password=request.getParameter("password");
 			String merchantName=request.getParameter("merchantName");
-			String mobile=request.getParameter("mobile");		
+			String mobile=request.getParameter("mobile");
+			String contacts=request.getParameter("contacts");
+			String paymentMethod=request.getParameter("paymentMethod");
 			MerchantRegisterBean merchantRegisterBean=new MerchantRegisterBean();
 			merchantRegisterBean.setLoginName(loginName);
 			merchantRegisterBean.setPassword(password);
 			merchantRegisterBean.setName(merchantName);
-			merchantRegisterBean.setMobile(mobile);		
+			merchantRegisterBean.setMobile(mobile);	
+			merchantRegisterBean.setContacts(contacts);
+			merchantRegisterBean.setPaymentMethod(paymentMethod);
 			merchantService.addMerchant(merchantRegisterBean);
 			return Result.success();
 		} catch (Exception e) {
@@ -199,7 +203,9 @@ public class MerchantController {
 	@RequestMapping(value ="/merchantInfoScanQR")	
 	public String queryMerchantById(HttpServletRequest request,HttpServletResponse response,final ModelMap model) throws Exception{
 		Long userId=getUserSession(request,response).getUserId();
-		MerchantEntity merchantEntity=merchantService.queryMerchantInfoByUserId(userId); 	
+		MerchantEntity merchantEntity=merchantService.queryMerchantInfoByUserId(userId);
+		String aa=request.getContextPath();
+		System.out.println(aa);
 		model.addAttribute("merchantEntity", merchantEntity);
 		return "/merchantInfoScanQR";	
 	}
@@ -217,7 +223,7 @@ public class MerchantController {
 			throw new MerchantException("", "非法商户");
 		}
         model.addAttribute("merchantEntity", merchantEntity);
-        return "/pay";   
+        return "/payment";   
     }
 	
 	/**
@@ -241,6 +247,9 @@ public class MerchantController {
         	MerchantEntity merchantEntity=getUserSession(request,response);	
             String amount=request.getParameter("amount");
             int amt=new BigDecimal(amount).multiply(new BigDecimal(100)).intValue();
+            if(amt<merchantEntity.getPaymentMinamt()){
+            	 return Result.failed("failed","不能少于平台最小结算金额");
+            }
             boolean result=merchantAccountService.withdrawByUserId(merchantEntity.getUserId(), amt);
             return Result.success(result);
         } catch (Exception e) {

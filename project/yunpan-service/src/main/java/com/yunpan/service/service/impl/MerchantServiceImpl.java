@@ -1,5 +1,6 @@
 package com.yunpan.service.service.impl;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,13 @@ public class MerchantServiceImpl implements MerchantService {
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public boolean addMerchant(MerchantRegisterBean merchantRegisterBean) {
 		
+		if(StringUtils.isBlank(merchantRegisterBean.getLoginName())||StringUtils.isBlank(merchantRegisterBean.getPassword())){
+			throw new MerchantException("", "注册用户名或密码不能为空");
+		}
+		if(StringUtils.isBlank(merchantRegisterBean.getContacts())||StringUtils.isBlank(merchantRegisterBean.getPaymentMethod())){
+			throw new MerchantException("", "真实姓名或收款支付宝账户不能为空");
+		}
+		
 		UniUserEntity queryUniUserEntity=UniUserDao.selectByLoginName(merchantRegisterBean.getLoginName());
 		if(null!=queryUniUserEntity){
 			throw new MerchantException("", "该用户已存在");
@@ -65,7 +73,10 @@ public class MerchantServiceImpl implements MerchantService {
 		merchantEntity.setContacts(merchantRegisterBean.getContacts());
 		merchantEntity.setMobile(merchantRegisterBean.getMobile());
 		merchantEntity.setImage(merchantRegisterBean.getImage());
+		merchantEntity.setPaymentMethod(merchantRegisterBean.getPaymentMethod());
+		merchantEntity.setPaymentMinamt(AppCommon.PAYMENTMINAMT);
 		 merchantDao.insertSelective(merchantEntity);
+		 
 		//商户账户表
 		 MerchantAccountEntity merchantAccountEntity=new MerchantAccountEntity();
 		 merchantAccountEntity.setUserId(uniUserEntity.getId());
