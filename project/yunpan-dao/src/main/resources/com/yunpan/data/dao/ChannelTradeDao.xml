@@ -212,4 +212,14 @@
     from t_channel_trade
     where request_trade_No = #{requestTradeNo,jdbcType=VARCHAR}
   </select>
+  
+  <select id="selectByMerchantTradeId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--
+    @mbggenerated
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from t_channel_trade
+    where merchant_trade_id = #{merchantTradeId,jdbcType=VARCHAR}
+  </select>
 </mapper>

@@ -16,11 +16,19 @@ public interface MerchantRechargeService {
 	public String merchantRechargeAddOrder(MerchantTradeEntity merchantTradeEntity) throws MerchantException;
 	
 	/**
-	 * 商户充值成功
+	 * 根据商户请求支付流水号更新
 	 * @param orderId
 	 * @return
 	 */
-	public boolean merchantRechargePaySuccess(String orderId) throws MerchantException;
+	public boolean merchantRechargePaySuccess(String  requestTradeNo) throws MerchantException;
+	
+	
+	/**
+	 * 根据商户充值流水Id更新
+	 * @param orderId
+	 * @return
+	 */
+	public boolean merchantRechargePaySuccess(long  merchantTradeId) throws MerchantException;
 	
 	
 	/**

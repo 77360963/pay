@@ -70,7 +70,7 @@
                         
                        <div th:if="${trade.transType} eq 'I'">
                          <div th:if="${trade.payStatus} eq '0'">
-                           <a href="javascript:void(0);"  th:onclick="|orderRefresh(${trade.outTradeNo})|">充值刷新</a>
+                           <a href="javascript:void(0);"  th:onclick="|orderRefresh(${trade.id})|">充值刷新</a>
                          </div>
                        </div>          
                        <div th:if="${trade.transType} eq 'O'">
@@ -95,7 +95,7 @@
    }
    
    
-   function orderRefresh(transId){
+   function orderRefresh(transId){	  
 	   $.ajax({ 
 	         type : "POST",
 	         dataType : "json",

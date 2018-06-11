@@ -68,8 +68,8 @@ public class MerchantSettlementController {
 	@ResponseBody
     public Map queryOrder(HttpServletRequest request,final ModelMap model){
         try {
-            String orderId=request.getParameter("transId");
-            boolean result=merchantRechargeService.merchantRechargePaySuccess(orderId);
+            String merchantTrandId=request.getParameter("transId");            
+            boolean result=merchantRechargeService.merchantRechargePaySuccess(Long.valueOf(merchantTrandId));
             return Result.success(result);
         } catch (Exception e) {
         	return Result.failed("failed",e.getMessage());

@@ -12,7 +12,7 @@ public interface PaymentService {
 	 * @param orderId
 	 * @return
 	 */
-	public String webPay(int amount,String orderId);
+	public String webPay(int amount,String orderId,String notifyUrl);
 	
 	
 	/**
@@ -21,7 +21,7 @@ public interface PaymentService {
 	 * @param orderId
 	 * @return
 	 */
-	public Map<String,String> webPayMap(int amount,String orderId);
+	public Map<String,String> webPayMap(int amount,String orderId,String notifyUrl);
 	
 	/**
 	 * 订单查询

@@ -71,7 +71,9 @@ public class MerchantController {
 		merchantTradeEntity.setPayStatus(AppCommon.PAY_STATUS_INIT);		
 		try {
 			String rechargeRequestNo = merchantRechargeService.merchantRechargeAddOrder(merchantTradeEntity);
-			Map map=paymentService.webPayMap(payAmount,rechargeRequestNo);
+			String path = request.getContextPath();
+	        String notifyUrl = request.getScheme() + "://"+ request.getServerName() + ":" + request.getServerPort()+ path + "/merchantRechargeNotify?requestTradeNo="+rechargeRequestNo;
+			Map map=paymentService.webPayMap(payAmount,rechargeRequestNo,notifyUrl);
 			return Result.success(map);
 		} catch (MerchantException e) {				
 			 return Result.failed("failed","下单失败");
@@ -86,10 +88,10 @@ public class MerchantController {
 	 */
 	@RequestMapping(value ="/merchantRechargeNotify")
 	public String queryMerchantRecharge(HttpServletRequest request,final ModelMap model) throws IOException{
-		 String orderId=request.getParameter("orderId");
+		 String requestTradeNo=request.getParameter("requestTradeNo");
 		 boolean paymentStatus=false;
 		 try {
-			 paymentStatus=merchantRechargeService.merchantRechargePaySuccess(orderId);
+			 paymentStatus=merchantRechargeService.merchantRechargePaySuccess(requestTradeNo);
 		} catch (Exception e) {
 			logger.error("查询出错",e.getMessage());
 			model.addAttribute("paymentMessage", e.getMessage());
@@ -217,8 +219,7 @@ public class MerchantController {
      * 查询指定商户收款二维码
      * @param request
 	 * @throws IOException 
-     */
-	@IfNeedLogin
+     */	
     @RequestMapping(value ="/merchantPayment")   
     public String merchantPayment(HttpServletRequest request,HttpServletResponse response,final ModelMap model) throws Exception{
     	String userId=request.getParameter("merchantId");		

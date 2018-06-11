@@ -38,9 +38,16 @@ public interface ChannelTradeDao {
     
     
     /**
-     * 根据主键获取一条数据库记录
+     * 根据外部请求订单号
      *
      * @param id
      */
     ChannelTradeEntity selectByRequestTradeNo(String requestTradeNo);
+    
+    /**
+     * 根据外部请求订单号
+     *
+     * @param id
+     */
+    ChannelTradeEntity selectByMerchantTradeId(long merchantTradeId);
 }

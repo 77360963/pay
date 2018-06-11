@@ -67,15 +67,19 @@ public class MerchantRechargeServiceImpl implements MerchantRechargeService {
 			throw new MerchantException("", "未找到相关商户信息");
 		}
 		
-	    try {
+	    try { 	
+	    	
 	    	//增加商户交易流水
-	        merchantTradeDao.insertSelective(merchantTradeEntity);	
+	    	merchantTradeDao.insertSelective(merchantTradeEntity);	
 	        
 	        //增加渠道流水
 	        ChannelTradeEntity channelTradeEntity=new ChannelTradeEntity();
 	        channelTradeEntity.setUserId(merchantTradeEntity.getUserId());
 	        channelTradeEntity.setMerchantTradeId(merchantTradeEntity.getId());
-	        channelTradeEntity.setRequestTradeNo(DateTool.getCurrentDateStr2()+merchantTradeEntity.getId());
+	        //请求支付的外部流水号
+	    	String requestTradeNo=DateTool.getCurrentDateStr2()+merchantTradeEntity.getId();
+	    	merchantTradeEntity.setOutTradeNo(requestTradeNo);
+	        channelTradeEntity.setRequestTradeNo(requestTradeNo);
 	        channelTradeEntity.setPayAmount(merchantTradeEntity.getPayAmount());
 	        channelTradeDao.insertSelective(channelTradeEntity);
 	        return channelTradeEntity.getRequestTradeNo(); 
@@ -88,12 +92,12 @@ public class MerchantRechargeServiceImpl implements MerchantRechargeService {
 
 	@Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public boolean merchantRechargePaySuccess(String requestTradeNo) throws MerchantException{
+	public boolean merchantRechargePaySuccess(String  requestTradeNo) throws MerchantException{
 		boolean paymentStatus=false;
 		
 		ChannelTradeEntity channelTradeEntity=channelTradeDao.selectByRequestTradeNo(requestTradeNo);
 		if(null==channelTradeEntity){
-			logger.info("渠道充值订单不存在,充值订单号={}",requestTradeNo);
+			logger.info("渠道充值订单不存在,充值请求订单号={}",requestTradeNo);
 			throw new MerchantException("", "渠道充值订单不存在");
 		}
 		Long tradeOrderId=channelTradeEntity.getMerchantTradeId();
@@ -109,6 +113,11 @@ public class MerchantRechargeServiceImpl implements MerchantRechargeService {
 		}
 		
 		MerchantRateEntity merchantRateEntity=merchantRateDao.selectByUserId(merchantTradeEntity.getUserId());
+		if(null==merchantRateEntity){
+			logger.info("未找到相关商户费率账户,商户id={}",merchantTradeEntity.getUserId());
+			throw new MerchantException("", "未找到相关商户费率账户");
+		}
+		
 		
 		try {
 			PaymentResult paymentResult=paymentService.queryOrder(requestTradeNo);
@@ -154,6 +163,21 @@ public class MerchantRechargeServiceImpl implements MerchantRechargeService {
 		}			
 		return paymentStatus;
 	}
+	
+
+	@Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	public boolean merchantRechargePaySuccess(long merchantTradeId)	throws MerchantException {
+		ChannelTradeEntity channelTradeEntity=channelTradeDao.selectByMerchantTradeId(merchantTradeId);
+		if(null==channelTradeEntity){
+			logger.info("渠道充值订单不存在,充值流水号Id={}",merchantTradeId);
+			throw new MerchantException("", "渠道充值订单不存在");
+		}
+		
+		return this.merchantRechargePaySuccess(channelTradeEntity.getRequestTradeNo());
+	}
+	
+	
 
 	@Override
 	public List<MerchantTradeEntityBean> queryMerchantTradeByUserId(long userId) {		
@@ -174,5 +198,7 @@ public class MerchantRechargeServiceImpl implements MerchantRechargeService {
 		}
 		return listBean;
 	}
+
+	
 
 }
