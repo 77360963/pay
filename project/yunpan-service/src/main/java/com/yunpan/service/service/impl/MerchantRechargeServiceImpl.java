@@ -54,6 +54,7 @@ public class MerchantRechargeServiceImpl implements MerchantRechargeService {
 	private ChannelTradeDao channelTradeDao;
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public String merchantRechargeAddOrder(MerchantTradeEntity merchantTradeEntity) throws MerchantException{		
 	    merchantTradeEntity.setTransType(AppCommon.TRANS_TYPE_I);
 	    MerchantEntity merchantEntity=merchantDao.selectMerchantEntityByUserId(merchantTradeEntity.getUserId());
