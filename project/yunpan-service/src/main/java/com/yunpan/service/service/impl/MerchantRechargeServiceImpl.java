@@ -106,6 +106,11 @@ public class MerchantRechargeServiceImpl implements MerchantRechargeService {
 			logger.info("充值订单不存在,充值订单号={}",tradeOrderId);
 			throw new MerchantException("", "充值订单不存在");
 		}
+		if(merchantTradeEntity.getPayStatus().equals(AppCommon.PAY_STATUS_SUCCESS)){
+			paymentStatus=true;
+			return paymentStatus;
+		}		
+		
 		MerchantAccountEntity merchantAccountEntity=merchantAccountDao.selectByUserId(merchantTradeEntity.getUserId());
 		if(null==merchantAccountEntity){
 			logger.info("未找到相关商户资金账户,商户id={}",merchantTradeEntity.getUserId());

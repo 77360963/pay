@@ -97,6 +97,7 @@ public class MerchantController {
 			model.addAttribute("paymentMessage", e.getMessage());
 		}
 		model.addAttribute("paymentStatus", paymentStatus);
+		model.addAttribute("requestTradeNo", requestTradeNo);
 		return "/paymentResult";
 	}
 	

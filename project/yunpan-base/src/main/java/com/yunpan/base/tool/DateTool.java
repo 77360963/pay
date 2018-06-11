@@ -18,7 +18,7 @@ public class DateTool {
 	}
 	
 	public static String getCurrentDateStr2() {
-		return DateFormatUtils.format(new Date(), "yyyyMMdd");
+		return DateFormatUtils.format(new Date(), "yyyyMMddHHmmss");
 	}
 	/**
 	 * @param args
