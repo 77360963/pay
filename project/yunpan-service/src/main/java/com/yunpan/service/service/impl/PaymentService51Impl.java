@@ -79,8 +79,7 @@ public class PaymentService51Impl implements PaymentService {
 	
 
 	@Override
-	public PaymentResult queryOrder(String orderId) {
-		int tryCount=0;
+	public PaymentResult queryOrder(String orderId) {		
 		PaymentResult paymentResult=new PaymentResult();
 	    Map<String,String> dataMap=new HashMap<String,String>();
         dataMap.put("merchant_id", merchartId);
@@ -89,9 +88,15 @@ public class PaymentService51Impl implements PaymentService {
         String sign= getSign(dataMap);  
         dataMap.put("sign", sign);    
         String html="";		
-       try {
-           html = HttpClientUtil.getInstance().sendHttpPost(queryUrl, dataMap); 
-           logger.info("渠道返回参数={}",html);
+        try {
+			html = HttpClientUtil.getInstance().sendHttpPost(queryUrl, dataMap);
+			  logger.info("渠道返回参数={}",html);
+		} catch (Exception e1) {
+			logger.info("调用外部查询接口异常",e1);
+			  queryOrder(orderId);
+		} 
+        
+        try {
           JSONObject object= null;
           object = JSON.parseObject(html);
           if("0000".equals(object.get("responseCode"))){
@@ -105,11 +110,7 @@ public class PaymentService51Impl implements PaymentService {
         	  }        	
           }
        } catch (Exception e) {
-                logger.error("查询订单异常",e);               
-                if(tryCount<3){
-                   queryOrder(orderId);
-                   tryCount++;
-                }
+                logger.error("查询订单异常",e);                     
        }  
       return paymentResult; 
 	}

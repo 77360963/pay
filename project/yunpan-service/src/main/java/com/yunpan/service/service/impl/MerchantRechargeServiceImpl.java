@@ -57,6 +57,9 @@ public class MerchantRechargeServiceImpl implements MerchantRechargeService {
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public String merchantRechargeAddOrder(MerchantTradeEntity merchantTradeEntity) throws MerchantException{	
 	    logger.info("用户充值下单 userId={},金额={}",merchantTradeEntity.getUserId(),merchantTradeEntity.getPayAmount());
+	    if(merchantTradeEntity.getPayAmount()==0){
+	    	throw new MerchantException("", "请输入正确的金额");
+	    }	    
 	    merchantTradeEntity.setTransType(AppCommon.TRANS_TYPE_I);
 	    MerchantEntity merchantEntity=merchantDao.selectMerchantEntityByUserId(merchantTradeEntity.getUserId());
 		if(null==merchantEntity){
