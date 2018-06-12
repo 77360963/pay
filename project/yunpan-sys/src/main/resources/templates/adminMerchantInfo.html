@@ -48,10 +48,10 @@
     <div class="hot p-l-30 p-r-30  p-b-27 clearFloat bag-fff">
         <div class="hot-content">
             <ul class="clearFloat">  
-               <div th:if="${#lists.isEmpty(merchantRechargeList)}">
+               <div th:if="${#lists.isEmpty(merchantInfoList)}">
                     <li class="b-b-e6e6e6">暂无交易记录</li>
                </div>          
-                <li class="b-b-e6e6e6" th:each="recharge,rechargeStat: ${merchantRechargeList}">
+                <li class="b-b-e6e6e6" th:each="merchantInfoBean,rechargeStat: ${merchantInfoList}">
                     <div class="hto-img">
                         <a href="#">
                             <div class="hto-img-content m-r-16">
@@ -60,46 +60,65 @@
                         </a>
                         <div class="hto-p">
                             <a href="#">
-                                <h3 class="hto-ph3 m-b-5 f28">支付金额：<label th:text="${recharge.payAmount}"></label></h3>
-                                <p class="hto-title clearFloat  f28">结算金额：<label th:text="${recharge.needPayAmount}"></label> </p>
-                                <p class="hto-title clearFloat  f28">支付状态：                                
-		                               <label th:if="${recharge.payStatus} eq '0'">                            
-		                                                                                                                     待支付
-		                               </label>
-		                                <label th:if="${recharge.payStatus} eq '1'">                            
-		                                                                                                                     支付成功
-		                             </label>
-                                </p>
-                                <p class="hto-title clearFloat f28">时间：<label th:text="${recharge.createdTime}"></label> </p>                                                                
+                                <h3 class="hto-ph3 m-b-5 f28">商户名：<label th:text="${merchantInfoBean.merchantEntity.name}"></label></h3>
+                                <p class="hto-title clearFloat  f28">联系人：<label th:text="${merchantInfoBean.merchantEntity.contacts}"></label> </p>
+                               <p class="hto-title clearFloat  f28">支付宝：<label th:text="${merchantInfoBean.merchantEntity.paymentMethod}"></label> </p>                              
+                                <p class="hto-title clearFloat  f28">费率：<label th:text="${merchantInfoBean.merchantRateEntity.rate}"></label> </p>                                                                                        
                             </a>
-                        </div>
-                      
+                        </div>                        
                     </div>
                 </li>              
             </ul>
         </div>
 
     </div>
- <div class="footer">
-        <a href="#">
-            <i class="icon iconfont">&#xe608;</i><br>
-            首页
-        </a>
-        <a href="/queryMerchantTrade">
-            <i class="icon iconfont">&#xe647;</i><br>
-           交易明细
-        </a>
-        <a href="/merchantInfoScanQR">
-            <i class="icon iconfont">&#xe689;</i><br>
-            二维码收款
-        </a>
-        <a href="/queryMerchantAccount">
-            <i class="icon iconfont">&#xe60a;</i><br>
-            提现中心
-        </a>
-    </div>
 
 </div>
 <!--wapper end-->
 </body>
+<script language="javascript" type="text/javascript">
+   function check(id){
+	   alert(id);
+   }
+   
+   
+   function orderRefresh(transId){	  
+	   $.ajax({ 
+	         type : "POST",
+	         dataType : "json",
+	         url : "/orderRefresh",
+	         data : {
+	        	 transId : transId,	        	    	
+	         },                        
+	         success : function(msg) {            	  
+	      	   if (msg.responseCode=="success"){
+	      		 alert("付款成功");
+	      		window.location.href="/merchantSettlement"; 
+	      	   }else{
+	      		 alert(msg.responseMsg);
+	      	   }
+	         }
+	     });              
+   }
+   
+   
+   function confirmWithdraw(transId){
+	   $.ajax({ 
+	         type : "POST",
+	         dataType : "json",
+	         url : "/confirmWithdraw",
+	         data : {
+	        	 transId : transId,	        	    	
+	         },                        
+	         success : function(msg) {            	  
+	      	   if (msg.responseCode=="success"){
+	      		 alert("结算成功");
+	      		window.location.href="/merchantSettlement"; 
+	      	   }else{
+	      		 alert(msg.responseMsg);
+	      	   }
+	         }
+	     });              
+   }
+</script>
 </html>

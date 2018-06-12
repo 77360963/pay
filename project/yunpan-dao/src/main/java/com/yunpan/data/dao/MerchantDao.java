@@ -1,5 +1,7 @@
 package com.yunpan.data.dao;
 
+import java.util.List;
+
 import com.yunpan.data.entity.MerchantEntity;
 
 public interface MerchantDao {
@@ -38,4 +40,7 @@ public interface MerchantDao {
     
     
     MerchantEntity selectMerchantEntityByUserId(Long userId);
+    
+    
+    List<MerchantEntity> queryMerchant();
 }

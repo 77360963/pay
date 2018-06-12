@@ -19,9 +19,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yunpan.base.web.util.Result;
 import com.yunpan.service.bean.MerchantTradeEntityBean;
+import com.yunpan.service.service.AdminMerchantService;
 import com.yunpan.service.service.MerchantAccountService;
 import com.yunpan.service.service.MerchantRechargeService;
 import com.yunpan.service.service.MerchantSettlementService;
+import com.yunpan.service.service.bean.MerchantInfoBean;
 
 @Controller
 public class MerchantSettlementController {
@@ -36,6 +38,9 @@ public class MerchantSettlementController {
 	
 	@Autowired
 	private MerchantRechargeService merchantRechargeService;
+	
+	@Autowired
+	private AdminMerchantService adminMerchantService;
 	
 	/**
 	 * 商户交易列表
@@ -76,6 +81,20 @@ public class MerchantSettlementController {
         }  
         
     }
+	
+	/**
+	 *商户详情
+	 * @param request
+	 * @param response
+	 * @throws IOException
+	 */
+	@RequestMapping(value ="/queryMerchantInfo")	
+	public String queryMerchantInfo(HttpServletRequest request,HttpServletResponse response,final ModelMap model) throws IOException{		
+		List<MerchantInfoBean> merchantInfoList=adminMerchantService.queryMerchantInfo();
+		model.addAttribute("merchantInfoList", merchantInfoList);
+		return "/adminMerchantInfo";	
+	}
+	
 	
 
 }

@@ -199,4 +199,16 @@
     from t_merchant
     where user_id = #{user_id,jdbcType=BIGINT}
   </select>
+  
+  <select id="queryMerchant"  resultMap="BaseResultMap">
+    <!--
+    @mbggenerated
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from t_merchant
+    where 1=1
+    
+  </select>
+  
 </mapper>
