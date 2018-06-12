@@ -67,7 +67,7 @@ public class PaymentService51Impl implements PaymentService {
 	public Map<String, String> webPayMap(int amount, String orderId,String notifyUrl) {
 	    Map<String,String> dataMap=new HashMap<String,String>();
         dataMap.put("merchant_id", merchartId);
-        dataMap.put("nonce_str",RandomStringUtils.randomAscii(10));
+        dataMap.put("nonce_str",RandomStringUtils.randomAlphabetic(10));
         dataMap.put("total_fee",String.valueOf(amount));        
         dataMap.put("m_out_trade_no", orderId);     
         dataMap.put("return_url", notifyUrl); 
@@ -84,23 +84,14 @@ public class PaymentService51Impl implements PaymentService {
 		PaymentResult paymentResult=new PaymentResult();
 	    Map<String,String> dataMap=new HashMap<String,String>();
         dataMap.put("merchant_id", merchartId);
-        dataMap.put("nonce_str",RandomStringUtils.randomAscii(10));       
+        dataMap.put("nonce_str",RandomStringUtils.randomAlphabetic(10));       
         dataMap.put("m_out_trade_no", orderId);         
         String sign= getSign(dataMap);  
         dataMap.put("sign", sign);    
-        String html="";
-		try {
-			html = HttpClientUtil.getInstance().sendHttpPost(queryUrl, dataMap); 
-			logger.info("渠道返回参数={}",html);
-		} catch (Exception e1) {
-			 logger.error("查询订单,网络异常",e1);
-			 if(tryCount<3){
-             	queryOrder(orderId);
-             	tryCount++;
-             }
-		}
+        String html="";		
        try {
-    	  
+           html = HttpClientUtil.getInstance().sendHttpPost(queryUrl, dataMap); 
+           logger.info("渠道返回参数={}",html);
           JSONObject object= null;
           object = JSON.parseObject(html);
           if("0000".equals(object.get("responseCode"))){
@@ -114,7 +105,11 @@ public class PaymentService51Impl implements PaymentService {
         	  }        	
           }
        } catch (Exception e) {
-                logger.error("查询订单异常",e);  
+                logger.error("查询订单异常",e);               
+                if(tryCount<3){
+                   queryOrder(orderId);
+                   tryCount++;
+                }
        }  
       return paymentResult; 
 	}

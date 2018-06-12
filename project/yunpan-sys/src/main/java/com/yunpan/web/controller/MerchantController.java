@@ -60,7 +60,7 @@ public class MerchantController {
 	@RequestMapping(value ="/merchantRecharge")
 	@ResponseBody
 	public Map merchantRecharge(HttpServletRequest request,HttpServletResponse response) throws IOException{		
-		if(!DeviceUtils.isMobileDevice(request)||!DeviceUtils.isWeChat(request)){
+		if(!DeviceUtils.isMobileDevice(request)){
 			 return Result.failed("failed","下单失败");
 		}
 		Long merchantId=Long.valueOf(request.getParameter("merchantId"));		

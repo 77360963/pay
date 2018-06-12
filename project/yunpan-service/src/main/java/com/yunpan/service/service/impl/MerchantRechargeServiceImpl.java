@@ -55,7 +55,8 @@ public class MerchantRechargeServiceImpl implements MerchantRechargeService {
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public String merchantRechargeAddOrder(MerchantTradeEntity merchantTradeEntity) throws MerchantException{		
+	public String merchantRechargeAddOrder(MerchantTradeEntity merchantTradeEntity) throws MerchantException{	
+	    logger.info("用户充值下单 userId={},金额={}",merchantTradeEntity.getUserId(),merchantTradeEntity.getPayAmount());
 	    merchantTradeEntity.setTransType(AppCommon.TRANS_TYPE_I);
 	    MerchantEntity merchantEntity=merchantDao.selectMerchantEntityByUserId(merchantTradeEntity.getUserId());
 		if(null==merchantEntity){
@@ -83,6 +84,7 @@ public class MerchantRechargeServiceImpl implements MerchantRechargeService {
 	        channelTradeEntity.setRequestTradeNo(requestTradeNo);
 	        channelTradeEntity.setPayAmount(merchantTradeEntity.getPayAmount());
 	        channelTradeDao.insertSelective(channelTradeEntity);
+	        logger.info("用户充值下单 userId={},金额={},充值请求流水号={}",merchantTradeEntity.getUserId(),merchantTradeEntity.getPayAmount(),requestTradeNo);
 	        return channelTradeEntity.getRequestTradeNo(); 
 		} catch (Exception e) {
 			logger.info("商户充值下单失败",e);
@@ -94,8 +96,8 @@ public class MerchantRechargeServiceImpl implements MerchantRechargeService {
 	@Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public boolean merchantRechargePaySuccess(String  requestTradeNo) throws MerchantException{
-		boolean paymentStatus=false;
-		
+	    logger.info("根据支付请求流水号查询支付状态,requestTradeNo={}",requestTradeNo);
+		boolean paymentStatus=false;		
 		ChannelTradeEntity channelTradeEntity=channelTradeDao.selectByRequestTradeNo(requestTradeNo);
 		if(null==channelTradeEntity){
 			logger.info("渠道充值订单不存在,充值请求订单号={}",requestTradeNo);
