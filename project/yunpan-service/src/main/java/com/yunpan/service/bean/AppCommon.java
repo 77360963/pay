@@ -49,9 +49,14 @@ public class AppCommon {
 	public static int PLATFORM=1;
 	
 	/**
-	 * 费率
+	 * 默认费率
 	 */
 	public static BigDecimal PLATFORM_RATE=new BigDecimal("0.006");
+	
+	/**
+     * 最小设置费率
+     */
+    public static BigDecimal PLATFORM_RATE_MIN=new BigDecimal("0.004");
     
 	/**
 	 * 提现最小金额

@@ -42,5 +42,6 @@ public interface MerchantRateDao {
      *
      * @param id
      */
-    MerchantRateEntity selectByUserId(Long userId);
+    MerchantRateEntity selectByUserId(Long userId);   
+  
 }

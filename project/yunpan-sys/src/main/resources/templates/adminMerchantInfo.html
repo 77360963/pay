@@ -53,18 +53,17 @@
                </div>          
                 <li class="b-b-e6e6e6" th:each="merchantInfoBean,rechargeStat: ${merchantInfoList}">
                     <div class="hto-img">
-                        <a href="#">
-                            <div class="hto-img-content m-r-16">
-                                <img src="images/ncimg.jpg" alt=""/>
-                            </div>
-                        </a>
-                        <div class="hto-p">
-                            <a href="#">
+                       
+                        <div class="hto-p">                          
                                 <h3 class="hto-ph3 m-b-5 f28">商户名：<label th:text="${merchantInfoBean.merchantEntity.name}"></label></h3>
                                 <p class="hto-title clearFloat  f28">联系人：<label th:text="${merchantInfoBean.merchantEntity.contacts}"></label> </p>
                                <p class="hto-title clearFloat  f28">支付宝：<label th:text="${merchantInfoBean.merchantEntity.paymentMethod}"></label> </p>                              
-                                <p class="hto-title clearFloat  f28">费率：<label th:text="${merchantInfoBean.merchantRateEntity.rate}"></label> </p>                                                                                        
-                            </a>
+                                <p class="hto-title clearFloat  f28">扣费率：
+                                <input type="text"  style="width: 30%" id ="rate" name="rate" th:value="${merchantInfoBean.merchantRateEntity.rate}" />
+                                  <input type="hidden"  style="width: 30%" id ="userId" name="userId" th:value="${merchantInfoBean.merchantRateEntity.userId}" />
+                                   <a href="javascript:void(0);" userId="xxx5" onclick="modfiyMerchantRate(this)">修改费率</a>
+                                 </p>                                                                                        
+                          
                         </div>                        
                     </div>
                 </li>              
@@ -77,23 +76,22 @@
 <!--wapper end-->
 </body>
 <script language="javascript" type="text/javascript">
-   function check(id){
-	   alert(id);
-   }
    
-   
-   function orderRefresh(transId){	  
-	   $.ajax({ 
+   function modfiyMerchantRate(obj){
+	   var thisObj=$(obj);
+	   var userId=thsiObj.attr("userId");  
+	     alert(userId);
+	     $.ajax({ 
 	         type : "POST",
 	         dataType : "json",
-	         url : "/orderRefresh",
+	         url : "/modfiyMerchantRate",
 	         data : {
-	        	 transId : transId,	        	    	
+	        	 userId : '222734644',
+	        	 rate : '0.009',
 	         },                        
 	         success : function(msg) {            	  
 	      	   if (msg.responseCode=="success"){
-	      		 alert("付款成功");
-	      		window.location.href="/merchantSettlement"; 
+	      		 alert("设置费率成功");	      		
 	      	   }else{
 	      		 alert(msg.responseMsg);
 	      	   }

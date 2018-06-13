@@ -128,4 +128,5 @@
     from t_merchant_rate
     where user_id = #{userId,jdbcType=BIGINT}
   </select>
+  
 </mapper>

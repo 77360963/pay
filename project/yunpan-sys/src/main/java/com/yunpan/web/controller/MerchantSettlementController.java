@@ -3,6 +3,7 @@ package com.yunpan.web.controller;
 
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -83,7 +84,7 @@ public class MerchantSettlementController {
     }
 	
 	/**
-	 *商户详情
+	 *查看所有商户详情
 	 * @param request
 	 * @param response
 	 * @throws IOException
@@ -95,6 +96,24 @@ public class MerchantSettlementController {
 		return "/adminMerchantInfo";	
 	}
 	
+	/**
+	 * 修改商户费率
+	 * @param request
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value ="/modfiyMerchantRate")
+    @ResponseBody
+    public Map modfiyMerchantRate(HttpServletRequest request,final ModelMap model){
+        try {
+            String userId=request.getParameter("userId"); 
+            String rate=request.getParameter("rate"); 
+            boolean result=adminMerchantService.modfiyMerchantRate(Long.valueOf(userId), new BigDecimal(rate));
+            return Result.success(result);
+        } catch (Exception e) {
+            return Result.failed("failed",e.getMessage());
+        }          
+    }
 	
 
 }
