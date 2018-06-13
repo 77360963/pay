@@ -1,5 +1,7 @@
 package com.yunpan.data.dao;
 
+
+import com.github.pagehelper.Page;
 import com.yunpan.data.entity.ChannelTradeEntity;
 
 public interface ChannelTradeDao {
@@ -50,4 +52,12 @@ public interface ChannelTradeDao {
      * @param id
      */
     ChannelTradeEntity selectByMerchantTradeId(long merchantTradeId);
+    
+    
+    /**
+     * 按条件查询订单
+     * @param record
+     * @return
+     */
+    Page<ChannelTradeEntity> queryChannelTradeEntityList(ChannelTradeEntity record);
 }

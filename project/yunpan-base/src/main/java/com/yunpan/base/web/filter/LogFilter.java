@@ -23,13 +23,15 @@ public class LogFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
-		logger.info("请求路径===========================================>"
+		
+		chain.doFilter(request, response);
+		/*logger.info("请求路径===========================================>"
 				+ ((HttpServletRequest) request).getServletPath()+"请求地址:"+request.getRemoteAddr()+"|"+request.getRemoteHost());
 		long t1 = System.currentTimeMillis();
 		chain.doFilter(request, response);
 		long t2 = System.currentTimeMillis();
 		logger.info("请求路径end("+((HttpServletRequest) request).getServletPath()+")end===========================================>耗时["
-				+ (t2 - t1) + "]");
+				+ (t2 - t1) + "]");*/
 	}
 
 	@Override

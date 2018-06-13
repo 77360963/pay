@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -90,14 +91,11 @@ public class PaymentService51Impl implements PaymentService {
         String html="";		
         try {
 			html = HttpClientUtil.getInstance().sendHttpPost(queryUrl, dataMap);
-			  logger.info("渠道返回参数={}",html);
-		} catch (Exception e1) {
-			logger.info("调用外部查询接口异常",e1);
-			  queryOrder(orderId);
-		} 
-        
-        try {
-          JSONObject object= null;
+			logger.info("渠道返回参数={}",html);
+			if(StringUtils.isBlank(html)){
+	        	  return paymentResult; 
+	        }
+		  JSONObject object= null;
           object = JSON.parseObject(html);
           if("0000".equals(object.get("responseCode"))){
         	  JSONObject dataObject = JSONObject.parseObject(object.get("data").toString()); 
@@ -109,9 +107,9 @@ public class PaymentService51Impl implements PaymentService {
         		  paymentResult.setPaymentStatus(AppCommon.PAY_STATUS_SUCCESS);
         	  }        	
           }
-       } catch (Exception e) {
-                logger.error("查询订单异常",e);                     
-       }  
+		} catch (Exception e) {
+			 logger.error("查询订单异常",e); 			 
+		}       
       return paymentResult; 
 	}
 

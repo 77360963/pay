@@ -81,6 +81,7 @@ public class MerchantRechargeServiceImpl implements MerchantRechargeService {
 	        ChannelTradeEntity channelTradeEntity=new ChannelTradeEntity();
 	        channelTradeEntity.setUserId(merchantTradeEntity.getUserId());
 	        channelTradeEntity.setMerchantTradeId(merchantTradeEntity.getId());
+	        channelTradeEntity.setPayStatus(AppCommon.PAY_STATUS_INIT);
 	        //请求支付的外部流水号
 	    	String requestTradeNo=DateTool.getCurrentDateStr2()+merchantTradeEntity.getId();
 	    	merchantTradeEntity.setOutTradeNo(requestTradeNo);
