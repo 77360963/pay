@@ -32,7 +32,7 @@ public class QueryChannelPayTask {
 	 @Autowired
 	 private ChannelTradeDao channelTradeDao;
 	
-	 @Scheduled(fixedDelay=1*60*1000)
+	 @Scheduled(fixedDelay=1*30*1000)
 	 public void entrustImportUser(){ 
         int pageNum = 1;
         while (true) { 

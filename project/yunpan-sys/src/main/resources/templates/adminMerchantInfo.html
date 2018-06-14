@@ -56,14 +56,9 @@
                        
                         <div class="hto-p">                          
                                 <h3 class="hto-ph3 m-b-5 f28">商户名：<label th:text="${merchantInfoBean.merchantEntity.name}"></label></h3>
-                                <p class="hto-title clearFloat  f28">联系人：<label th:text="${merchantInfoBean.merchantEntity.contacts}"></label> </p>
-                               <p class="hto-title clearFloat  f28">支付宝：<label th:text="${merchantInfoBean.merchantEntity.paymentMethod}"></label> </p>                              
-                                <p class="hto-title clearFloat  f28">扣费率：
-                                <input type="text"  style="width: 30%" id ="rate" name="rate" th:value="${merchantInfoBean.merchantRateEntity.rate}" />
-                                  <input type="hidden"  style="width: 30%" id ="userId" name="userId" th:value="${merchantInfoBean.merchantRateEntity.userId}" />
-                                   <a href="javascript:void(0);" userId="xxx5" onclick="modfiyMerchantRate(this)">修改费率</a>
-                                 </p>                                                                                        
-                          
+                                <p class="hto-title clearFloat  f28">注册时间：<label th:text="${#dates.format(merchantInfoBean.merchantEntity.createdTime,'yyyy-MM-dd HH:mm')}"></label> </p>
+                                <p class="hto-title clearFloat  f28">可用余额：<label th:text="${merchantInfoBean.merchantAccountEntity.avlAmt%100}"></label> </p>
+                                <p class="hto-title clearFloat  f28">提现：<label th:text="${merchantInfoBean.merchantAccountEntity.freAmt}"></label> </p>                              
                         </div>                        
                     </div>
                 </li>              

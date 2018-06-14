@@ -176,12 +176,12 @@ public class MerchantController {
 	@ResponseBody
 	public Map addMerchant(HttpServletRequest request){
 		try {
-			String loginName=request.getParameter("loginName");
-			String password=request.getParameter("password");
-			String merchantName=request.getParameter("merchantName");
-			String mobile=request.getParameter("mobile");
-			String contacts=request.getParameter("contacts");
-			String paymentMethod=request.getParameter("paymentMethod");
+			String loginName=request.getParameter("loginName").trim();
+			String password=request.getParameter("password").trim();
+			String merchantName=request.getParameter("merchantName").trim();
+			String mobile=request.getParameter("mobile").trim();
+			String contacts=request.getParameter("contacts").trim();
+			String paymentMethod=request.getParameter("paymentMethod").trim();
 			MerchantRegisterBean merchantRegisterBean=new MerchantRegisterBean();
 			merchantRegisterBean.setLoginName(loginName);
 			merchantRegisterBean.setPassword(password);
