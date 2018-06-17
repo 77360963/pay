@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>商户收款后台管理系统</title>
@@ -44,24 +44,7 @@
         <!--list end-->
     </div>
     
-     <div class="footer">
-        <a href="#">
-            <i class="icon iconfont">&#xe608;</i><br>
-            首页
-        </a>
-        <a href="/queryMerchantTrade">
-            <i class="icon iconfont">&#xe647;</i><br>
-           交易明细
-        </a>
-        <a href="/merchantInfoScanQR">
-            <i class="icon iconfont">&#xe689;</i><br>
-            二维码收款
-        </a>
-        <a href="/queryMerchantAccount">
-            <i class="icon iconfont">&#xe60a;</i><br>
-            提现中心
-        </a>
-    </div>
+      <div th:replace="/commons::footer"></div>
 
 </div>
 <!--wapper end-->
