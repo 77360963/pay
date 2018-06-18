@@ -18,6 +18,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yunpan.base.annotation.IfNeedLogin;
 import com.yunpan.base.web.util.Result;
 import com.yunpan.service.bean.MerchantTradeEntityBean;
 import com.yunpan.service.service.AdminMerchantService;
@@ -49,15 +50,18 @@ public class MerchantSettlementController {
 	 * @param response
 	 * @throws IOException
 	 */
+	@IfNeedLogin
 	@RequestMapping(value ="/merchantSettlement")	
 	public String merchantRecharge(HttpServletRequest request,HttpServletResponse response,final ModelMap model) throws IOException{		
+		String userId=request.getParameter("userId");
 		MerchantTradeEntityBean queryMerchantTradeEntityBean=new MerchantTradeEntityBean();
+		queryMerchantTradeEntityBean.setUserId(Long.valueOf(userId));
 		List<MerchantTradeEntityBean> merchantTradeList=merchantSettlementService.queryMerchantTrade(queryMerchantTradeEntityBean);
 		model.addAttribute("merchantTradeList", merchantTradeList);
 		return "/merchantSettlement";	
 	}
 	
-	
+	@IfNeedLogin
 	@RequestMapping(value ="/confirmWithdraw")
 	@ResponseBody
     public Map confirmWithdraw(HttpServletRequest request,final ModelMap model){
@@ -70,6 +74,7 @@ public class MerchantSettlementController {
         }        
     }
 	
+	@IfNeedLogin
 	@RequestMapping(value ="/orderRefresh")
 	@ResponseBody
     public Map queryOrder(HttpServletRequest request,final ModelMap model){
@@ -89,6 +94,7 @@ public class MerchantSettlementController {
 	 * @param response
 	 * @throws IOException
 	 */
+	@IfNeedLogin
 	@RequestMapping(value ="/queryMerchantInfo")	
 	public String queryMerchantInfo(HttpServletRequest request,HttpServletResponse response,final ModelMap model) throws IOException{		
 		List<MerchantInfoBean> merchantInfoList=adminMerchantService.queryMerchantInfo();
@@ -102,6 +108,7 @@ public class MerchantSettlementController {
 	 * @param model
 	 * @return
 	 */
+	@IfNeedLogin
 	@RequestMapping(value ="/modfiyMerchantRate")
     @ResponseBody
     public Map modfiyMerchantRate(HttpServletRequest request,final ModelMap model){

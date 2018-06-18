@@ -81,6 +81,14 @@ public class MerchantTradeEntityBean {
      * </pre>
      */
     private String outTradeNo;
+    
+    /**
+     * <pre>
+     * 
+     * 表字段 : t_merchant_trade.from_source
+     * </pre>
+     */
+    private String fromSource;
 
     /**
      * <pre>
@@ -176,6 +184,14 @@ public class MerchantTradeEntityBean {
 
 	public void setOutTradeNo(String outTradeNo) {
 		this.outTradeNo = outTradeNo;
+	}
+
+	public String getFromSource() {
+		return fromSource;
+	}
+
+	public void setFromSource(String fromSource) {
+		this.fromSource = fromSource;
 	}
     
     

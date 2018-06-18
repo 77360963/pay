@@ -22,6 +22,7 @@ public class MerchantSettlementServiceImpl implements MerchantSettlementService 
 	@Override
 	public List<MerchantTradeEntityBean> queryMerchantTrade(MerchantTradeEntityBean queryMerchantTradeEntityBean) {
 		MerchantTradeEntity queryMerchantTradeEntity=new MerchantTradeEntity();
+		queryMerchantTradeEntity.setUserId(queryMerchantTradeEntityBean.getUserId());
 		List<MerchantTradeEntity> list=merchantTradeDao.queryTrade(queryMerchantTradeEntity);
 		List<MerchantTradeEntityBean> listBean=new ArrayList<MerchantTradeEntityBean>();
 		MerchantTradeEntityBean merchantTradeEntityBean=null;
@@ -36,6 +37,7 @@ public class MerchantSettlementServiceImpl implements MerchantSettlementService 
 			merchantTradeEntityBean.setPayStatus(entity.getPayStatus());
 			merchantTradeEntityBean.setOutChannelNo(entity.getOutChannelNo());
 			merchantTradeEntityBean.setOutTradeNo(entity.getOutTradeNo());
+			merchantTradeEntityBean.setFromSource(entity.getFromSource());
 			merchantTradeEntityBean.setCreatedTime(DateTool.formatFullDate(entity.getCreatedTime()));
 			listBean.add(merchantTradeEntityBean);
 		}

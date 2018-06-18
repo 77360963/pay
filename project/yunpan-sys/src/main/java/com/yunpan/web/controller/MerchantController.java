@@ -32,6 +32,7 @@ import com.yunpan.service.service.MerchantAccountService;
 import com.yunpan.service.service.MerchantRechargeService;
 import com.yunpan.service.service.MerchantService;
 import com.yunpan.service.service.PaymentService;
+import com.yunpan.service.service.bean.MerchantInfoBean;
 import com.yunpan.service.service.bean.MerchantRegisterBean;
 
 @Controller
@@ -68,7 +69,8 @@ public class MerchantController {
 		MerchantTradeEntity merchantTradeEntity=new MerchantTradeEntity();
 		merchantTradeEntity.setUserId(merchantId);
 		merchantTradeEntity.setPayAmount(payAmount);
-		merchantTradeEntity.setPayStatus(AppCommon.PAY_STATUS_INIT);		
+		merchantTradeEntity.setPayStatus(AppCommon.PAY_STATUS_INIT);
+		merchantTradeEntity.setFromSource(DeviceUtils.getBrowser(request));
 		try {
 			String rechargeRequestNo = merchantRechargeService.merchantRechargeAddOrder(merchantTradeEntity);
 			String path = request.getContextPath();
@@ -139,8 +141,9 @@ public class MerchantController {
             return Result.failed("验证码错误");
         }
         try {
-        	MerchantEntity merchantEntity=merchantService.merchantLogin(loginName, password);
-			request.getSession().setAttribute(AppCommon.SESSION_KEY, merchantEntity);
+        	MerchantInfoBean merchantInfoBean=merchantService.merchantLogin(loginName, password);
+			request.getSession().setAttribute(AppCommon.SESSION_KEY, merchantInfoBean.getMerchantEntity());
+			request.getSession().setAttribute(AppCommon.SESSION_KEY_ROLE, merchantInfoBean.getUniUserEntity().getRole());
 			 return Result.success();
 		} catch (Exception e) {
 			 return Result.failed(e.getMessage());

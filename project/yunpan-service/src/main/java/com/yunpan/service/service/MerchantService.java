@@ -2,6 +2,7 @@ package com.yunpan.service.service;
 
 import com.yunpan.data.entity.MerchantEntity;
 import com.yunpan.service.bean.MerchantAccountEntityBean;
+import com.yunpan.service.service.bean.MerchantInfoBean;
 import com.yunpan.service.service.bean.MerchantRegisterBean;
 
 public interface MerchantService {
@@ -28,7 +29,7 @@ public interface MerchantService {
 	public MerchantAccountEntityBean queryMerchantAccountByUserId(long userId);
 	
 	
-	public MerchantEntity merchantLogin(String loginName,String password);
+	public MerchantInfoBean merchantLogin(String loginName,String password);
 	
 
 }

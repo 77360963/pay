@@ -203,9 +203,10 @@ public class MerchantRechargeServiceImpl implements MerchantRechargeService {
 			if(null!=entity.getNeedPayAmount()){
 				merchantTradeEntityBean.setNeedPayAmount(MoneyUtil.parseFromFenAmountToRMB(entity.getNeedPayAmount().toString()));
 			}
-			
+			merchantTradeEntityBean.setTransType(entity.getTransType());
 			merchantTradeEntityBean.setPayStatus(entity.getPayStatus());
 			merchantTradeEntityBean.setCreatedTime(DateTool.formatFullDate(entity.getCreatedTime()));
+			merchantTradeEntityBean.setFromSource(entity.getFromSource());
 			listBean.add(merchantTradeEntityBean);
 		}
 		return listBean;

@@ -85,6 +85,14 @@ public class MerchantTradeEntity {
 
     /**
      * <pre>
+     * 
+     * 表字段 : t_merchant_trade.from_source
+     * </pre>
+     */
+    private String fromSource;
+
+    /**
+     * <pre>
      * 创建时间
      * 表字段 : t_merchant_trade.created_time
      * </pre>
@@ -359,6 +367,31 @@ public class MerchantTradeEntity {
 
     /**
      * <pre>
+     * 获取：
+     * 表字段：t_merchant_trade.from_source
+     * </pre>
+     *
+     * @return t_merchant_trade.from_source：
+     */
+    public String getFromSource() {
+        return fromSource;
+    }
+
+    /**
+     * <pre>
+     * 设置：
+     * 表字段：t_merchant_trade.from_source
+     * </pre>
+     *
+     * @param fromSource
+     *            t_merchant_trade.from_source：
+     */
+    public void setFromSource(String fromSource) {
+        this.fromSource = fromSource == null ? null : fromSource.trim();
+    }
+
+    /**
+     * <pre>
      * 获取：创建时间
      * 表字段：t_merchant_trade.created_time
      * </pre>
@@ -458,6 +491,7 @@ public class MerchantTradeEntity {
             && (this.getConfirmPayTime() == null ? other.getConfirmPayTime() == null : this.getConfirmPayTime().equals(other.getConfirmPayTime()))
             && (this.getOutChannelNo() == null ? other.getOutChannelNo() == null : this.getOutChannelNo().equals(other.getOutChannelNo()))
             && (this.getOutTradeNo() == null ? other.getOutTradeNo() == null : this.getOutTradeNo().equals(other.getOutTradeNo()))
+            && (this.getFromSource() == null ? other.getFromSource() == null : this.getFromSource().equals(other.getFromSource()))
             && (this.getCreatedTime() == null ? other.getCreatedTime() == null : this.getCreatedTime().equals(other.getCreatedTime()))
             && (this.getUpdatedTime() == null ? other.getUpdatedTime() == null : this.getUpdatedTime().equals(other.getUpdatedTime()))
             && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()));
@@ -480,6 +514,7 @@ public class MerchantTradeEntity {
         result = prime * result + ((getConfirmPayTime() == null) ? 0 : getConfirmPayTime().hashCode());
         result = prime * result + ((getOutChannelNo() == null) ? 0 : getOutChannelNo().hashCode());
         result = prime * result + ((getOutTradeNo() == null) ? 0 : getOutTradeNo().hashCode());
+        result = prime * result + ((getFromSource() == null) ? 0 : getFromSource().hashCode());
         result = prime * result + ((getCreatedTime() == null) ? 0 : getCreatedTime().hashCode());
         result = prime * result + ((getUpdatedTime() == null) ? 0 : getUpdatedTime().hashCode());
         result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
@@ -505,6 +540,7 @@ public class MerchantTradeEntity {
         sb.append(", confirmPayTime=").append(confirmPayTime);
         sb.append(", outChannelNo=").append(outChannelNo);
         sb.append(", outTradeNo=").append(outTradeNo);
+        sb.append(", fromSource=").append(fromSource);
         sb.append(", createdTime=").append(createdTime);
         sb.append(", updatedTime=").append(updatedTime);
         sb.append(", status=").append(status);

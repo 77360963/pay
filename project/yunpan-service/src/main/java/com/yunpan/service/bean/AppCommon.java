@@ -38,6 +38,8 @@ public class AppCommon {
 	
 	public static String SESSION_KEY="merchantEntityKey";
 	
+	public static String SESSION_KEY_ROLE="merchantEntityKeyRole";
+	
 	
 	public static int  USER_TYPE_MERCHANT=1; 
 	

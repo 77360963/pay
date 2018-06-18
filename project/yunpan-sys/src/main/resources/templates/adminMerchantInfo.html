@@ -53,13 +53,14 @@
                </div>          
                 <li class="b-b-e6e6e6" th:each="merchantInfoBean,rechargeStat: ${merchantInfoList}">
                     <div class="hto-img">
-                       
-                        <div class="hto-p">                          
+                        <a th:href="@{'/merchantSettlement?userId='+${merchantInfoBean.merchantEntity.userId}}">
+                                             
                                 <h3 class="hto-ph3 m-b-5 f28">商户名：<label th:text="${merchantInfoBean.merchantEntity.name}"></label></h3>
                                 <p class="hto-title clearFloat  f28">注册时间：<label th:text="${#dates.format(merchantInfoBean.merchantEntity.createdTime,'yyyy-MM-dd HH:mm')}"></label> </p>
-                                <p class="hto-title clearFloat  f28">可用余额：<label th:text="${merchantInfoBean.merchantAccountEntity.avlAmt%100}"></label> </p>
-                                <p class="hto-title clearFloat  f28">提现：<label th:text="${merchantInfoBean.merchantAccountEntity.freAmt}"></label> </p>                              
-                        </div>                        
+                                <p class="hto-title clearFloat  f28">可用余额：<label th:text="${#numbers.formatDecimal((merchantInfoBean.merchantAccountEntity.avlAmt+0.00)/100, 1, 2)}"></label> </p>
+                                <p class="hto-title clearFloat  f28">提现：<label th:text="${#numbers.formatDecimal((merchantInfoBean.merchantAccountEntity.freAmt+0.00)/100, 1, 2)}"></label> </p>                              
+                       
+                        </a>                        
                     </div>
                 </li>              
             </ul>
@@ -67,6 +68,7 @@
 
     </div>
 
+  <div th:replace="/commons::footer"></div>
 </div>
 <!--wapper end-->
 </body>

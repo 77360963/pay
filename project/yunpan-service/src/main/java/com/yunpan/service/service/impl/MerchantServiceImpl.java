@@ -21,6 +21,7 @@ import com.yunpan.service.bean.AppCommon;
 import com.yunpan.service.bean.MerchantAccountEntityBean;
 import com.yunpan.service.exception.MerchantException;
 import com.yunpan.service.service.MerchantService;
+import com.yunpan.service.service.bean.MerchantInfoBean;
 import com.yunpan.service.service.bean.MerchantRegisterBean;
 
 @Service
@@ -106,7 +107,7 @@ public class MerchantServiceImpl implements MerchantService {
 	}
 
 	@Override
-	public MerchantEntity merchantLogin(String loginName, String password) {
+	public MerchantInfoBean merchantLogin(String loginName, String password) {
 		UniUserEntity uniUserEntity=UniUserDao.selectByLoginPassword(loginName, password);
 		if(null==uniUserEntity){
 			logger.info("登录名或密码不正确,loginName={}",loginName);
@@ -116,8 +117,12 @@ public class MerchantServiceImpl implements MerchantService {
 			logger.info("此账户已被停用,loginName={}",loginName);
 	        throw new MerchantException("", "此账户已被停用");
 		}
+		MerchantEntity merchantEntity=merchantDao.selectMerchantEntityByUserId(uniUserEntity.getId());
 		
-		return merchantDao.selectMerchantEntityByUserId(uniUserEntity.getId());
+		MerchantInfoBean merchantInfoBean=new MerchantInfoBean();
+		merchantInfoBean.setUniUserEntity(uniUserEntity);
+		merchantInfoBean.setMerchantEntity(merchantEntity);		
+		return merchantInfoBean;
 		
 	}
 

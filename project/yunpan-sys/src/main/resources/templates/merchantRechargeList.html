@@ -51,7 +51,7 @@
                <div th:if="${#lists.isEmpty(merchantRechargeList)}">
                     <li class="b-b-e6e6e6">暂无交易记录</li>
                </div>          
-                <li class="b-b-e6e6e6" th:each="recharge,rechargeStat: ${merchantRechargeList}">
+                <li class="b-b-e6e6e6" th:each="trade,rechargeStat: ${merchantRechargeList}">
                     <div class="hto-img">
                         <a href="#">
                             <div class="hto-img-content m-r-16">
@@ -60,44 +60,47 @@
                         </a>
                         <div class="hto-p">
                             <a href="#">
-                                <h3 class="hto-ph3 m-b-5 f28">支付金额：<label th:text="${recharge.payAmount}"></label></h3>
-                                <p class="hto-title clearFloat  f28">结算金额：<label th:text="${recharge.needPayAmount}"></label> </p>
+                                <h3 class="hto-ph3 m-b-5 f28">支付金额：<label th:text="${trade.payAmount}"></label></h3>
+                                <p class="hto-title clearFloat  f28">结算金额：<label th:text="${trade.needPayAmount}"></label> </p>
                                 <p class="hto-title clearFloat  f28">支付状态：                                
-		                               <label th:if="${recharge.payStatus} eq '0'">                            
+		                               <label th:if="${trade.payStatus} eq '0'">                            
 		                                                                                                                     待支付
 		                               </label>
-		                                <label th:if="${recharge.payStatus} eq '1'">                            
+		                                <label th:if="${trade.payStatus} eq '1'">                            
 		                                                                                                                     支付成功
 		                             </label>
                                 </p>
-                                <p class="hto-title clearFloat f28">时间：<label th:text="${recharge.createdTime}"></label> </p>                                                                
+                                 <p class="hto-title clearFloat  f28">交易类型：                                 
+                                     <label th:if="${trade.transType} eq 'O'">                            
+		                                                                                                            提现                                                                                 
+		                             </label>
+		                             <label th:if="${trade.transType} eq 'I'">                            
+		                                                                                                             充值
+		                             </label>                                 
+                                  </p>
+                                <p class="hto-title clearFloat  f28">订单来源：                              
+	                                <label th:if="${trade.fromSource} eq '1'">                            
+		                                                                                                             支付宝                                                                                                                                                    
+		                             </label>
+		                             <label th:if="${trade.fromSource} eq '2'">                            
+		                                                                                                           微信
+		                             </label>
+		                              <label th:if="${trade.fromSource} eq '0'">                            
+		                                                                                                           其它
+		                             </label>    
+                               </p>
+                                <p class="hto-title clearFloat f28">时间：<label th:text="${trade.createdTime}"></label> </p>                                                                
                             </a>
                         </div>
-                      
+                      </br>  </br>  </br>
                     </div>
                 </li>              
             </ul>
         </div>
 
     </div>
- <div class="footer">
-        <a href="#">
-            <i class="icon iconfont">&#xe608;</i><br>
-            首页
-        </a>
-        <a href="/queryMerchantTrade">
-            <i class="icon iconfont">&#xe647;</i><br>
-           交易明细
-        </a>
-        <a href="/merchantInfoScanQR">
-            <i class="icon iconfont">&#xe689;</i><br>
-            二维码收款
-        </a>
-        <a href="/queryMerchantAccount">
-            <i class="icon iconfont">&#xe60a;</i><br>
-            提现中心
-        </a>
-    </div>
+ 
+   <div th:replace="/commons::footer"></div>
 
 </div>
 <!--wapper end-->

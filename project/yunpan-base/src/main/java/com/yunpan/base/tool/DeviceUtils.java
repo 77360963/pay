@@ -171,4 +171,16 @@ public class DeviceUtils {
         String userAgent = request.getHeader("user-agent").toLowerCase();
         return userAgent == null || userAgent.indexOf("micromessenger") == -1 ? false : true;
     }
+    
+    //判断浏览器是微信还是支付宝
+    public static String getBrowser(HttpServletRequest req) { 
+	  String userAgent = req.getHeader("user-agent"); 
+	  if (userAgent != null && userAgent.contains("AlipayClient")) { 
+	    return "1"; 
+	  }else if (userAgent != null && userAgent.contains("MicroMessenger")) { 
+	    return "2"; 
+	  }else{ 
+	    return "0"; 
+	  } 
+	} 
 }

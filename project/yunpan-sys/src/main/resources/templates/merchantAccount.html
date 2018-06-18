@@ -153,9 +153,22 @@
 <!--wapper end-->
 
 </body>
-<script language="javascript" type="text/javascript">
+<script th:inline="javascript">
 
 $("#merchantWithdraw").click(function(){
+	 if($("#amount").val()==''){
+		 alert("请输入提现金额");
+		 return;
+	 }
+	 if($("#amount").val()==0){
+		 alert("请输入提现金额");
+		 return;
+	 }
+	 if($("#amount").val()>[[${merchantAccountEntity.avlAmt}]]){
+		 alert("提现金额大于可用提交金额");
+		 return;
+	 }
+	
 	 $.ajax({ 
          type : "POST",
          dataType : "json",

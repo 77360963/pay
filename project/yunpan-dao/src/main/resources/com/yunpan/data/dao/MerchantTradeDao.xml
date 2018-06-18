@@ -15,6 +15,7 @@
     <result column="confirm_pay_time" jdbcType="TIMESTAMP" property="confirmPayTime" />
     <result column="out_channel_no" jdbcType="VARCHAR" property="outChannelNo" />
     <result column="out_trade_No" jdbcType="VARCHAR" property="outTradeNo" />
+    <result column="from_source" jdbcType="VARCHAR" property="fromSource" />
     <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
     <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime" />
     <result column="status" jdbcType="INTEGER" property="status" />
@@ -24,7 +25,8 @@
     @mbggenerated
     -->
     id, user_id, pay_amount, need_pay_amount, confirm_pay_amount, trans_type, pay_status, 
-    confirm_pay_time, out_channel_no, out_trade_No, created_time, updated_time, status
+    confirm_pay_time, out_channel_no, out_trade_No, from_source, created_time, updated_time, 
+    status
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--
@@ -45,13 +47,13 @@
     insert into t_merchant_trade (user_id, pay_amount, need_pay_amount, 
       confirm_pay_amount, trans_type, pay_status, 
       confirm_pay_time, out_channel_no, out_trade_No, 
-      created_time, updated_time, status
-      )
+      from_source, created_time, updated_time, 
+      status)
     values (#{userId,jdbcType=BIGINT}, #{payAmount,jdbcType=INTEGER}, #{needPayAmount,jdbcType=INTEGER}, 
       #{confirmPayAmount,jdbcType=INTEGER}, #{transType,jdbcType=VARCHAR}, #{payStatus,jdbcType=INTEGER}, 
       #{confirmPayTime,jdbcType=TIMESTAMP}, #{outChannelNo,jdbcType=VARCHAR}, #{outTradeNo,jdbcType=VARCHAR}, 
-      #{createdTime,jdbcType=TIMESTAMP}, #{updatedTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}
-      )
+      #{fromSource,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP}, #{updatedTime,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.yunpan.data.entity.MerchantTradeEntity">
     <!--
@@ -88,6 +90,9 @@
       </if>
       <if test="outTradeNo != null">
         out_trade_No,
+      </if>
+      <if test="fromSource != null">
+        from_source,
       </if>
       <if test="createdTime != null">
         created_time,
@@ -126,6 +131,9 @@
       </if>
       <if test="outTradeNo != null">
         #{outTradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="fromSource != null">
+        #{fromSource,jdbcType=VARCHAR},
       </if>
       <if test="createdTime != null">
         #{createdTime,jdbcType=TIMESTAMP},
@@ -171,6 +179,9 @@
       <if test="outTradeNo != null">
         out_trade_No = #{outTradeNo,jdbcType=VARCHAR},
       </if>
+      <if test="fromSource != null">
+        from_source = #{fromSource,jdbcType=VARCHAR},
+      </if>
       <if test="createdTime != null">
         created_time = #{createdTime,jdbcType=TIMESTAMP},
       </if>
@@ -197,13 +208,14 @@
       confirm_pay_time = #{confirmPayTime,jdbcType=TIMESTAMP},
       out_channel_no = #{outChannelNo,jdbcType=VARCHAR},
       out_trade_No = #{outTradeNo,jdbcType=VARCHAR},
+      from_source = #{fromSource,jdbcType=VARCHAR},
       created_time = #{createdTime,jdbcType=TIMESTAMP},
       updated_time = #{updatedTime,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
   
-   <update id="updateMerchantTradeStatus" parameterType="com.yunpan.data.entity.MerchantTradeEntity">
+  <update id="updateMerchantTradeStatus" parameterType="com.yunpan.data.entity.MerchantTradeEntity">
     <!--
     @mbggenerated
     -->
@@ -299,6 +311,4 @@
     
     order by created_time desc
   </select>
-  
-  
 </mapper>

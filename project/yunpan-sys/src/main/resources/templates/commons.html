@@ -1,12 +1,12 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <body>
    <footer  th:fragment="footer">
       <div class="footer">
-        <a href="#">
+      <!--   <a href="#">
             <i class="icon iconfont">&#xe608;</i><br>
             首页
-        </a>
+        </a> -->
         <a href="/queryMerchantTrade">
             <i class="icon iconfont">&#xe647;</i><br>
            交易明细
@@ -19,6 +19,14 @@
             <i class="icon iconfont">&#xe60a;</i><br>
             提现中心
         </a>
+        
+                          
+		   <a href="/queryMerchantInfo" th:if="${session.merchantEntityKeyRole} eq '3'">
+             <i class="icon iconfont">&#xe608;</i><br>
+                                            后台管理
+            </a>
+		
+         
     </div> 
    </footer>
 </body>

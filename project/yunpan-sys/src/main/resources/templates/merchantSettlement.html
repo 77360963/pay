@@ -70,7 +70,25 @@
 		                                                                                                                     支付成功
 		                             </label>
                                  </p>
-                               <p class="hto-title clearFloat  f28">交易类型：<label th:text="${trade.transType}"></label> </p>
+                               <p class="hto-title clearFloat  f28">交易类型：                              
+                                <label th:if="${trade.transType} eq 'O'">                            
+	                                                                                                            提现                                                                                 
+	                             </label>
+	                             <label th:if="${trade.transType} eq 'I'">                            
+	                                                                                                             充值
+	                             </label>  
+                               </p>
+                               <p class="hto-title clearFloat  f28">订单来源：                              
+                                <label th:if="${trade.fromSource} eq '1'">                            
+	                                                                                                             支付宝                                                                                                                                                    
+	                             </label>
+	                             <label th:if="${trade.fromSource} eq '2'">                            
+	                                                                                                           微信
+	                             </label>
+	                              <label th:if="${trade.fromSource} eq '0'">                            
+	                                                                                                           其它
+	                             </label>    
+                               </p>
                                 <p class="hto-title clearFloat f28">时间：<label th:text="${trade.createdTime}"></label> </p>                                                                
                             </a>
                         </div>
@@ -92,7 +110,7 @@
         </div>
 
     </div>
-
+  <div th:replace="/commons::footer"></div>
 </div>
 <!--wapper end-->
 </body>
