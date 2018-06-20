@@ -95,12 +95,12 @@
                         
                        <div th:if="${trade.transType} eq 'I'">
                          <div th:if="${trade.payStatus} eq '0'">
-                           <a href="javascript:void(0);"  th:onclick="|orderRefresh(${trade.id})|">充值刷新</a>
+                           <a th:id="${trade.id}" href="javascript:void(0);"  th:onclick="|orderRefresh(${trade.id})|">充值刷新</a>
                          </div>
                        </div>          
                        <div th:if="${trade.transType} eq 'O'">
                           <div th:if="${trade.payStatus} eq '0'">
-                            <a href="javascript:void(0);"  th:onclick="|confirmWithdraw(${trade.id})|">结算审核</a>
+                            <a th:id="${trade.id}" href="javascript:void(0);"  th:onclick="|confirmWithdraw(${trade.id})|">结算审核</a>
                            </div>
                        </div>     
                         
@@ -120,7 +120,7 @@
    }
    
    
-   function orderRefresh(transId){	  
+   function orderRefresh(transId){	   
 	   $.ajax({ 
 	         type : "POST",
 	         dataType : "json",
@@ -131,7 +131,7 @@
 	         success : function(msg) {            	  
 	      	   if (msg.responseCode=="success"){
 	      		 alert("付款成功");
-	      		window.location.href="/merchantSettlement"; 
+	      		 document.getElementById(transId).style.display = "none";
 	      	   }else{
 	      		 alert(msg.responseMsg);
 	      	   }
@@ -141,22 +141,24 @@
    
    
    function confirmWithdraw(transId){
-	   $.ajax({ 
-	         type : "POST",
-	         dataType : "json",
-	         url : "/confirmWithdraw",
-	         data : {
-	        	 transId : transId,	        	    	
-	         },                        
-	         success : function(msg) {            	  
-	      	   if (msg.responseCode=="success"){
-	      		 alert("结算成功");
-	      		window.location.href="/merchantSettlement"; 
-	      	   }else{
-	      		 alert(msg.responseMsg);
-	      	   }
-	         }
-	     });              
+	   if (confirm("确认结算")==true){
+		   $.ajax({ 
+		         type : "POST",
+		         dataType : "json",
+		         url : "/confirmWithdraw",
+		         data : {
+		        	 transId : transId,	        	    	
+		         },                        
+		         success : function(msg) {            	  
+		      	   if (msg.responseCode=="success"){
+		      		 alert("结算成功");
+		      		 document.getElementById(transId).style.display = "none";
+		      	   }else{
+		      		 alert(msg.responseMsg);
+		      	   }
+		         }
+		     });            
+	   }	    
    }
 </script>
 </html>

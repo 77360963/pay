@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -123,7 +124,30 @@ public class MerchantController {
 	 * @param request
 	 */
 	@RequestMapping(value ="/login")
-	public String merchantIndex(HttpServletRequest request){
+	public String merchantIndex(HttpServletRequest request,HttpServletResponse response){
+		 String loginCookieUserName = "";  
+         String loginCookiePassword = "";                 
+         Cookie[] cookies = request.getCookies();  
+         if(null!=cookies){    
+             for(Cookie cookie : cookies){    
+                     if("loginUserName".equals(cookie.getName())){  
+                         loginCookieUserName = cookie.getValue();  
+                     }else if("loginPassword".equals(cookie.getName())){  
+                         loginCookiePassword = cookie.getValue();  
+                     }  
+             }
+             if(!"".equals(loginCookieUserName) && !"".equals(loginCookiePassword)){  
+            	try {
+					MerchantInfoBean merchantInfoBean=merchantService.merchantLogin(loginCookieUserName, loginCookiePassword);
+					request.getSession().setAttribute(AppCommon.SESSION_KEY, merchantInfoBean.getMerchantEntity());
+					request.getSession().setAttribute(AppCommon.SESSION_KEY_ROLE, merchantInfoBean.getUniUserEntity().getRole());
+					response.sendRedirect(request.getContextPath() + "/queryMerchantAccount");
+				} catch (Exception e) {					
+					logger.info("Cookie登录出错,loginCookieUserName={},loginCookiePassword={}",loginCookieUserName,loginCookiePassword);
+				}
+             }  
+         }			
+		
 		return "/merchantLogin";
 	}
 	
@@ -133,7 +157,7 @@ public class MerchantController {
      */
     @RequestMapping(value ="/merchantLogin")
     @ResponseBody
-    public Map merchantLogin(HttpServletRequest request){
+    public Map merchantLogin(HttpServletRequest request,HttpServletResponse response){
         String loginName=request.getParameter("name");
         String password=request.getParameter("password");
         String kaptcha=request.getParameter("kaptcha");
@@ -143,7 +167,14 @@ public class MerchantController {
         try {
         	MerchantInfoBean merchantInfoBean=merchantService.merchantLogin(loginName, password);
 			request.getSession().setAttribute(AppCommon.SESSION_KEY, merchantInfoBean.getMerchantEntity());
-			request.getSession().setAttribute(AppCommon.SESSION_KEY_ROLE, merchantInfoBean.getUniUserEntity().getRole());
+			request.getSession().setAttribute(AppCommon.SESSION_KEY_ROLE, merchantInfoBean.getUniUserEntity().getRole());			
+			Cookie userNameCookie = new Cookie("loginUserName", loginName);  
+		    Cookie passwordCookie = new Cookie("loginPassword", password);  
+		    userNameCookie.setMaxAge(7*24*3600);//7天
+		    userNameCookie.setPath("/"); 
+		    response.addCookie(userNameCookie);  
+		    response.addCookie(passwordCookie);  
+			
 			 return Result.success();
 		} catch (Exception e) {
 			 return Result.failed(e.getMessage());
