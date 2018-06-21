@@ -45,12 +45,19 @@
 <div class="wapper">
 
     <!--热闹活动-->
-    <div class="hot p-l-30 p-r-30  p-b-27 clearFloat bag-fff">
+    <div class="hot p-l-30 p-r-30  p-b-27 clearFloat bag-fff">    
         <div class="hot-content">
+        
             <ul class="clearFloat">  
                <div th:if="${#lists.isEmpty(userSigninList)}">
-                    <li class="b-b-e6e6e6">暂无交易记录</li>
-               </div>          
+                    <li class="b-b-e6e6e6">暂无签到记录</li>                    
+               </div>
+               
+                 <li class="b-b-e6e6e6">
+                  <a href="#"  class="denglusub denglusuba sqsubmit" onclick="userSignin()">签到</a>
+                 </li> 
+               
+                        
                 <li class="b-b-e6e6e6" th:each="userSignin,userSigninStat: ${userSigninList}">
                     <div class="hto-img">
                         <a href="#">
@@ -60,15 +67,15 @@
                         </a>
                         <div class="hto-p">
                             <a href="#">
-                                <h3 class="hto-ph3 m-b-5 f28">支付金额：<label th:text="${userSignin.payAmount}"></label></h3>                              
+                                <h3 class="hto-ph3 m-b-5 f28">签到金额：<label th:text="${userSignin.payAmount}"></label></h3>                              
                                </p>
-                                <p class="hto-title clearFloat f28">时间：<label th:text="${userSignin.createdTime}"></label> </p>                                                                
+                                <p class="hto-title clearFloat f28">签到时间：<label th:text="${userSignin.createdTime}"></label> </p>                                                                
                             </a>
                         </div>
-                      </br>  </br>  </br>
+                      </br>  </br>  </br>                      
                     </div>
-                </li>              
-            </ul>
+                </li>                             
+            </ul>             
         </div>
 
     </div>
@@ -78,4 +85,22 @@
 </div>
 <!--wapper end-->
 </body>
+
+<script language="javascript" type="text/javascript">
+function userSignin(){
+	   $.ajax({ 
+	         type : "POST",
+	         dataType : "json",
+	         url : "/userSignin",	                            
+	         success : function(msg) {            	  
+	      	   if (msg.responseCode=="success"){
+	      		 alert("签到成功");
+	      		window.location.href="/userSigninList"; 
+	      	   }else{
+	      		 alert(msg.responseMsg);
+	      	   }
+	         }
+	     });              
+}
+</script>
 </html>

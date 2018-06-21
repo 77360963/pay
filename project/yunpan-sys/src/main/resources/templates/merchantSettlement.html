@@ -76,9 +76,13 @@
 	                             </label>
 	                             <label th:if="${trade.transType} eq 'I'">                            
 	                                                                                                             充值
+	                             </label> 
+	                              <label th:if="${trade.transType} eq 'P'">                            
+	                                                                                                            签到                                                                             
 	                             </label>  
                                </p>
-                               <p class="hto-title clearFloat  f28">订单来源：                              
+                               <p class="hto-title clearFloat  f28" th:if="${trade.transType} eq 'I'">
+                                                                                                                    订单来源：                              
                                 <label th:if="${trade.fromSource} eq '1'">                            
 	                                                                                                             支付宝                                                                                                                                                    
 	                             </label>
