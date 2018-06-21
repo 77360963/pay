@@ -282,31 +282,31 @@
        and user_id = #{userId,jdbcType=BIGINT}
       </if>
       <if test="payAmount != null">
-      and  pay_amount = #{payAmount,jdbcType=INTEGER},
+      and  pay_amount = #{payAmount,jdbcType=INTEGER}
       </if>
       <if test="needPayAmount != null">
-       and need_pay_amount = #{needPayAmount,jdbcType=INTEGER},
+       and need_pay_amount = #{needPayAmount,jdbcType=INTEGER}
       </if>
       <if test="confirmPayAmount != null">
-       and confirm_pay_amount = #{confirmPayAmount,jdbcType=INTEGER},
+       and confirm_pay_amount = #{confirmPayAmount,jdbcType=INTEGER}
       </if>
       <if test="transType != null">
-       and trans_type = #{transType,jdbcType=VARCHAR},
+       and trans_type = #{transType,jdbcType=VARCHAR}
       </if>
       <if test="payStatus != null">
-       and pay_status = #{payStatus,jdbcType=INTEGER},
+       and pay_status = #{payStatus,jdbcType=INTEGER}
       </if>
       <if test="confirmPayTime != null">
-       and confirm_pay_time = #{confirmPayTime,jdbcType=TIMESTAMP},
+       and confirm_pay_time = #{confirmPayTime,jdbcType=TIMESTAMP}
       </if>
       <if test="createdTime != null">
-       and created_time = #{createdTime,jdbcType=TIMESTAMP},
+       and created_time = #{createdTime,jdbcType=TIMESTAMP}
       </if>
       <if test="updatedTime != null">
-       and updated_time = #{updatedTime,jdbcType=TIMESTAMP},
+       and updated_time = #{updatedTime,jdbcType=TIMESTAMP}
       </if>
       <if test="status != null">
-       and status = #{status,jdbcType=INTEGER},
+       and status = #{status,jdbcType=INTEGER}
       </if>
     
     order by created_time desc

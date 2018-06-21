@@ -13,6 +13,11 @@ public class AppCommon {
      * 提现
      */
     public static String TRANS_TYPE_O="O";
+    
+    /**
+     * 签到收益
+     */
+    public static String TRANS_TYPE_P="P";
 	
 	/*
 	 * 支付状态（初始化）
@@ -66,6 +71,11 @@ public class AppCommon {
 	public static int PAYMENTMINAMT=1000;
 	
 	public static String CHANNEL_NO="df";
+	
+	/**
+	 * 签到最大金额
+	 */
+	public static int SIGNIN_MAX_AMOUNT=10;
 	
 	
 }

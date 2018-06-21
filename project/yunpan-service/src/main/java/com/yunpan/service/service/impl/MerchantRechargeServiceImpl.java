@@ -192,8 +192,11 @@ public class MerchantRechargeServiceImpl implements MerchantRechargeService {
 	
 
 	@Override
-	public List<MerchantTradeEntityBean> queryMerchantTradeByUserId(long userId) {		
-		List<MerchantTradeEntity> list=merchantTradeDao.queryTradeByUserId(userId);
+	public List<MerchantTradeEntityBean> queryMerchantTradeByUserId(long userId,String transType) {
+	    MerchantTradeEntity query=new MerchantTradeEntity();
+	    query.setUserId(userId);
+	    query.setTransType(transType);
+		List<MerchantTradeEntity> list=merchantTradeDao.queryTrade(query);
 		List<MerchantTradeEntityBean> listBean=new ArrayList<MerchantTradeEntityBean>();
 		MerchantTradeEntityBean merchantTradeEntityBean=null;
 		for(MerchantTradeEntity entity:list){

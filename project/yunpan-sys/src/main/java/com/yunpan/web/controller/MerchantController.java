@@ -11,6 +11,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,7 @@ import com.yunpan.service.service.MerchantAccountService;
 import com.yunpan.service.service.MerchantRechargeService;
 import com.yunpan.service.service.MerchantService;
 import com.yunpan.service.service.PaymentService;
+import com.yunpan.service.service.UserService;
 import com.yunpan.service.service.bean.MerchantInfoBean;
 import com.yunpan.service.service.bean.MerchantRegisterBean;
 
@@ -52,6 +54,9 @@ public class MerchantController {
 	
 	@Autowired
 	private MerchantAccountService merchantAccountService;
+	
+	@Autowired
+	private UserService userService;
 	
 	/**
 	 * 商户充值
@@ -112,8 +117,12 @@ public class MerchantController {
 	@IfNeedLogin
 	@RequestMapping(value ="/queryMerchantTrade")
 	public String queryMerchantRechargeList(HttpServletRequest request,HttpServletResponse response,final ModelMap model) throws Exception{
-		  MerchantEntity merchantEntity=getUserSession(request,response);			
-		 List<MerchantTradeEntityBean> merchantRechargeList=merchantRechargeService.queryMerchantTradeByUserId(merchantEntity.getUserId());
+		  MerchantEntity merchantEntity=getUserSession(request,response);	
+		  String transType=request.getParameter("transType");
+		  if(StringUtils.isBlank(transType)){
+		      transType=null;
+		  }
+		 List<MerchantTradeEntityBean> merchantRechargeList=merchantRechargeService.queryMerchantTradeByUserId(merchantEntity.getUserId(),transType);
 		 model.addAttribute("merchantRechargeList", merchantRechargeList);
 		 return "/merchantRechargeList";		
 	}
@@ -299,7 +308,28 @@ public class MerchantController {
         }       
     }
 	
-	
+	@IfNeedLogin
+    @RequestMapping(value ="/userSignin")
+    @ResponseBody
+    public Map userSigninProcess(HttpServletRequest request,HttpServletResponse response,final ModelMap model){      
+	    try {
+            MerchantEntity merchantEntity=getUserSession(request,response);           
+            boolean result=userService.userSignin(merchantEntity.getUserId());
+            return Result.success(result);
+        } catch (Exception e) {
+             return Result.failed("failed",e.getMessage());
+        }       
+	}
+    
+	@IfNeedLogin
+    @RequestMapping(value ="/userSigninList")
+    public String userSigninList(HttpServletRequest request,HttpServletResponse response,final ModelMap model) throws Exception{      
+        MerchantEntity merchantEntity=getUserSession(request,response); 
+        String transType=AppCommon.TRANS_TYPE_P;      
+       List<MerchantTradeEntityBean> userSigninList=merchantRechargeService.queryMerchantTradeByUserId(merchantEntity.getUserId(),transType);
+       model.addAttribute("userSigninList", userSigninList);
+       return "/userSigninList";  
+    }
 	
 	
 	public MerchantEntity getUserSession(HttpServletRequest request,HttpServletResponse response) throws Exception{		
