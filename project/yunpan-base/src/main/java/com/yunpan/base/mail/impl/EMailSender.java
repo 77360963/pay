@@ -1,15 +1,20 @@
 package com.yunpan.base.mail.impl;
 
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 
 import com.yunpan.base.mail.EmailException;
 import com.yunpan.base.mail.IEMailSender;
+import com.yunpan.base.tool.DateTool;
 
 @Component
 public class EMailSender implements IEMailSender {
@@ -18,8 +23,8 @@ public class EMailSender implements IEMailSender {
 	@Autowired(required = false)
 	private JavaMailSender mailSender; // 自动注入的Bean
 
-	@Value("${mail.from:test@yintaokeji.com}")
-	private String mailFrom;
+	
+	private String mailFrom="77360963@qq.com";
 
 	private void check() {
 		if (mailSender == null) {
@@ -28,7 +33,7 @@ public class EMailSender implements IEMailSender {
 	}
 
 	@Override
-	public void sendSimpleEmail(String[] toAddress, String title, String content) {
+	public void sendSimpleEmail(String toAddress, String title, String content) {
 		check();
 		SimpleMailMessage message = new SimpleMailMessage();
 		message.setFrom(mailFrom);
@@ -36,8 +41,43 @@ public class EMailSender implements IEMailSender {
 		message.setSubject(title);
 		message.setText(content);
 		mailSender.send(message);
-		logger.info("========>邮件发送成功:{},{},{}",toAddress,title,content);
+		logger.info("========>邮件发送成功:{},{},{}",toAddress,title,content);		
+	}	
+
+	@Override
+	public void sendSimpleEmail(final String mailType,final  Map<String,String> context) {
+		new Thread(){
+			public void run() {
+				try {			
+					HashMap<String,String> map=this.getMailContext(mailType, context);
+					SimpleMailMessage message = new SimpleMailMessage();
+					message.setFrom(mailFrom);
+					message.setTo(mailFrom); // 自己给自己发送邮件
+					message.setSubject(map.get("title"));
+					message.setText(map.get("context"));
+					mailSender.send(message);
+					logger.info("========>邮件发送成功:{},{}",map.get("title"),map.get("context"));
+				} catch (MailException e) {
+					logger.error("邮件发送失败,类型:{}"+mailType,e);
+				}		
+			}
+
+			private HashMap<String, String> getMailContext(String mailType,	Map<String, String> context) {
+				StringBuffer sb=new StringBuffer();
+				HashMap<String,String> map=new HashMap<String,String>();
+				if("register".equals(mailType)){
+					sb.append("商户名称:").append(context.get("merchantName")).append("\r\n");
+					sb.append("联系人:").append(context.get("contacts")).append("\r\n");
+					sb.append("联系电话:").append(context.get("mobile")).append("\r\n");
+					sb.append("收款方式:").append(context.get("paymentMethod")).append("\r\n");
+					sb.append("注册时间:").append(DateTool.formatFullDate(new Date())).append("\r\n");
+					map.put("title", "商户注册【"+context.get("merchantName")+"】");
+					map.put("context", sb.toString());
+				}		
+				return map;
+			};
+		}.start();		
 		
-	}
+	}	
 
 }

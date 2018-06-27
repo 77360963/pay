@@ -77,5 +77,10 @@ public class AppCommon {
 	 */
 	public static int SIGNIN_MAX_AMOUNT=10;
 	
+	/**
+	 * 发送短信
+	 */
+	public static String MAIL_REGISTER="register";
+	
 	
 }

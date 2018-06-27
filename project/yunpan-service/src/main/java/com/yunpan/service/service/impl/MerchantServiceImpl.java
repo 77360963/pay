@@ -1,5 +1,7 @@
 package com.yunpan.service.service.impl;
 
+import java.util.HashMap;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.yunpan.base.mail.IEMailSender;
 import com.yunpan.base.tool.MoneyUtil;
 import com.yunpan.data.dao.MerchantAccountDao;
 import com.yunpan.data.dao.MerchantDao;
@@ -40,6 +43,9 @@ public class MerchantServiceImpl implements MerchantService {
 	
 	@Autowired
 	private UniUserDao UniUserDao;
+	
+	@Autowired
+	private IEMailSender mailSender;
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
@@ -87,6 +93,15 @@ public class MerchantServiceImpl implements MerchantService {
 		 merchantRateEntity.setUserId(uniUserEntity.getId());
 		 merchantRateEntity.setRate(AppCommon.PLATFORM_RATE);
 		 merchantRateDao.insertSelective(merchantRateEntity);
+		 
+		 //发送短信
+		 HashMap<String,String> map=new HashMap<String,String>();
+		 map.put("merchantName", merchantRegisterBean.getName());
+		 map.put("contacts", merchantRegisterBean.getContacts());
+		 map.put("mobile", merchantRegisterBean.getMobile());
+		 map.put("paymentMethod", merchantRegisterBean.getPaymentMethod());
+		 mailSender.sendSimpleEmail(AppCommon.MAIL_REGISTER,map);
+		 
 		 return true;
 	}
 
