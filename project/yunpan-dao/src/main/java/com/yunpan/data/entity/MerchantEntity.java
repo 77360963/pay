@@ -5,7 +5,7 @@ import java.util.Date;
 public class MerchantEntity {
     /**
      * <pre>
-     * 客户ID
+     * id
      * 表字段 : t_merchant.id
      * </pre>
      */
@@ -13,7 +13,7 @@ public class MerchantEntity {
 
     /**
      * <pre>
-     * 
+     * userId
      * 表字段 : t_merchant.user_id
      * </pre>
      */
@@ -61,7 +61,7 @@ public class MerchantEntity {
 
     /**
      * <pre>
-     * 
+     * 收款账户
      * 表字段 : t_merchant.payment_method
      * </pre>
      */
@@ -69,11 +69,19 @@ public class MerchantEntity {
 
     /**
      * <pre>
-     * 
+     * 最小结算金额
      * 表字段 : t_merchant.payment_minAmt
      * </pre>
      */
     private Integer paymentMinamt;
+
+    /**
+     * <pre>
+     * 上级userId
+     * 表字段 : t_merchant.parent_user_id
+     * </pre>
+     */
+    private Long parentUserId;
 
     /**
      * <pre>
@@ -101,11 +109,11 @@ public class MerchantEntity {
 
     /**
      * <pre>
-     * 获取：客户ID
+     * 获取：id
      * 表字段：t_merchant.id
      * </pre>
      *
-     * @return t_merchant.id：客户ID
+     * @return t_merchant.id：id
      */
     public Long getId() {
         return id;
@@ -113,12 +121,12 @@ public class MerchantEntity {
 
     /**
      * <pre>
-     * 设置：客户ID
+     * 设置：id
      * 表字段：t_merchant.id
      * </pre>
      *
      * @param id
-     *            t_merchant.id：客户ID
+     *            t_merchant.id：id
      */
     public void setId(Long id) {
         this.id = id;
@@ -126,11 +134,11 @@ public class MerchantEntity {
 
     /**
      * <pre>
-     * 获取：
+     * 获取：userId
      * 表字段：t_merchant.user_id
      * </pre>
      *
-     * @return t_merchant.user_id：
+     * @return t_merchant.user_id：userId
      */
     public Long getUserId() {
         return userId;
@@ -138,12 +146,12 @@ public class MerchantEntity {
 
     /**
      * <pre>
-     * 设置：
+     * 设置：userId
      * 表字段：t_merchant.user_id
      * </pre>
      *
      * @param userId
-     *            t_merchant.user_id：
+     *            t_merchant.user_id：userId
      */
     public void setUserId(Long userId) {
         this.userId = userId;
@@ -276,11 +284,11 @@ public class MerchantEntity {
 
     /**
      * <pre>
-     * 获取：
+     * 获取：收款账户
      * 表字段：t_merchant.payment_method
      * </pre>
      *
-     * @return t_merchant.payment_method：
+     * @return t_merchant.payment_method：收款账户
      */
     public String getPaymentMethod() {
         return paymentMethod;
@@ -288,12 +296,12 @@ public class MerchantEntity {
 
     /**
      * <pre>
-     * 设置：
+     * 设置：收款账户
      * 表字段：t_merchant.payment_method
      * </pre>
      *
      * @param paymentMethod
-     *            t_merchant.payment_method：
+     *            t_merchant.payment_method：收款账户
      */
     public void setPaymentMethod(String paymentMethod) {
         this.paymentMethod = paymentMethod == null ? null : paymentMethod.trim();
@@ -301,11 +309,11 @@ public class MerchantEntity {
 
     /**
      * <pre>
-     * 获取：
+     * 获取：最小结算金额
      * 表字段：t_merchant.payment_minAmt
      * </pre>
      *
-     * @return t_merchant.payment_minAmt：
+     * @return t_merchant.payment_minAmt：最小结算金额
      */
     public Integer getPaymentMinamt() {
         return paymentMinamt;
@@ -313,15 +321,40 @@ public class MerchantEntity {
 
     /**
      * <pre>
-     * 设置：
+     * 设置：最小结算金额
      * 表字段：t_merchant.payment_minAmt
      * </pre>
      *
      * @param paymentMinamt
-     *            t_merchant.payment_minAmt：
+     *            t_merchant.payment_minAmt：最小结算金额
      */
     public void setPaymentMinamt(Integer paymentMinamt) {
         this.paymentMinamt = paymentMinamt;
+    }
+
+    /**
+     * <pre>
+     * 获取：上级userId
+     * 表字段：t_merchant.parent_user_id
+     * </pre>
+     *
+     * @return t_merchant.parent_user_id：上级userId
+     */
+    public Long getParentUserId() {
+        return parentUserId;
+    }
+
+    /**
+     * <pre>
+     * 设置：上级userId
+     * 表字段：t_merchant.parent_user_id
+     * </pre>
+     *
+     * @param parentUserId
+     *            t_merchant.parent_user_id：上级userId
+     */
+    public void setParentUserId(Long parentUserId) {
+        this.parentUserId = parentUserId;
     }
 
     /**
@@ -424,6 +457,7 @@ public class MerchantEntity {
             && (this.getImage() == null ? other.getImage() == null : this.getImage().equals(other.getImage()))
             && (this.getPaymentMethod() == null ? other.getPaymentMethod() == null : this.getPaymentMethod().equals(other.getPaymentMethod()))
             && (this.getPaymentMinamt() == null ? other.getPaymentMinamt() == null : this.getPaymentMinamt().equals(other.getPaymentMinamt()))
+            && (this.getParentUserId() == null ? other.getParentUserId() == null : this.getParentUserId().equals(other.getParentUserId()))
             && (this.getCreatedTime() == null ? other.getCreatedTime() == null : this.getCreatedTime().equals(other.getCreatedTime()))
             && (this.getUpdatedTime() == null ? other.getUpdatedTime() == null : this.getUpdatedTime().equals(other.getUpdatedTime()))
             && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()));
@@ -445,6 +479,7 @@ public class MerchantEntity {
         result = prime * result + ((getImage() == null) ? 0 : getImage().hashCode());
         result = prime * result + ((getPaymentMethod() == null) ? 0 : getPaymentMethod().hashCode());
         result = prime * result + ((getPaymentMinamt() == null) ? 0 : getPaymentMinamt().hashCode());
+        result = prime * result + ((getParentUserId() == null) ? 0 : getParentUserId().hashCode());
         result = prime * result + ((getCreatedTime() == null) ? 0 : getCreatedTime().hashCode());
         result = prime * result + ((getUpdatedTime() == null) ? 0 : getUpdatedTime().hashCode());
         result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
@@ -469,6 +504,7 @@ public class MerchantEntity {
         sb.append(", image=").append(image);
         sb.append(", paymentMethod=").append(paymentMethod);
         sb.append(", paymentMinamt=").append(paymentMinamt);
+        sb.append(", parentUserId=").append(parentUserId);
         sb.append(", createdTime=").append(createdTime);
         sb.append(", updatedTime=").append(updatedTime);
         sb.append(", status=").append(status);

@@ -14,6 +14,7 @@
     <result column="image" jdbcType="VARCHAR" property="image" />
     <result column="payment_method" jdbcType="VARCHAR" property="paymentMethod" />
     <result column="payment_minAmt" jdbcType="INTEGER" property="paymentMinamt" />
+    <result column="parent_user_id" jdbcType="BIGINT" property="parentUserId" />
     <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
     <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime" />
     <result column="status" jdbcType="INTEGER" property="status" />
@@ -23,7 +24,7 @@
     @mbggenerated
     -->
     id, user_id, name, address, contacts, mobile, image, payment_method, payment_minAmt, 
-    created_time, updated_time, status
+    parent_user_id, created_time, updated_time, status
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--
@@ -43,12 +44,14 @@
     </selectKey>
     insert into t_merchant (user_id, name, address, 
       contacts, mobile, image, 
-      payment_method, payment_minAmt, created_time, 
-      updated_time, status)
+      payment_method, payment_minAmt, parent_user_id, 
+      created_time, updated_time, status
+      )
     values (#{userId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
       #{contacts,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{image,jdbcType=VARCHAR}, 
-      #{paymentMethod,jdbcType=VARCHAR}, #{paymentMinamt,jdbcType=INTEGER}, #{createdTime,jdbcType=TIMESTAMP}, 
-      #{updatedTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER})
+      #{paymentMethod,jdbcType=VARCHAR}, #{paymentMinamt,jdbcType=INTEGER}, #{parentUserId,jdbcType=BIGINT}, 
+      #{createdTime,jdbcType=TIMESTAMP}, #{updatedTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.yunpan.data.entity.MerchantEntity">
     <!--
@@ -82,6 +85,9 @@
       </if>
       <if test="paymentMinamt != null">
         payment_minAmt,
+      </if>
+      <if test="parentUserId != null">
+        parent_user_id,
       </if>
       <if test="createdTime != null">
         created_time,
@@ -117,6 +123,9 @@
       </if>
       <if test="paymentMinamt != null">
         #{paymentMinamt,jdbcType=INTEGER},
+      </if>
+      <if test="parentUserId != null">
+        #{parentUserId,jdbcType=BIGINT},
       </if>
       <if test="createdTime != null">
         #{createdTime,jdbcType=TIMESTAMP},
@@ -159,6 +168,9 @@
       <if test="paymentMinamt != null">
         payment_minAmt = #{paymentMinamt,jdbcType=INTEGER},
       </if>
+      <if test="parentUserId != null">
+        parent_user_id = #{parentUserId,jdbcType=BIGINT},
+      </if>
       <if test="createdTime != null">
         created_time = #{createdTime,jdbcType=TIMESTAMP},
       </if>
@@ -184,13 +196,14 @@
       image = #{image,jdbcType=VARCHAR},
       payment_method = #{paymentMethod,jdbcType=VARCHAR},
       payment_minAmt = #{paymentMinamt,jdbcType=INTEGER},
+      parent_user_id = #{parentUserId,jdbcType=BIGINT},
       created_time = #{createdTime,jdbcType=TIMESTAMP},
       updated_time = #{updatedTime,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
   
-   <select id="selectMerchantEntityByUserId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  <select id="selectMerchantEntityByUserId" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--
     @mbggenerated
     -->
@@ -210,5 +223,4 @@
     where 1=1
     
   </select>
-  
 </mapper>

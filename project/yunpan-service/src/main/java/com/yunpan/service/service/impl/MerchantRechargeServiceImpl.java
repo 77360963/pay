@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -116,7 +117,13 @@ public class MerchantRechargeServiceImpl implements MerchantRechargeService {
 		if(merchantTradeEntity.getPayStatus().equals(AppCommon.PAY_STATUS_SUCCESS)){
 			paymentStatus=true;
 			return paymentStatus;
-		}		
+		}
+		
+		MerchantEntity merchantEntity=merchantDao.selectMerchantEntityByUserId(merchantTradeEntity.getUserId());
+        if(null==merchantEntity){
+            logger.info("未找到相关商户信息，商户id={}",merchantTradeEntity.getUserId());
+            throw new MerchantException("", "未找到相关商户信息");
+        }
 		
 		MerchantAccountEntity merchantAccountEntity=merchantAccountDao.selectByUserId(merchantTradeEntity.getUserId());
 		if(null==merchantAccountEntity){
@@ -134,7 +141,26 @@ public class MerchantRechargeServiceImpl implements MerchantRechargeService {
 		try {
 			PaymentResult paymentResult=paymentService.queryOrder(requestTradeNo);
 			if(null!=paymentResult&& AppCommon.PAY_STATUS_SUCCESS==paymentResult.getPaymentStatus()){
-				//平台收款金额
+			    
+			    if(null!=merchantEntity.getParentUserId()){
+			        MerchantRateEntity parentMerchantRateEntity=merchantRateDao.selectByUserId(merchantEntity.getParentUserId());
+	                BigDecimal platform_parent_rate=merchantRateEntity.getRate().subtract(parentMerchantRateEntity.getRate());
+	                BigDecimal platform_parent_needPayAmount=new BigDecimal(paymentResult.getPayAmount()).multiply(platform_parent_rate).setScale(0, BigDecimal.ROUND_DOWN);
+	                MerchantTradeEntity parentMerchantTradeEntity=new MerchantTradeEntity();
+	                parentMerchantTradeEntity.setPayAmount(platform_parent_needPayAmount.intValue());
+	                parentMerchantTradeEntity.setNeedPayAmount(platform_parent_needPayAmount.intValue());
+	                parentMerchantTradeEntity.setConfirmPayAmount(platform_parent_needPayAmount.intValue());
+	                parentMerchantTradeEntity.setPayStatus(AppCommon.PAY_STATUS_SUCCESS);
+	                parentMerchantTradeEntity.setTransType(AppCommon.TRANS_TYPE_I);
+	                parentMerchantTradeEntity.setUserId(parentMerchantRateEntity.getUserId());
+	                int insertParentCount=merchantTradeDao.insertSelective(parentMerchantTradeEntity);
+	                if(insertParentCount>0){
+	                    int updateParentAccount=merchantAccountDao.merchantRecharge(parentMerchantRateEntity.getUserId(), platform_parent_needPayAmount.intValue());
+	                }
+			    }
+			   
+			    
+			    //平台收款金额
 				BigDecimal platform_rate=new BigDecimal(1).subtract(merchantRateEntity.getRate());
 				BigDecimal platform_needPayAmount=new BigDecimal(paymentResult.getPayAmount()).multiply(platform_rate).setScale(0, BigDecimal.ROUND_DOWN);
 				
