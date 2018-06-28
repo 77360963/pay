@@ -140,25 +140,32 @@ public class MerchantRechargeServiceImpl implements MerchantRechargeService {
 		
 		try {
 			PaymentResult paymentResult=paymentService.queryOrder(requestTradeNo);
-			if(null!=paymentResult&& AppCommon.PAY_STATUS_SUCCESS==paymentResult.getPaymentStatus()){
-			    
+			if(null!=paymentResult&& AppCommon.PAY_STATUS_SUCCESS==paymentResult.getPaymentStatus()){			    
+				//交易分润
 			    if(null!=merchantEntity.getParentUserId()){
 			        MerchantRateEntity parentMerchantRateEntity=merchantRateDao.selectByUserId(merchantEntity.getParentUserId());
-	                BigDecimal platform_parent_rate=merchantRateEntity.getRate().subtract(parentMerchantRateEntity.getRate());
-	                BigDecimal platform_parent_needPayAmount=new BigDecimal(paymentResult.getPayAmount()).multiply(platform_parent_rate).setScale(0, BigDecimal.ROUND_DOWN);
-	                MerchantTradeEntity parentMerchantTradeEntity=new MerchantTradeEntity();
-	                parentMerchantTradeEntity.setPayAmount(platform_parent_needPayAmount.intValue());
-	                parentMerchantTradeEntity.setNeedPayAmount(platform_parent_needPayAmount.intValue());
-	                parentMerchantTradeEntity.setConfirmPayAmount(platform_parent_needPayAmount.intValue());
-	                parentMerchantTradeEntity.setPayStatus(AppCommon.PAY_STATUS_SUCCESS);
-	                parentMerchantTradeEntity.setTransType(AppCommon.TRANS_TYPE_I);
-	                parentMerchantTradeEntity.setUserId(parentMerchantRateEntity.getUserId());
-	                int insertParentCount=merchantTradeDao.insertSelective(parentMerchantTradeEntity);
-	                if(insertParentCount>0){
-	                    int updateParentAccount=merchantAccountDao.merchantRecharge(parentMerchantRateEntity.getUserId(), platform_parent_needPayAmount.intValue());
-	                }
-			    }
-			   
+			        //交易的费率大于上级商户的费率时，才产生分润
+			        if(merchantRateEntity.getRate().compareTo(parentMerchantRateEntity.getRate())>0){
+			        	BigDecimal platform_parent_rate=merchantRateEntity.getRate().subtract(parentMerchantRateEntity.getRate());
+		                BigDecimal platform_parent_needPayAmount=new BigDecimal(paymentResult.getPayAmount()).multiply(platform_parent_rate).setScale(0, BigDecimal.ROUND_DOWN);
+		                //分润大于0时，产生分润记录
+		                if(platform_parent_needPayAmount.compareTo(BigDecimal.ZERO)>0){
+		                	MerchantTradeEntity parentMerchantTradeEntity=new MerchantTradeEntity();
+		 	                parentMerchantTradeEntity.setPayAmount(platform_parent_needPayAmount.intValue());
+		 	                parentMerchantTradeEntity.setNeedPayAmount(platform_parent_needPayAmount.intValue());
+		 	                parentMerchantTradeEntity.setConfirmPayAmount(platform_parent_needPayAmount.intValue());
+		 	                parentMerchantTradeEntity.setPayStatus(AppCommon.PAY_STATUS_SUCCESS);
+		 	                parentMerchantTradeEntity.setTransType(AppCommon.TRANS_TYPE_F);
+		 	                parentMerchantTradeEntity.setUserId(parentMerchantRateEntity.getUserId());
+		 	                parentMerchantTradeEntity.setFromSource(merchantTradeEntity.getFromSource());
+		 	                int insertParentCount=merchantTradeDao.insertSelective(parentMerchantTradeEntity);
+		 	                if(insertParentCount>0){
+		 	                    int updateParentAccount=merchantAccountDao.merchantRecharge(parentMerchantRateEntity.getUserId(), platform_parent_needPayAmount.intValue());
+		 	                }
+		                }	               
+			        }		        
+	               
+			    }			   
 			    
 			    //平台收款金额
 				BigDecimal platform_rate=new BigDecimal(1).subtract(merchantRateEntity.getRate());

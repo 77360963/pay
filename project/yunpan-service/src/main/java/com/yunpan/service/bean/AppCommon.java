@@ -18,6 +18,12 @@ public class AppCommon {
      * 签到收益
      */
     public static String TRANS_TYPE_P="P";
+    
+    /**
+     * 交易分润
+     */
+    public static String TRANS_TYPE_F="F";
+    
 	
 	/*
 	 * 支付状态（初始化）
@@ -75,7 +81,7 @@ public class AppCommon {
 	/**
 	 * 签到最大金额
 	 */
-	public static int SIGNIN_MAX_AMOUNT=10;
+	public static int SIGNIN_MAX_AMOUNT=6;
 	
 	/**
 	 * 发送短信

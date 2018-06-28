@@ -79,7 +79,10 @@
 	                             </label> 
 	                              <label th:if="${trade.transType} eq 'P'">                            
 	                                                                                                            签到                                                                             
-	                             </label>  
+	                             </label>
+	                              <label th:if="${trade.transType} eq 'F'">                            
+		                                                                                                            分润                                                                             
+		                          </label>    
                                </p>
                                <p class="hto-title clearFloat  f28" th:if="${trade.transType} eq 'I'">
                                                                                                                     订单来源：                              
