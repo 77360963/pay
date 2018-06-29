@@ -60,7 +60,8 @@ public class MerchantRechargeServiceImpl implements MerchantRechargeService {
 	    logger.info("用户充值下单 userId={},金额={}",merchantTradeEntity.getUserId(),merchantTradeEntity.getPayAmount());
 	    if(merchantTradeEntity.getPayAmount()==0){
 	    	throw new MerchantException("", "请输入正确的金额");
-	    }	    
+	    }
+	    merchantTradeEntity.setPayStatus(AppCommon.PAY_STATUS_INIT);
 	    merchantTradeEntity.setTransType(AppCommon.TRANS_TYPE_I);
 	    MerchantEntity merchantEntity=merchantDao.selectMerchantEntityByUserId(merchantTradeEntity.getUserId());
 		if(null==merchantEntity){
@@ -72,10 +73,24 @@ public class MerchantRechargeServiceImpl implements MerchantRechargeService {
 			logger.info("未找到相关商户费率信息，商户id={}",merchantTradeEntity.getUserId());
 			throw new MerchantException("", "未找到相关商户信息");
 		}
+		//验证第三方订单号是否重复
+		if(StringUtils.isNotBlank(merchantTradeEntity.getThreadOrderNo())){
+		    MerchantTradeEntity queryMerchantTradeEntity=merchantTradeDao.queryTradeByUserIdandThreadOrder(merchantTradeEntity.getUserId(), merchantTradeEntity.getThreadOrderNo());
+		    if(null!=queryMerchantTradeEntity){
+		        if(queryMerchantTradeEntity.getPayAmount().equals(merchantTradeEntity.getPayAmount())&&AppCommon.PAY_STATUS_INIT==queryMerchantTradeEntity.getPayStatus()){
+		            ChannelTradeEntity queryChannelTradeEntity=channelTradeDao.selectByMerchantTradeId(queryMerchantTradeEntity.getId());
+		            if(null!=queryChannelTradeEntity){
+		                return queryChannelTradeEntity.getRequestTradeNo();
+		            }
+		        }else{
+		            logger.info("第三方订单号重复,userId={},ThreadOrderNo={}",merchantTradeEntity.getUserId(),merchantTradeEntity.getThreadOrderNo());
+		            throw new MerchantException("", "订单号重复");
+		        }
+		    }
+		}
 		
-	    try { 	
-	    	
-	    	//增加商户交易流水
+	    try { 	    	
+	    	//增加商户交易流水	       
 	    	merchantTradeDao.insertSelective(merchantTradeEntity);	
 	        
 	        //增加渠道流水
@@ -182,6 +197,7 @@ public class MerchantRechargeServiceImpl implements MerchantRechargeService {
 				updateMerchantTradeEntity.setId(merchantTradeEntity.getId());
 				updateMerchantTradeEntity.setNeedPayAmount(platform_needPayAmount.intValue());
 				updateMerchantTradeEntity.setConfirmPayAmount(paymentResult.getNeedPayAmount());
+				updateMerchantTradeEntity.setConfirmPayTime(paymentResult.getPaymentTime());
 				updateMerchantTradeEntity.setPayStatus(AppCommon.PAY_STATUS_SUCCESS);
 				updateMerchantTradeEntity.setOutTradeNo(paymentResult.getOrderNo());
 				updateMerchantTradeEntity.setOutChannelNo(AppCommon.CHANNEL_NO);
@@ -247,6 +263,12 @@ public class MerchantRechargeServiceImpl implements MerchantRechargeService {
 		}
 		return listBean;
 	}
+
+    @Override
+    public MerchantTradeEntity queryTradeByUserIdandThreadOrderNo(long userId, String threadOrderNo) {
+         MerchantTradeEntity queryMerchantTradeEntity=merchantTradeDao.queryTradeByUserIdandThreadOrder(userId, threadOrderNo);
+         return queryMerchantTradeEntity;
+    }
 
 	
 

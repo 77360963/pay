@@ -1,5 +1,7 @@
 package com.yunpan.service.bean;
 
+import java.util.Date;
+
 public class PaymentResult {
 	
 	/**
@@ -22,6 +24,8 @@ public class PaymentResult {
 	 * 实际支付金额
 	 */
 	private int needPayAmount;
+	
+	private Date paymentTime;
 
 	public String getOrderNo() {
 		return orderNo;
@@ -54,6 +58,14 @@ public class PaymentResult {
 	public void setNeedPayAmount(int needPayAmount) {
 		this.needPayAmount = needPayAmount;
 	}
+
+    public Date getPaymentTime() {
+        return paymentTime;
+    }
+
+    public void setPaymentTime(Date paymentTime) {
+        this.paymentTime = paymentTime;
+    }
 	
 	
 	

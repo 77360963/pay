@@ -93,6 +93,14 @@ public class MerchantTradeEntity {
 
     /**
      * <pre>
+     * 第三方请求订单号
+     * 表字段 : t_merchant_trade.thread_order_no
+     * </pre>
+     */
+    private String threadOrderNo;
+
+    /**
+     * <pre>
      * 创建时间
      * 表字段 : t_merchant_trade.created_time
      * </pre>
@@ -392,6 +400,31 @@ public class MerchantTradeEntity {
 
     /**
      * <pre>
+     * 获取：第三方请求订单号
+     * 表字段：t_merchant_trade.thread_order_no
+     * </pre>
+     *
+     * @return t_merchant_trade.thread_order_no：第三方请求订单号
+     */
+    public String getThreadOrderNo() {
+        return threadOrderNo;
+    }
+
+    /**
+     * <pre>
+     * 设置：第三方请求订单号
+     * 表字段：t_merchant_trade.thread_order_no
+     * </pre>
+     *
+     * @param threadOrderNo
+     *            t_merchant_trade.thread_order_no：第三方请求订单号
+     */
+    public void setThreadOrderNo(String threadOrderNo) {
+        this.threadOrderNo = threadOrderNo == null ? null : threadOrderNo.trim();
+    }
+
+    /**
+     * <pre>
      * 获取：创建时间
      * 表字段：t_merchant_trade.created_time
      * </pre>
@@ -492,6 +525,7 @@ public class MerchantTradeEntity {
             && (this.getOutChannelNo() == null ? other.getOutChannelNo() == null : this.getOutChannelNo().equals(other.getOutChannelNo()))
             && (this.getOutTradeNo() == null ? other.getOutTradeNo() == null : this.getOutTradeNo().equals(other.getOutTradeNo()))
             && (this.getFromSource() == null ? other.getFromSource() == null : this.getFromSource().equals(other.getFromSource()))
+            && (this.getThreadOrderNo() == null ? other.getThreadOrderNo() == null : this.getThreadOrderNo().equals(other.getThreadOrderNo()))
             && (this.getCreatedTime() == null ? other.getCreatedTime() == null : this.getCreatedTime().equals(other.getCreatedTime()))
             && (this.getUpdatedTime() == null ? other.getUpdatedTime() == null : this.getUpdatedTime().equals(other.getUpdatedTime()))
             && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()));
@@ -515,6 +549,7 @@ public class MerchantTradeEntity {
         result = prime * result + ((getOutChannelNo() == null) ? 0 : getOutChannelNo().hashCode());
         result = prime * result + ((getOutTradeNo() == null) ? 0 : getOutTradeNo().hashCode());
         result = prime * result + ((getFromSource() == null) ? 0 : getFromSource().hashCode());
+        result = prime * result + ((getThreadOrderNo() == null) ? 0 : getThreadOrderNo().hashCode());
         result = prime * result + ((getCreatedTime() == null) ? 0 : getCreatedTime().hashCode());
         result = prime * result + ((getUpdatedTime() == null) ? 0 : getUpdatedTime().hashCode());
         result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
@@ -541,6 +576,7 @@ public class MerchantTradeEntity {
         sb.append(", outChannelNo=").append(outChannelNo);
         sb.append(", outTradeNo=").append(outTradeNo);
         sb.append(", fromSource=").append(fromSource);
+        sb.append(", threadOrderNo=").append(threadOrderNo);
         sb.append(", createdTime=").append(createdTime);
         sb.append(", updatedTime=").append(updatedTime);
         sb.append(", status=").append(status);

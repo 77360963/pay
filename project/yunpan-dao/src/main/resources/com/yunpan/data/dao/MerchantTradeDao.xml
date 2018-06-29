@@ -16,6 +16,7 @@
     <result column="out_channel_no" jdbcType="VARCHAR" property="outChannelNo" />
     <result column="out_trade_No" jdbcType="VARCHAR" property="outTradeNo" />
     <result column="from_source" jdbcType="VARCHAR" property="fromSource" />
+    <result column="thread_order_no" jdbcType="VARCHAR" property="threadOrderNo" />
     <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
     <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime" />
     <result column="status" jdbcType="INTEGER" property="status" />
@@ -25,8 +26,8 @@
     @mbggenerated
     -->
     id, user_id, pay_amount, need_pay_amount, confirm_pay_amount, trans_type, pay_status, 
-    confirm_pay_time, out_channel_no, out_trade_No, from_source, created_time, updated_time, 
-    status
+    confirm_pay_time, out_channel_no, out_trade_No, from_source, thread_order_no, created_time, 
+    updated_time, status
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--
@@ -47,13 +48,13 @@
     insert into t_merchant_trade (user_id, pay_amount, need_pay_amount, 
       confirm_pay_amount, trans_type, pay_status, 
       confirm_pay_time, out_channel_no, out_trade_No, 
-      from_source, created_time, updated_time, 
-      status)
+      from_source, thread_order_no, created_time, 
+      updated_time, status)
     values (#{userId,jdbcType=BIGINT}, #{payAmount,jdbcType=INTEGER}, #{needPayAmount,jdbcType=INTEGER}, 
       #{confirmPayAmount,jdbcType=INTEGER}, #{transType,jdbcType=VARCHAR}, #{payStatus,jdbcType=INTEGER}, 
       #{confirmPayTime,jdbcType=TIMESTAMP}, #{outChannelNo,jdbcType=VARCHAR}, #{outTradeNo,jdbcType=VARCHAR}, 
-      #{fromSource,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP}, #{updatedTime,jdbcType=TIMESTAMP}, 
-      #{status,jdbcType=INTEGER})
+      #{fromSource,jdbcType=VARCHAR}, #{threadOrderNo,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP}, 
+      #{updatedTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.yunpan.data.entity.MerchantTradeEntity">
     <!--
@@ -93,6 +94,9 @@
       </if>
       <if test="fromSource != null">
         from_source,
+      </if>
+      <if test="threadOrderNo != null">
+        thread_order_no,
       </if>
       <if test="createdTime != null">
         created_time,
@@ -134,6 +138,9 @@
       </if>
       <if test="fromSource != null">
         #{fromSource,jdbcType=VARCHAR},
+      </if>
+      <if test="threadOrderNo != null">
+        #{threadOrderNo,jdbcType=VARCHAR},
       </if>
       <if test="createdTime != null">
         #{createdTime,jdbcType=TIMESTAMP},
@@ -182,6 +189,9 @@
       <if test="fromSource != null">
         from_source = #{fromSource,jdbcType=VARCHAR},
       </if>
+      <if test="threadOrderNo != null">
+        thread_order_no = #{threadOrderNo,jdbcType=VARCHAR},
+      </if>
       <if test="createdTime != null">
         created_time = #{createdTime,jdbcType=TIMESTAMP},
       </if>
@@ -209,6 +219,7 @@
       out_channel_no = #{outChannelNo,jdbcType=VARCHAR},
       out_trade_No = #{outTradeNo,jdbcType=VARCHAR},
       from_source = #{fromSource,jdbcType=VARCHAR},
+      thread_order_no = #{threadOrderNo,jdbcType=VARCHAR},
       created_time = #{createdTime,jdbcType=TIMESTAMP},
       updated_time = #{updatedTime,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=INTEGER}
@@ -311,4 +322,13 @@
     
     order by created_time desc
   </select>
+  
+   <select id="queryTradeByUserIdandThreadOrder"  resultMap="BaseResultMap">  
+    select 
+    <include refid="Base_Column_List" />
+    from t_merchant_trade
+    where user_id = #{userId,jdbcType=BIGINT} 
+    and   thread_order_no = #{threadOrderNo,jdbcType=VARCHAR}
+  </select>
+  
 </mapper>

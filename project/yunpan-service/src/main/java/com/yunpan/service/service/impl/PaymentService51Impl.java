@@ -1,5 +1,6 @@
 package com.yunpan.service.service.impl;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -105,6 +106,7 @@ public class PaymentService51Impl implements PaymentService {
         	  String status= (String) dataObject.get("status");
         	  if("success".equals(status)){
         		  paymentResult.setPaymentStatus(AppCommon.PAY_STATUS_SUCCESS);
+        		  paymentResult.setPaymentTime(new Date());
         	  }        	
           }
 		} catch (Exception e) {
