@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>商户收款后台管理系统</title>
+    <meta content="yes" name="apple-mobile-web-app-capable"><!-- 这meta的作用就是删除默认的苹果工具栏和菜单栏允许全屏模式浏览-->
+    <meta name="apple-touch-fullscreen" content="yes"><!-- 开启对web app程序的支持  -->
+    <meta content="telephone=no,email=no" name="format-detection"><!-- iPhone会自动把你这个文字加链接样式、并且点击这个数字还会自动拨号！telephone=no就忽略页面中的数字识别为电话号码 ,email=no 忽略识别邮箱 -->
+    <!--base css-->
+    <link rel="stylesheet" href="css/reset.css"/>
+    <link rel="stylesheet" href="css/index.css"/>
+    <link rel="stylesheet" href="font/iconfont.css"/>
+    <!--base css end-->
+    <!--base js-->
+    <!--<meta content="yes" name="apple-mobile-web-app-capable">-->
+    <script>
+        window.scrollTo(0, 0);
+    </script>
+    <!--<meta content="yes" name="apple-mobile-web-app-capable"> end-->
+    <script src="js/reset.js"></script>
+    <script src="js/jquery.min.js"></script>
+ 
+    <script src="js/add.js"></script>
+    <!-- no base -->
+    <style type="text/css">
+        .dpbtn{
+            position: relative;
+        }
+        .hto-img-content{
+            width: 2.5rem;
+            height: 2.5rem;
+        }
+        .hto-img-content img{
+            width: 2.5rem;
+            height: 2.5rem;
+            -webkit-border-radius: 100%;
+            -moz-border-radius: 100%;
+            border-radius: 100%;
+        }
+        .hto-ph3{
+            line-height: 0.796875rem;
+            color: #fff;
+        }
+        .hto-title{
+            line-height: 0.796875rem;
+            color: #fff;
+        }
+    </style>
+    <!-- no base end -->
+</head>
+<body>
+<!--wapper-->
+<div class="wapper">
+    <!--glogin-->
+    <div class="glogin bag-ea4821">
+        <div class="hot-content p-l-30 p-r-30">
+            <ul class="clearFloat">
+                <li class="">
+                    <div class="hto-img">
+                        <a href="#">
+                            <div class="hto-img-content m-r-16">
+                                <img src="images/gricon.png" alt=""/>
+                            </div>
+                        </a>
+                        <div class="hto-p">
+                            <p class="hto-title clearFloat f28">商户名称： </p>
+                            <h3 class="hto-ph3 m-b-5 f28"><label th:text="${merchantEntity.name}"></label></h3>                            
+                            <p class="hto-title clearFloat  f28">费率 :<label th:text="${merchantRateEntity.rate}"></label> </p>
+
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--glogin end-->
+    <div class="bag-ebebeb">
+        <div class="gul m-b-50">
+            <a href="/queryMerchantTrade">
+                <div class="gli relative f26 p-t-30 p-b-30 b-b-e6e6e6  p-l-30 p-r-30 m-b-30 m-t-30">
+                    <img src="images/ic1.png" alt="" width="6%" class="vertical-align"/> 充值记录
+                    <span class="gspan"><img src="images/gjia.png" alt=""/></span>
+                </div>
+            </a>
+            <div style="min-height: 7rem;">
+                <a href="#">
+                    <div class="gli relative f26 p-t-30 p-b-30 b-b-e6e6e6  p-l-30 p-r-30 ontc">
+                        <img src="images/ic2.png" alt="" width="6%" class="vertical-align"/> 我的二维码，推广即可赚钱
+                        <span class="gspan"><img src="images/gjia.png" alt=""/></span>
+                    </div>
+                </a>
+                
+                 <a href="#">
+                    <div class="gli relative f26 p-t-30 p-b-30 b-b-e6e6e6  p-l-30 p-r-30 ontc">
+                        <img src="images/ic3.png" alt="" width="6%" class="vertical-align"/> 分享用户
+                        <span class="gspan"><img src="images/gjia.png" alt=""/></span>
+                    </div>
+                </a>                
+              
+                <a href="#">
+                    <div class="gli relative f26 p-t-30 p-b-30 b-b-e6e6e6  p-l-30 p-r-30 ontc">
+                        <img src="images/ic4.png" alt="" width="6%" class="vertical-align"/> 佣金报表
+                        <span class="gspan"><img src="images/gjia.png" alt=""/></span>
+                    </div>
+                </a>
+                <a href="/queryMerchantAccount">
+                    <div class="gli relative f26 p-t-30 p-b-30 b-b-e6e6e6  p-l-30 p-r-30">
+                        <img src="images/ic5.png" alt="" width="6%" class="vertical-align"/> 我要提现
+                        <span class="gspan"><img src="images/gjia.png" alt=""/></span>
+                    </div>
+                </a>
+                <a href="/queryMerchantInfo" th:if="${session.merchantEntityKeyRole} eq '3'">
+                    <div class="gli relative f26 p-t-30 p-b-30 b-b-e6e6e6  p-l-30 p-r-30 m-t-30 m-b-30">
+                        <img src="images/ic6.png" alt="" width="6%" class="vertical-align"/>  后台管理
+                        <span class="gspan"><img src="images/gjia.png" alt=""/></span>
+                    </div>
+                </a>
+                
+            </div>
+            
+
+        </div>
+
+       
+    </div>
+    
+     <!--期待-->
+    <div class="page-tztck relative">
+        <div class="page-tc relative">
+            <span class="closea"><img src="images/colsea.png" alt=""/></span>
+            <img src="images/tcimg.png" alt="" width="90%"/>
+        </div>
+    </div>
+    
+      <div th:replace="/commons::footer"></div>
+    
+</div>
+<!--wapper end-->
+</body>
+</html>

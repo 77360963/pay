@@ -25,6 +25,7 @@ import com.yunpan.base.annotation.IfNeedLogin;
 import com.yunpan.base.tool.DeviceUtils;
 import com.yunpan.base.web.util.Result;
 import com.yunpan.data.entity.MerchantEntity;
+import com.yunpan.data.entity.MerchantRateEntity;
 import com.yunpan.data.entity.MerchantTradeEntity;
 import com.yunpan.service.bean.AppCommon;
 import com.yunpan.service.bean.MerchantAccountEntityBean;
@@ -342,5 +343,14 @@ public class MerchantController {
 	
 	
 	
+	@IfNeedLogin
+    @RequestMapping(value ="/merchantCenter")
+    public String merchantAccount(HttpServletRequest request,HttpServletResponse response,final ModelMap model) throws Exception{      
+       MerchantEntity merchantEntity=getUserSession(request,response); 
+       MerchantRateEntity merchantRateEntity=merchantService.queryMerchantRateByUserId(merchantEntity.getUserId());
+       model.addAttribute("merchantEntity", merchantEntity);
+       model.addAttribute("merchantRateEntity", merchantRateEntity);
+       return "/merchantCenter";  
+    }
 
 }

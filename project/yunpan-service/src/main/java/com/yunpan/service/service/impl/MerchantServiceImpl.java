@@ -141,4 +141,9 @@ public class MerchantServiceImpl implements MerchantService {
 		
 	}
 
+	@Override
+	public MerchantRateEntity queryMerchantRateByUserId(long userId) {
+		return merchantRateDao.selectByUserId(userId);
+	}
+
 }
