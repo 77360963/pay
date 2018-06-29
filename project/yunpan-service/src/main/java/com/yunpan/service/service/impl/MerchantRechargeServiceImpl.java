@@ -2,6 +2,7 @@ package com.yunpan.service.service.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.yunpan.base.mail.IEMailSender;
 import com.yunpan.base.tool.DateTool;
 import com.yunpan.base.tool.MoneyUtil;
 import com.yunpan.data.dao.ChannelTradeDao;
@@ -53,6 +55,9 @@ public class MerchantRechargeServiceImpl implements MerchantRechargeService {
 	
 	@Autowired
 	private ChannelTradeDao channelTradeDao;
+	
+	@Autowired
+    private IEMailSender mailSender;
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
@@ -208,6 +213,14 @@ public class MerchantRechargeServiceImpl implements MerchantRechargeService {
 						throw new MerchantException("", "商户充值失败,请联系管理员");
 					}else{
 						paymentStatus=true;
+						//发送邮件          
+			             HashMap<String,String> map=new HashMap<String,String>();
+			             map.put("merchantName", merchantEntity.getName());
+			             map.put("contacts", merchantEntity.getContacts());
+			             map.put("mobile", merchantEntity.getMobile());
+			             map.put("paymentMethod", merchantEntity.getPaymentMethod());
+			             map.put("payAmount", MoneyUtil.parseFromFenAmountToRMB(String.valueOf(merchantTradeEntity.getPayAmount())));
+			             mailSender.sendSimpleEmail(AppCommon.MAIL_RECHARGE,map);
 					}
 				}else{
 					throw new MerchantException("", "商户充值成功,请检查订单状态");

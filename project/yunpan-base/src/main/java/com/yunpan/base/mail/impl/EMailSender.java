@@ -73,7 +73,25 @@ public class EMailSender implements IEMailSender {
 					sb.append("注册时间:").append(DateTool.formatFullDate(new Date())).append("\r\n");
 					map.put("title", "商户注册【"+context.get("merchantName")+"】");
 					map.put("context", sb.toString());
-				}		
+				}else if("withdraw".equals(mailType)){
+                    sb.append("商户名称:").append(context.get("merchantName")).append("\r\n");
+                    sb.append("联系人:").append(context.get("contacts")).append("\r\n");
+                    sb.append("联系电话:").append(context.get("mobile")).append("\r\n");
+                    sb.append("收款方式:").append(context.get("paymentMethod")).append("\r\n");
+                    sb.append("提现时间:").append(DateTool.formatFullDate(new Date())).append("\r\n");
+                    sb.append("提现金额:").append(context.get("payAmount")).append("\r\n");
+                    map.put("title", "商户提现【"+context.get("merchantName")+"】");
+                    map.put("context", sb.toString());
+                }else if("recharge".equals(mailType)){
+                    sb.append("商户名称:").append(context.get("merchantName")).append("\r\n");
+                    sb.append("联系人:").append(context.get("contacts")).append("\r\n");
+                    sb.append("联系电话:").append(context.get("mobile")).append("\r\n");
+                    sb.append("收款方式:").append(context.get("paymentMethod")).append("\r\n");
+                    sb.append("充值时间:").append(DateTool.formatFullDate(new Date())).append("\r\n");
+                    sb.append("充值金额:").append(context.get("payAmount")).append("\r\n");
+                    map.put("title", "商户充值【"+context.get("merchantName")+"】");
+                    map.put("context", sb.toString());
+                }   		
 				return map;
 			};
 		}.start();		

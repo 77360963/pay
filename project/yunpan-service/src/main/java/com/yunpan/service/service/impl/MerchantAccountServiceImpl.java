@@ -1,5 +1,7 @@
 package com.yunpan.service.service.impl;
 
+import java.util.HashMap;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.yunpan.base.mail.IEMailSender;
+import com.yunpan.base.tool.MoneyUtil;
 import com.yunpan.data.dao.MerchantAccountDao;
 import com.yunpan.data.dao.MerchantDao;
 import com.yunpan.data.dao.MerchantTradeDao;
@@ -30,6 +34,9 @@ public class MerchantAccountServiceImpl implements MerchantAccountService {
 	
 	@Autowired
 	private MerchantTradeDao merchantTradeDao;
+	
+	 @Autowired
+	 private IEMailSender mailSender;
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
@@ -59,6 +66,15 @@ public class MerchantAccountServiceImpl implements MerchantAccountService {
 		int updateCount= merchantAccountDao.merchantWithdraw(userId, amount);
 		if(updateCount!=1){
 		    throw new MerchantException("", "更新相关份额出错");
+		}else{
+		    //发送邮件		  
+	         HashMap<String,String> map=new HashMap<String,String>();
+	         map.put("merchantName", merchantEntity.getName());
+	         map.put("contacts", merchantEntity.getContacts());
+	         map.put("mobile", merchantEntity.getMobile());
+	         map.put("paymentMethod", merchantEntity.getPaymentMethod());
+	         map.put("payAmount", MoneyUtil.parseFromFenAmountToRMB(String.valueOf(amount)));
+	         mailSender.sendSimpleEmail(AppCommon.MAIL_WITHDRAW,map);
 		}
 		return true;
 	}

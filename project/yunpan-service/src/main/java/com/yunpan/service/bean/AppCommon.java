@@ -84,9 +84,18 @@ public class AppCommon {
 	public static int SIGNIN_MAX_AMOUNT=6;
 	
 	/**
-	 * 发送短信
+	 * 发送短信(注册)
 	 */
 	public static String MAIL_REGISTER="register";
 	
+	/**
+     * 发送短信(提现)
+     */
+    public static String MAIL_WITHDRAW="withdraw";
+    
+    /**
+     * 发送短信(充值)
+     */
+    public static String MAIL_RECHARGE="recharge";
 	
 }
