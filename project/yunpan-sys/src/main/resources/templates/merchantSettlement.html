@@ -53,13 +53,29 @@
                </div>          
                 <li class="b-b-e6e6e6" th:each="trade,rechargeStat: ${merchantTradeList}">
                     <div class="hto-img">
-                        <a href="#">
-                            <div class="hto-img-content m-r-16" th:if="${trade.fromSource} eq '1'">
-                                <img src="images/icon-alipay.png" alt=""/>
+                        <a href="#">                          
+                            
+                             <div class="hto-img-content m-r-16" th:if="${trade.transType} eq 'I'">                                
+                                 <div class="hto-img-content m-r-16" th:if="${trade.fromSource} eq '1'">
+	                                <img src="images/icon-alipay.png" alt=""/>
+	                            </div>
+	                             <div class="hto-img-content m-r-16" th:if="${trade.fromSource} eq '2'">
+	                                <img src="images/icon-weixin.png" alt=""/>
+	                            </div>                                
                             </div>
-                             <div class="hto-img-content m-r-16" th:if="${trade.fromSource} eq '2'">
-                                <img src="images/icon-weixin.png" alt=""/>
+                            
+                             <div class="hto-img-content m-r-16" th:if="${trade.transType} eq 'O'">
+                                <img src="images/icon3.png" alt=""/>
                             </div>
+                            
+                             <div class="hto-img-content m-r-16" th:if="${trade.transType} eq 'P'">
+                                <img src="images/icon_12.png" alt=""/>
+                            </div>                            
+                            
+                             <div class="hto-img-content m-r-16" th:if="${trade.transType} eq 'F'">
+                                <img src="images/icon-bonus-point-2-org.png" alt=""/>
+                            </div>
+                            
                         </a>
                         <div class="hto-p">
                             <a href="#">
