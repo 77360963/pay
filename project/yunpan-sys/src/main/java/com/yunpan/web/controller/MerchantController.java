@@ -111,21 +111,33 @@ public class MerchantController {
 	}
 	
 	/**
-	 * 查询商户交易记录
+	 * 查询商户充值交易记录
 	 * @param request
 	 * @throws Exception 
 	 */
 	@IfNeedLogin
-	@RequestMapping(value ="/queryMerchantTrade")
-	public String queryMerchantRechargeList(HttpServletRequest request,HttpServletResponse response,final ModelMap model) throws Exception{
-		  MerchantEntity merchantEntity=getUserSession(request,response);	
-		  String transType=request.getParameter("transType");
-		  if(StringUtils.isBlank(transType)){
-		      transType=null;
-		  }
+	@RequestMapping(value ="/queryRechargeTrade")
+	public String queryRechargeTradeList(HttpServletRequest request,HttpServletResponse response,final ModelMap model) throws Exception{
+		 MerchantEntity merchantEntity=getUserSession(request,response);	
+		 String transType="I";		 
 		 List<MerchantTradeEntityBean> merchantRechargeList=merchantRechargeService.queryMerchantTradeByUserId(merchantEntity.getUserId(),transType);
 		 model.addAttribute("merchantRechargeList", merchantRechargeList);
 		 return "/merchantRechargeList";		
+	}
+	
+	/**
+	 * 查询商户提现交易记录
+	 * @param request
+	 * @throws Exception 
+	 */
+	@IfNeedLogin
+	@RequestMapping(value ="/queryWithdrawTrade")
+	public String queryWithdrawTradeList(HttpServletRequest request,HttpServletResponse response,final ModelMap model) throws Exception{
+		  MerchantEntity merchantEntity=getUserSession(request,response);	
+		  String transType="O";
+		 List<MerchantTradeEntityBean> merchantRechargeList=merchantRechargeService.queryMerchantTradeByUserId(merchantEntity.getUserId(),transType);
+		 model.addAttribute("merchantRechargeList", merchantRechargeList);
+		 return "/merchantWithdrawList";		
 	}
 	
 	
@@ -201,6 +213,15 @@ public class MerchantController {
       }
 
 	
+    /**
+	 * 商户首页
+	 * @param request
+	 */
+	@RequestMapping(value ="/merchantIndex")
+	public String merchantIndex(HttpServletRequest request){
+		return "/merchantIndex";
+	}
+    
 	
 	/**
 	 * 商户注册

@@ -54,8 +54,11 @@
                 <li class="b-b-e6e6e6" th:each="trade,rechargeStat: ${merchantTradeList}">
                     <div class="hto-img">
                         <a href="#">
-                            <div class="hto-img-content m-r-16">
-                                <img src="images/ncimg.jpg" alt=""/>
+                            <div class="hto-img-content m-r-16" th:if="${trade.fromSource} eq '1'">
+                                <img src="images/icon-alipay.png" alt=""/>
+                            </div>
+                             <div class="hto-img-content m-r-16" th:if="${trade.fromSource} eq '2'">
+                                <img src="images/icon-weixin.png" alt=""/>
                             </div>
                         </a>
                         <div class="hto-p">

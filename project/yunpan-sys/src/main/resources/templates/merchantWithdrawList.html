@@ -54,25 +54,26 @@
                 <li class="b-b-e6e6e6" th:each="trade,rechargeStat: ${merchantRechargeList}">
                     <div class="hto-img">
                         <a href="#">
-                            <div class="hto-img-content m-r-16" th:if="${trade.fromSource} eq '1'">
-                                <img src="images/icon-alipay.png" alt=""/>
+                            <div class="hto-img-content m-r-16" th:if="${trade.payStatus} eq '0'">
+                                <img src="images/icon-wd-processing.png" alt=""/>
                             </div>
-                             <div class="hto-img-content m-r-16" th:if="${trade.fromSource} eq '2'">
-                                <img src="images/icon-weixin.png" alt=""/>
+                             <div class="hto-img-content m-r-16" th:if="${trade.payStatus} eq '1'">
+                                <img src="images/icon-wd-success.png" alt=""/>
                             </div>
                         </a>
                         <div class="hto-p">
                             <a href="#">
-                                <h3 class="hto-ph3 m-b-5 f28">支付金额：<label th:text="${trade.payAmount}"></label></h3>
+                                <h3 class="hto-ph3 m-b-5 f28">提现金额：<label th:text="${trade.payAmount}"></label></h3>
                                 <p class="hto-title clearFloat  f28">结算金额：<label th:text="${trade.needPayAmount}"></label> </p>
                                 <p class="hto-title clearFloat  f28">支付状态：                                
 		                               <label th:if="${trade.payStatus} eq '0'">                            
-		                                                                                                                     待支付
+		                                                                                                                     待结算
 		                               </label>
 		                                <label th:if="${trade.payStatus} eq '1'">                            
-		                                                                                                                     支付成功
+		                                                                                                                     结算成功
 		                             </label>
-                                </p> 
+                                </p>                              
+                               
                                 <p class="hto-title clearFloat f28">时间：<label th:text="${trade.createdTime}"></label> </p>                                                                
                             </a>
                         </div>

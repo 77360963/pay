@@ -3,34 +3,23 @@
 <body>
    <footer  th:fragment="footer">
       <div class="footer">
-      <!--   <a href="#">
+        <a href="/merchantIndex">
             <i class="icon iconfont">&#xe608;</i><br>
             首页
-        </a> -->
-        <a href="/queryMerchantTrade">
-            <i class="icon iconfont">&#xe647;</i><br>
-           交易明细
         </a>
+       
         <a href="/merchantInfoScanQR">
             <i class="icon iconfont">&#xe689;</i><br>
             二维码收款
         </a>
          <a href="/userSigninList">
-            <i class="icon iconfont">&#xe608;</i><br>
+            <i class="icon iconfont">&#xe654;</i><br>
             签到中心
             </a>
         <a href="/merchantCenter">
             <i class="icon iconfont">&#xe60a;</i><br>
             个人中心
         </a>
-         
-         
-                          
-		 <!--   <a href="/queryMerchantInfo" th:if="${session.merchantEntityKeyRole} eq '3'">
-             <i class="icon iconfont">&#xe608;</i><br>
-                                            后台管理
-            </a> -->
-		
          
     </div> 
    </footer>

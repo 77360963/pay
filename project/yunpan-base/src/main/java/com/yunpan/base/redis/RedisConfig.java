@@ -14,8 +14,8 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
-@Configuration
-@EnableCaching  
+//@Configuration
+//@EnableCaching  
 public class RedisConfig {
 
 	@Bean
@@ -29,7 +29,7 @@ public class RedisConfig {
 		return template;
 	}
 
-	@Bean("keyGenerator")
+	//@Bean("keyGenerator")
 	public KeyGenerator keyGenerator() {
 		return new KeyGenerator() {
 			@Override
@@ -47,7 +47,7 @@ public class RedisConfig {
 		};
 
 	}
-	@Bean
+	//@Bean
 	public CacheManager cacheManager(RedisTemplate<Object, Object>  redisTemplate) {
 		RedisCacheManager cm = new RedisCacheManager(redisTemplate);
 		//15秒过期
