@@ -4,6 +4,8 @@ package com.yunpan.data.dao;
 
 
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
 import com.yunpan.data.entity.MerchantAccountEntity;
@@ -48,6 +50,15 @@ public interface MerchantAccountDao {
      * @return
      */
     MerchantAccountEntity selectByUserId(Long userId);
+    
+    
+    /**
+     * 查询所有账户信息
+     * @return
+     */
+    List<MerchantAccountEntity> selectByPage();
+    
+    
     
     /**
      * 

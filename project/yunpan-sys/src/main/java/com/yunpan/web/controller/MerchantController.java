@@ -29,6 +29,7 @@ import com.yunpan.data.entity.MerchantRateEntity;
 import com.yunpan.data.entity.MerchantTradeEntity;
 import com.yunpan.service.bean.AppCommon;
 import com.yunpan.service.bean.MerchantAccountEntityBean;
+import com.yunpan.service.bean.MerchantEntityBean;
 import com.yunpan.service.bean.MerchantTradeEntityBean;
 import com.yunpan.service.exception.MerchantException;
 import com.yunpan.service.service.MerchantAccountService;
@@ -138,6 +139,36 @@ public class MerchantController {
 		 List<MerchantTradeEntityBean> merchantRechargeList=merchantRechargeService.queryMerchantTradeByUserId(merchantEntity.getUserId(),transType);
 		 model.addAttribute("merchantRechargeList", merchantRechargeList);
 		 return "/merchantWithdrawList";		
+	}
+	
+	
+	/**
+	 * 查询商户返现佣金交易记录
+	 * @param request
+	 * @throws Exception 
+	 */
+	@IfNeedLogin
+	@RequestMapping(value ="/queryCommissionTrade")
+	public String queryCommissionTradeList(HttpServletRequest request,HttpServletResponse response,final ModelMap model) throws Exception{
+		  MerchantEntity merchantEntity=getUserSession(request,response);	
+		  String transType="F";
+		 List<MerchantTradeEntityBean> merchantRechargeList=merchantRechargeService.queryMerchantTradeByUserId(merchantEntity.getUserId(),transType);
+		 model.addAttribute("merchantRechargeList", merchantRechargeList);
+		 return "/merchantCommissionList";		
+	}
+	
+	/**
+	 * 查询商户推荐用户记录
+	 * @param request
+	 * @throws Exception 
+	 */
+	@IfNeedLogin
+	@RequestMapping(value ="/queryRecommendTrade")
+	public String queryRecommendTradeList(HttpServletRequest request,HttpServletResponse response,final ModelMap model) throws Exception{
+		  MerchantEntity merchantEntity=getUserSession(request,response);		 
+		  List<MerchantInfoBean> merchantInfoList=userService.queryRecommendTradeList(merchantEntity.getUserId());
+		 model.addAttribute("merchantInfoList", merchantInfoList);
+		 return "/merchantRecommendList";		
 	}
 	
 	

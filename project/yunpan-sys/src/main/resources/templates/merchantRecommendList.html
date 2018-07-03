@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>商户收款后台管理系统</title>
+    <meta content="yes" name="apple-mobile-web-app-capable"><!-- 这meta的作用就是删除默认的苹果工具栏和菜单栏允许全屏模式浏览-->
+    <meta name="apple-touch-fullscreen" content="yes"><!-- 开启对web app程序的支持  -->
+    <meta content="telephone=no,email=no" name="format-detection"><!-- iPhone会自动把你这个文字加链接样式、并且点击这个数字还会自动拨号！telephone=no就忽略页面中的数字识别为电话号码 ,email=no 忽略识别邮箱 -->
+    <!--base css-->
+    <link rel="stylesheet" href="css/reset.css"/>
+    <link rel="stylesheet" href="css/index.css"/>
+    <link rel="stylesheet" href="font/iconfont.css"/>
+    <!--base css end-->
+    <!--base js-->
+    <!--<meta content="yes" name="apple-mobile-web-app-capable">-->
+    <script>
+        window.scrollTo(0, 0);
+    </script>
+    <!--<meta content="yes" name="apple-mobile-web-app-capable"> end-->
+    <script src="js/reset.js"></script>
+    <script src="js/jquery.min.js"></script>   
+    <style>
+        .hto-img-content{
+            width: 1.921875rem;
+            height: 1.921875rem;
+        }
+        .hto-img-content img{
+            width: 1.921875rem;
+            height: 1.921875rem;
+        }
+        .hto-ph3{
+            line-height: 0.671875rem;
+        }
+        .hto-title{
+            line-height: 0.671875rem;
+        }
+    </style>
+
+
+
+</head>
+
+<body>
+<!--wapper-->
+<div class="wapper">
+
+    <!--热闹活动-->
+    <div class="hot p-l-30 p-r-30  p-b-27 clearFloat bag-fff">
+        <div class="hot-content">
+            <ul class="clearFloat">  
+               <div th:if="${#lists.isEmpty(merchantInfoList)}">
+                    <li class="b-b-e6e6e6">暂无推荐用户记录</li>
+               </div>          
+                <li class="b-b-e6e6e6" th:each="merchantInfoBean,rechargeStat: ${merchantInfoList}">
+                    <div class="hto-img">
+                        <a href="#">                                             
+                           <h3 class="hto-ph3 m-b-5 f28">商户名：<label th:text="${merchantInfoBean.merchantEntity.name}"></label></h3>
+                           <p class="hto-title clearFloat  f28">注册时间：<label th:text="${#dates.format(merchantInfoBean.merchantEntity.createdTime,'yyyy-MM-dd HH:mm')}"></label> </p>
+                            <p class="hto-title clearFloat  f28">交易费率：<label th:text="${merchantInfoBean.merchantRateEntity.rate}"></label> </p>                       
+                        </a>                        
+                    </div>
+                </li>              
+            </ul>
+        </div>
+
+    </div>
+
+  <div th:replace="/commons::footer"></div>
+</div>
+<!--wapper end-->
+</body>
+<script language="javascript" type="text/javascript">
+   
+   function modfiyMerchantRate(obj){
+	   var thisObj=$(obj);
+	   var userId=thsiObj.attr("userId");  
+	     alert(userId);
+	     $.ajax({ 
+	         type : "POST",
+	         dataType : "json",
+	         url : "/modfiyMerchantRate",
+	         data : {
+	        	 userId : '222734644',
+	        	 rate : '0.009',
+	         },                        
+	         success : function(msg) {            	  
+	      	   if (msg.responseCode=="success"){
+	      		 alert("设置费率成功");	      		
+	      	   }else{
+	      		 alert(msg.responseMsg);
+	      	   }
+	         }
+	     });              
+   }
+   
+   
+   function confirmWithdraw(transId){
+	   $.ajax({ 
+	         type : "POST",
+	         dataType : "json",
+	         url : "/confirmWithdraw",
+	         data : {
+	        	 transId : transId,	        	    	
+	         },                        
+	         success : function(msg) {            	  
+	      	   if (msg.responseCode=="success"){
+	      		 alert("结算成功");
+	      		window.location.href="/merchantSettlement"; 
+	      	   }else{
+	      		 alert(msg.responseMsg);
+	      	   }
+	         }
+	     });              
+   }
+</script>
+</html>

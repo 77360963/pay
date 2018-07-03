@@ -42,13 +42,13 @@ public class AdminMerchantServiceImpl implements AdminMerchantService {
 	@Override
 	public List<MerchantInfoBean> queryMerchantInfo() {
 		List<MerchantInfoBean> list=new ArrayList<MerchantInfoBean>();
-		List<MerchantEntity> merchantEntityList=merchantDao.queryMerchant();
+		List<MerchantAccountEntity> merchantAccountEntityList=merchantAccountDao.selectByPage();
 		MerchantInfoBean merchantInfoBean=null;
-		for(MerchantEntity merchantEntity:merchantEntityList){
+		for(MerchantAccountEntity merchantAccountEntity:merchantAccountEntityList){
 			merchantInfoBean=new MerchantInfoBean();
-			MerchantAccountEntity merchantAccountEntity=merchantAccountDao.selectByUserId(merchantEntity.getUserId());
-			MerchantRateEntity merchantRateEntity=merchantRateDao.selectByUserId(merchantEntity.getUserId());
-			UniUserEntity uniUserEntity=UniUserDao.selectByPrimaryKey(merchantEntity.getUserId());
+			MerchantEntity merchantEntity=merchantDao.selectMerchantEntityByUserId(merchantAccountEntity.getUserId());
+			MerchantRateEntity merchantRateEntity=merchantRateDao.selectByUserId(merchantAccountEntity.getUserId());
+			UniUserEntity uniUserEntity=UniUserDao.selectByPrimaryKey(merchantAccountEntity.getUserId());
 			merchantInfoBean.setMerchantEntity(merchantEntity);
 			merchantInfoBean.setMerchantRateEntity(merchantRateEntity);
 			merchantInfoBean.setUniUserEntity(uniUserEntity);

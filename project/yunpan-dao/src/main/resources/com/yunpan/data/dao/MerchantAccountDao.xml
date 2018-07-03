@@ -180,4 +180,15 @@
     and fre_amt - #{withdrawAmount,jdbcType=INTEGER} >=0
   </update>
   
+   <select id="selectByPage" resultMap="BaseResultMap">
+    <!--
+    @mbggenerated
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from t_merchant_account
+    where 1=1
+    order by share_amt desc
+  </select>
+  
 </mapper>

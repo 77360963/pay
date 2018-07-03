@@ -43,4 +43,11 @@ public interface MerchantDao {
     
     
     List<MerchantEntity> queryMerchant();
+     
+    /**
+     * 根据parentUserId 查询
+     * @param userId
+     * @return
+     */
+    List<MerchantEntity> queryMerchantByParentUserId(Long userId);
 }

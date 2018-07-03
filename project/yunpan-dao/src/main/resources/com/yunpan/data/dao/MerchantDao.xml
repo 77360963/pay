@@ -220,7 +220,17 @@
     select 
     <include refid="Base_Column_List" />
     from t_merchant
-    where 1=1
-    
+    where 1=1    
+  </select>
+  
+    <select id="queryMerchantByParentUserId"  resultMap="BaseResultMap">
+    <!--
+    @mbggenerated
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from t_merchant
+    where 1=1   
+    and  parent_user_id = #{parentUserId,jdbcType=BIGINT} 
   </select>
 </mapper>

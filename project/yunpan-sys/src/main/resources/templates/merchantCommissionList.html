@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>商户收款后台管理系统</title>
+    <meta content="yes" name="apple-mobile-web-app-capable"><!-- 这meta的作用就是删除默认的苹果工具栏和菜单栏允许全屏模式浏览-->
+    <meta name="apple-touch-fullscreen" content="yes"><!-- 开启对web app程序的支持  -->
+    <meta content="telephone=no,email=no" name="format-detection"><!-- iPhone会自动把你这个文字加链接样式、并且点击这个数字还会自动拨号！telephone=no就忽略页面中的数字识别为电话号码 ,email=no 忽略识别邮箱 -->
+    <!--base css-->
+    <link rel="stylesheet" href="css/reset.css"/>
+    <link rel="stylesheet" href="css/index.css"/>
+    <link rel="stylesheet" href="font/iconfont.css"/>
+    <!--base css end-->
+    <!--base js-->
+    <!--<meta content="yes" name="apple-mobile-web-app-capable">-->
+    <script>
+        window.scrollTo(0, 0);
+    </script>
+    <!--<meta content="yes" name="apple-mobile-web-app-capable"> end-->
+    <script src="js/reset.js"></script>
+    <script src="js/jquery.min.js"></script>   
+    <style>
+        .hto-img-content{
+            width: 1.921875rem;
+            height: 1.921875rem;
+        }
+        .hto-img-content img{
+            width: 1.921875rem;
+            height: 1.921875rem;
+        }
+        .hto-ph3{
+            line-height: 0.671875rem;
+        }
+        .hto-title{
+            line-height: 0.671875rem;
+        }
+    </style>
+
+
+
+</head>
+
+<body>
+<!--wapper-->
+<div class="wapper">
+
+    <!--热闹活动-->
+    <div class="hot p-l-30 p-r-30  p-b-27 clearFloat bag-fff">
+        <div class="hot-content">
+            <ul class="clearFloat">  
+               <div th:if="${#lists.isEmpty(merchantRechargeList)}">
+                    <li class="b-b-e6e6e6">暂无佣金交易记录</li>
+               </div>          
+                <li class="b-b-e6e6e6" th:each="trade,rechargeStat: ${merchantRechargeList}">
+                    <div class="hto-img">
+                        <a href="#">
+                            <div class="hto-img-content m-r-16" th:if="${trade.fromSource} eq '1'">
+                                <img src="images/icon-alipay.png" alt=""/>
+                            </div>
+                             <div class="hto-img-content m-r-16" th:if="${trade.fromSource} eq '2'">
+                                <img src="images/icon-weixin.png" alt=""/>
+                            </div>
+                        </a>
+                        <div class="hto-p">
+                            <a href="#">
+                                <h3 class="hto-ph3 m-b-5 f28">支付金额：<label th:text="${trade.payAmount}"></label></h3>
+                                <p class="hto-title clearFloat  f28">结算金额：<label th:text="${trade.needPayAmount}"></label> </p>
+                                <p class="hto-title clearFloat  f28">支付状态：                                
+		                               <label th:if="${trade.payStatus} eq '0'">                            
+		                                                                                                                     待支付
+		                               </label>
+		                                <label th:if="${trade.payStatus} eq '1'">                            
+		                                                                                                                     支付成功
+		                             </label>
+                                </p> 
+                                <p class="hto-title clearFloat f28">时间：<label th:text="${trade.createdTime}"></label> </p>                                                                
+                            </a>
+                        </div>
+                      </br>  </br>  </br>
+                    </div>
+                </li>              
+            </ul>
+        </div>
+
+    </div>
+ 
+   <div th:replace="/commons::footer"></div>
+
+</div>
+<!--wapper end-->
+</body>
+</html>

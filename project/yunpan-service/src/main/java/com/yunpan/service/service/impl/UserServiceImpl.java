@@ -1,5 +1,9 @@
 package com.yunpan.service.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,16 +11,23 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.yunpan.base.mail.IEMailSender;
 import com.yunpan.base.tool.DateTool;
+import com.yunpan.base.tool.MoneyUtil;
 import com.yunpan.data.dao.MerchantAccountDao;
+import com.yunpan.data.dao.MerchantDao;
+import com.yunpan.data.dao.MerchantRateDao;
 import com.yunpan.data.dao.MerchantTradeDao;
 import com.yunpan.data.dao.UserSigninDao;
 import com.yunpan.data.entity.MerchantAccountEntity;
+import com.yunpan.data.entity.MerchantEntity;
+import com.yunpan.data.entity.MerchantRateEntity;
 import com.yunpan.data.entity.MerchantTradeEntity;
 import com.yunpan.data.entity.UserSigninEntity;
 import com.yunpan.service.bean.AppCommon;
 import com.yunpan.service.exception.MerchantException;
 import com.yunpan.service.service.UserService;
+import com.yunpan.service.service.bean.MerchantInfoBean;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -32,6 +43,15 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private MerchantAccountDao merchantAccountDao;
     
+	@Autowired
+	private MerchantDao merchantDao;
+	
+	@Autowired
+	private MerchantRateDao merchantRateDao;
+	
+	@Autowired
+    private IEMailSender mailSender;
+    
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public boolean userSignin(long userId) {
@@ -40,6 +60,14 @@ public class UserServiceImpl implements UserService {
             logger.info("未找到相关商户资金账户,userId={}",userId);
             throw new MerchantException("", "未找到相关商户资金账户");
         }  
+        
+        MerchantEntity merchantEntity=merchantDao.selectMerchantEntityByUserId(userId);
+        if(null==merchantEntity){
+            logger.info("未找到相关商户信息，商户id={}",userId);
+            throw new MerchantException("", "未找到相关商户信息");
+        }
+        
+        
         String signinDate=DateTool.getCurrentDateStr();
         UserSigninEntity queryUserSigninEntity=userSigninDao.selectByUserIdandDate(userId, signinDate);
         if(null!=queryUserSigninEntity){
@@ -68,6 +96,14 @@ public class UserServiceImpl implements UserService {
                     if(updateAccount!=1){
                         throw new MerchantException("", "用户签到失败");
                     }
+                  //发送邮件          
+		             HashMap<String,String> map=new HashMap<String,String>();
+		             map.put("merchantName", merchantEntity.getName());
+		             map.put("contacts", merchantEntity.getContacts());
+		             map.put("mobile", merchantEntity.getMobile());
+		             map.put("paymentMethod", merchantEntity.getPaymentMethod());
+		             map.put("payAmount", MoneyUtil.parseFromFenAmountToRMB(String.valueOf(merchantTradeEntity.getPayAmount())));
+		             mailSender.sendSimpleEmail(AppCommon.MAIL_SIGNIN,map);
                     return true;
                 }
             }
@@ -77,5 +113,20 @@ public class UserServiceImpl implements UserService {
         }
        return false;      
     }
+
+	@Override
+	public List<MerchantInfoBean> queryRecommendTradeList(long userId) {
+		List<MerchantInfoBean> list=new ArrayList<MerchantInfoBean>();
+		List<MerchantEntity> merchantEntityList=merchantDao.queryMerchantByParentUserId(userId);		
+		MerchantInfoBean merchantInfoBean=null;
+		for(MerchantEntity merchantEntity:merchantEntityList){
+			MerchantRateEntity merchantRateEntity=merchantRateDao.selectByUserId(userId);
+			merchantInfoBean=new MerchantInfoBean();
+			merchantInfoBean.setMerchantEntity(merchantEntity);
+			merchantInfoBean.setMerchantRateEntity(merchantRateEntity);
+			list.add(merchantInfoBean);
+		}
+		return list;
+	}
 
 }

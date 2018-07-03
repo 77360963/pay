@@ -91,7 +91,16 @@ public class EMailSender implements IEMailSender {
                     sb.append("充值金额:").append(context.get("payAmount")).append("\r\n");
                     map.put("title", "商户充值【"+context.get("merchantName")+"】");
                     map.put("context", sb.toString());
-                }   		
+                }else if("signin".equals(mailType)){
+                    sb.append("商户名称:").append(context.get("merchantName")).append("\r\n");
+                    sb.append("联系人:").append(context.get("contacts")).append("\r\n");
+                    sb.append("联系电话:").append(context.get("mobile")).append("\r\n");
+                    sb.append("收款方式:").append(context.get("paymentMethod")).append("\r\n");
+                    sb.append("签到时间:").append(DateTool.formatFullDate(new Date())).append("\r\n");
+                    sb.append("签到金额:").append(context.get("payAmount")).append("\r\n");
+                    map.put("title", "商户签到【"+context.get("merchantName")+"】");
+                    map.put("context", sb.toString());
+                }    		
 				return map;
 			};
 		}.start();		

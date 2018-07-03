@@ -97,5 +97,10 @@ public class AppCommon {
      * 发送短信(充值)
      */
     public static String MAIL_RECHARGE="recharge";
+    
+    /**
+     * 发送短信(签到)
+     */
+    public static String MAIL_SIGNIN="signin";
 	
 }
