@@ -17,9 +17,12 @@
         window.scrollTo(0, 0);
     </script>
     <!--<meta content="yes" name="apple-mobile-web-app-capable"> end-->
+     <script src="http://cdn.bootcss.com/stomp.js/2.3.3/stomp.min.js"></script>
+<script src="https://cdn.bootcss.com/sockjs-client/1.1.4/sockjs.min.js"></script>
     <script src="js/reset.js"></script>
     <script src="js/jquery.min.js"></script>
-    <script src="js/qrcode.min.js"></script>      
+    <script src="js/qrcode.min.js"></script> 
+    <script src="js/lkl.js"></script>     
 </head>
 
 <body>
@@ -67,6 +70,9 @@ function makeCode () {
     qrcode.makeCode(basePath);
 }
 makeCode();
+
+webClientUserId=[[${session.merchantEntityKey.userId}]];
+
 </script>
 
 

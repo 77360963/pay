@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+    <title>stomp</title>
+    <script src="http://cdn.bootcss.com/stomp.js/2.3.3/stomp.min.js"></script>
+<script src="https://cdn.bootcss.com/sockjs-client/1.1.4/sockjs.min.js"></script>
+</head>
+
+<body>
+ 首页
+  
+   
+    <button onclick="subscribe3()">订阅消息/user/queue/message</button>
+    <hr/>
+    <div id="message"></div>
+</body>
+
+
+
+<script language="javascript" type="text/javascript">
+     
+
+	// 建立连接对象（还未发起连接）
+	    var socket = new SockJS("http://192.168.111.18:8082/webSocketServer");
+
+	    // 获取 STOMP 子协议的客户端对象
+	    var stompClient = Stomp.over(socket);
+
+	    // 向服务器发起websocket连接并发送CONNECT帧
+	    stompClient.connect(
+	        {
+	            name: '222734647' // 携带客户端信息
+	        },
+	        function connectCallback(frame) {
+	            // 连接成功时（服务器响应 CONNECTED 帧）的回调方法
+	            setMessageInnerHTML("连接成功");
+	        },
+	        function errorCallBack(error) {
+	            // 连接失败时（服务器响应 ERROR 帧）的回调方法
+	            setMessageInnerHTML("连接失败");
+	        }
+	    );
+   
+
+    
+
+    //订阅消息
+    function subscribe3() {  
+    	alert("xx111");
+        stompClient.subscribe('/user/queue/message', function (response) {
+        	alert(response);
+        	alert(response.body)
+            //var returnData = JSON.parse(response.body);
+            setMessageInnerHTML("/user/queue/message 你接收到的消息为:" + response.body);
+        });
+    }
+    
+    subscribe3();
+    
+  
+
+    //将消息显示在网页上
+    function setMessageInnerHTML(innerHTML) {
+        document.getElementById('message').innerHTML += innerHTML + '<br/>';
+    }
+    
+</script>
+
+
+
+
+</html>
