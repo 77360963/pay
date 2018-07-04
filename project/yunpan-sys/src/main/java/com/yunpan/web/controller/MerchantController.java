@@ -194,6 +194,9 @@ public class MerchantController {
 					MerchantInfoBean merchantInfoBean=merchantService.merchantLogin(loginCookieUserName, loginCookiePassword);
 					request.getSession().setAttribute(AppCommon.SESSION_KEY, merchantInfoBean.getMerchantEntity());
 					request.getSession().setAttribute(AppCommon.SESSION_KEY_ROLE, merchantInfoBean.getUniUserEntity().getRole());
+					String path = request.getContextPath();
+					String webStockPath = request.getScheme() + "://"+ request.getServerName() + ":" + request.getServerPort()+ path + "/webSocketServer";
+					request.getSession().setAttribute("webStockPath", webStockPath);
 					response.sendRedirect(request.getContextPath() + "/queryMerchantAccount");
 				} catch (Exception e) {					
 					logger.info("Cookie登录出错,loginCookieUserName={},loginCookiePassword={}",loginCookieUserName,loginCookiePassword);
@@ -219,8 +222,11 @@ public class MerchantController {
         }
         try {
         	MerchantInfoBean merchantInfoBean=merchantService.merchantLogin(loginName, password);
+        	String path = request.getContextPath();
+			String webStockPath = request.getScheme() + "://"+ request.getServerName() + ":" + request.getServerPort()+ path + "/webSocketServer";
 			request.getSession().setAttribute(AppCommon.SESSION_KEY, merchantInfoBean.getMerchantEntity());
-			request.getSession().setAttribute(AppCommon.SESSION_KEY_ROLE, merchantInfoBean.getUniUserEntity().getRole());			
+			request.getSession().setAttribute(AppCommon.SESSION_KEY_ROLE, merchantInfoBean.getUniUserEntity().getRole());
+			request.getSession().setAttribute("webStockPath", webStockPath);
 			Cookie userNameCookie = new Cookie("loginUserName", loginName);  
 		    Cookie passwordCookie = new Cookie("loginPassword", password);  
 		    userNameCookie.setMaxAge(7*24*3600);//7天

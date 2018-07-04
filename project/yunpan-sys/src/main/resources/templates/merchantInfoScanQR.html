@@ -42,8 +42,7 @@
                 
                     <br><br>                   
                     <div id="qrcode" style="width: 90%"></div>
-                </div> 
-                
+                </div>                  
                   <div class="text-center">
                     <h3 class="hto-ph3 m-b-5 f28">微信 支付宝扫一扫付款</h3>  <br><br>
                   </div>             
@@ -52,6 +51,9 @@
         <br><br>
         <!--list end-->
     </div>
+    
+    <audio id="myaudio" src="js/123.aac" controls="controls"  hidden="true" >
+</audio>
     
       <div th:replace="/commons::footer"></div>
 
@@ -71,8 +73,9 @@ function makeCode () {
 }
 makeCode();
 
+//获取用户sessionId
 webClientUserId=[[${session.merchantEntityKey.userId}]];
-
+webStockPath=[[${session.webStockPath}]];
 </script>
 
 

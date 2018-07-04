@@ -31,7 +31,7 @@ public class WebSocketController {
        System.out.println("sessionId============="+request.getSession().getId()); 
        
      
-   
+       
            //发送消息给指定用户
            messagingTemplate.convertAndSendToUser("222734647", "/queue/message", "幽幽幽幽幽幽幽幽");
      
