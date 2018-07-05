@@ -34,12 +34,8 @@ function subscribe() {
     });
 }
 
-function autoPlay(redio){
-	var myAuto = document.getElementById('myaudio');
-	if("1"==redio){
-		myAuto.src="images/alipay.mp3";
-	}else if("2"==redio){
-		myAuto.src="images/weixin.mp3";
-	}	
+function autoPlay(redioPath){	
+	var myAuto = document.getElementById('myaudio');	
+	myAuto.src=redioPath;	
 	myAuto.play();
 }

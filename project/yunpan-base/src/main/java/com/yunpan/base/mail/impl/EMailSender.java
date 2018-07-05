@@ -30,6 +30,10 @@ public class EMailSender implements IEMailSender {
 
 	
 	private String mailFrom="77360963@qq.com";
+	
+	 @Autowired
+	private BaiduText2audio baiduText2audio;
+	
 
 	private void check() {
 		if (mailSender == null) {
@@ -97,7 +101,8 @@ public class EMailSender implements IEMailSender {
                     map.put("title", "商户充值【"+context.get("merchantName")+"】");
                     map.put("context", sb.toString());
                     //发送语音消息给指定用户
-                    messagingTemplate.convertAndSendToUser(context.get("userId"), "/queue/message", context.get("fromSource"));
+                    String Text2audioPath=baiduText2audio.getText2audio(context.get("fromSource"), context.get("payAmount"));
+                    messagingTemplate.convertAndSendToUser(context.get("userId"), "/queue/message", Text2audioPath);
                 }else if("signin".equals(mailType)){
                     sb.append("商户名称:").append(context.get("merchantName")).append("\r\n");
                     sb.append("联系人:").append(context.get("contacts")).append("\r\n");

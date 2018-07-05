@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yunpan.base.mail.impl.BaiduText2audio;
 import com.yunpan.base.web.util.Result;
 
 @Controller
@@ -28,6 +29,9 @@ public class WebSocketController {
 
     @Autowired
     private SimpUserRegistry userRegistry;
+    
+    @Autowired
+    private BaiduText2audio baiduText2audio;
 
     @RequestMapping(value = "/templateTest")
     @ResponseBody
@@ -38,13 +42,14 @@ public class WebSocketController {
         logger.info("用户" + i++ + "---" + user);
         }  
        
-           //发送消息给指定用户
-           messagingTemplate.convertAndSendToUser("222734647", "/queue/message", "1");
-           
-           Map map=new HashMap();
-           map.put("在线人数", userRegistry.getUserCount());
-           
-           return Result.success(map);
+       //发送消息给指定用户
+       String redioPath= baiduText2audio.getText2audio("1","189.03"); 
+       messagingTemplate.convertAndSendToUser("222734647", "/queue/message", redioPath);
+       
+       Map map=new HashMap();
+       map.put("在线人数", userRegistry.getUserCount());
+       
+       return Result.success(map);
        
        
     }
