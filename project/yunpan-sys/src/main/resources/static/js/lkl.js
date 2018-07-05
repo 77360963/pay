@@ -2,6 +2,7 @@ var webStockPath=null;
 var webClientUserId=null;
 var socket=null;
 var stompClient=null;
+
 $(function(){
      socket = new SockJS(webStockPath);
 
@@ -27,12 +28,18 @@ $(function(){
 
 //订阅消息
 function subscribe() {	 
-     stompClient.subscribe('/user/queue/message', function (response) {    	
-    	autoPlay();
+     stompClient.subscribe('/user/queue/message', function (response) { 
+    	 //alert(response);
+    	autoPlay(response.body);
     });
 }
 
-function autoPlay(){
+function autoPlay(redio){
 	var myAuto = document.getElementById('myaudio');
+	if("1"==redio){
+		myAuto.src="images/alipay.mp3";
+	}else if("2"==redio){
+		myAuto.src="images/weixin.mp3";
+	}	
 	myAuto.play();
 }

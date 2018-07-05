@@ -16,13 +16,13 @@
     <script>
         window.scrollTo(0, 0);
     </script>
-    <!--<meta content="yes" name="apple-mobile-web-app-capable"> end-->
-     <script src="http://cdn.bootcss.com/stomp.js/2.3.3/stomp.min.js"></script>
-<script src="https://cdn.bootcss.com/sockjs-client/1.1.4/sockjs.min.js"></script>
+    <!--<meta content="yes" name="apple-mobile-web-app-capable"> end-->    
     <script src="js/reset.js"></script>
     <script src="js/jquery.min.js"></script>
     <script src="js/qrcode.min.js"></script> 
-    <script src="js/lkl.js"></script>     
+    <script src="js/lkl.js"></script>   
+    <script src="js/stomp.min.js"></script>
+    <script src="js/sockjs.min.js"></script>  
 </head>
 
 <body>
@@ -51,12 +51,8 @@
         <br><br>
         <!--list end-->
     </div>
-    
-    <audio id="myaudio" src="js/123.aac" controls="controls"  hidden="true" >
-</audio>
-    
       <div th:replace="/commons::footer"></div>
-
+       
 </div>
 <!--wapper end-->
 </body>
@@ -72,13 +68,6 @@ function makeCode () {
     qrcode.makeCode(basePath);
 }
 makeCode();
-
-//获取用户sessionId
-webClientUserId=[[${session.merchantEntityKey.userId}]];
-webStockPath=[[${session.webStockPath}]];
 </script>
-
-
-
 
 </html>

@@ -214,12 +214,14 @@ public class MerchantRechargeServiceImpl implements MerchantRechargeService {
 					}else{
 						paymentStatus=true;
 						//发送邮件          
-			             HashMap<String,String> map=new HashMap<String,String>();
+			             HashMap<String,String> map=new HashMap<String,String>();			            
+			             map.put("userId", merchantEntity.getUserId().toString());			             
 			             map.put("merchantName", merchantEntity.getName());
 			             map.put("contacts", merchantEntity.getContacts());
 			             map.put("mobile", merchantEntity.getMobile());
 			             map.put("paymentMethod", merchantEntity.getPaymentMethod());
 			             map.put("payAmount", MoneyUtil.parseFromFenAmountToRMB(String.valueOf(merchantTradeEntity.getPayAmount())));
+			             map.put("fromSource", merchantTradeEntity.getFromSource());
 			             mailSender.sendSimpleEmail(AppCommon.MAIL_RECHARGE,map);
 					}
 				}else{

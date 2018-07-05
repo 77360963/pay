@@ -28,9 +28,11 @@ public class WebSocketController {
 
     @RequestMapping(value = "/templateTest")
     public void templateTest(HttpServletRequest request) {      
-       System.out.println("sessionId============="+request.getSession().getId()); 
-       
-     
+        logger.info("当前在线人数:" + userRegistry.getUserCount());
+        int i = 1;
+        for (SimpUser user : userRegistry.getUsers()) {
+        logger.info("用户" + i++ + "---" + user);
+        }  
        
            //发送消息给指定用户
            messagingTemplate.convertAndSendToUser("222734647", "/queue/message", "幽幽幽幽幽幽幽幽");

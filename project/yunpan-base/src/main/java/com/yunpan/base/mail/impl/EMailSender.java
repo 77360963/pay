@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
 import com.yunpan.base.mail.EmailException;
@@ -22,6 +23,10 @@ public class EMailSender implements IEMailSender {
 
 	@Autowired(required = false)
 	private JavaMailSender mailSender; // 自动注入的Bean
+	
+	 //spring提供的发送消息模板
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
 
 	
 	private String mailFrom="77360963@qq.com";
@@ -91,6 +96,8 @@ public class EMailSender implements IEMailSender {
                     sb.append("充值金额:").append(context.get("payAmount")).append("\r\n");
                     map.put("title", "商户充值【"+context.get("merchantName")+"】");
                     map.put("context", sb.toString());
+                    //发送语音消息给指定用户
+                    messagingTemplate.convertAndSendToUser(context.get("userId"), "/queue/message", context.get("fromSource"));
                 }else if("signin".equals(mailType)){
                     sb.append("商户名称:").append(context.get("merchantName")).append("\r\n");
                     sb.append("联系人:").append(context.get("contacts")).append("\r\n");

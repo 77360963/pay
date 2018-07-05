@@ -19,9 +19,17 @@
         <a href="/merchantCenter">
             <i class="icon iconfont">&#xe60a;</i><br>
             个人中心
-        </a>
-         
-    </div> 
+        </a>           		             
+    </div>    
+    <div style="display:none">
+          <audio id="myaudio" src="" controls="controls"  hidden="true" ></audio>
+            <script th:inline="javascript">        
+			//获取用户sessionId
+			webClientUserId=[[${session.merchantEntityKey.userId}]];
+			webStockPath=[[${session.webStockPath}]];	
+			</script>		   
+    </div>
    </footer>
+      
 </body>
 </html>
