@@ -53,13 +53,21 @@
                </div>          
                 <li class="b-b-e6e6e6" th:each="merchantInfoBean,rechargeStat: ${merchantInfoList}">
                     <div class="hto-img">
-                        <a th:href="@{'/merchantSettlement?userId='+${merchantInfoBean.merchantEntity.userId}}">
-                                             
+                        <a href="#">                                             
                                 <h3 class="hto-ph3 m-b-5 f28">商户名：<label th:text="${merchantInfoBean.merchantEntity.name}"></label></h3>
+                                <p class="hto-title clearFloat  f28">交易费率：<input th:id="${merchantInfoBean.merchantEntity.userId}"  th:value="${merchantInfoBean.merchantRateEntity.rate}" /> </p>
                                 <p class="hto-title clearFloat  f28">注册时间：<label th:text="${#dates.format(merchantInfoBean.merchantEntity.createdTime,'yyyy-MM-dd HH:mm')}"></label> </p>
                                 <p class="hto-title clearFloat  f28">可用余额：<label th:text="${#numbers.formatDecimal((merchantInfoBean.merchantAccountEntity.avlAmt+0.00)/100, 1, 2)}"></label> </p>
                                 <p class="hto-title clearFloat  f28">提现：<label th:text="${#numbers.formatDecimal((merchantInfoBean.merchantAccountEntity.freAmt+0.00)/100, 1, 2)}"></label> </p>                              
-                       
+                               <p class="hto-title clearFloat  f28">
+                                     <button type="button" th:onclick="'javascript:modfiyMerchantRate('+${merchantInfoBean.merchantEntity.userId}+')'">修改费率 </button> 
+                               </p> 
+                                <p class="hto-title clearFloat  f28">
+                                 &nbsp;
+                               </p> 
+                               <p class="hto-title clearFloat  f28">
+                                     <button type="button" th:onclick="'javascript:merchantSettlement('+${merchantInfoBean.merchantEntity.userId}+')'">查看交易信息 </button> 
+                               </p> 
                         </a>                        
                     </div>
                 </li>              
@@ -74,46 +82,30 @@
 </body>
 <script language="javascript" type="text/javascript">
    
-   function modfiyMerchantRate(obj){
-	   var thisObj=$(obj);
-	   var userId=thsiObj.attr("userId");  
-	     alert(userId);
-	     $.ajax({ 
-	         type : "POST",
-	         dataType : "json",
-	         url : "/modfiyMerchantRate",
-	         data : {
-	        	 userId : '222734644',
-	        	 rate : '0.009',
-	         },                        
-	         success : function(msg) {            	  
-	      	   if (msg.responseCode=="success"){
-	      		 alert("设置费率成功");	      		
-	      	   }else{
-	      		 alert(msg.responseMsg);
-	      	   }
-	         }
-	     });              
+   function modfiyMerchantRate(userId){
+	   if (confirm("确认修改")==true){
+		   $.ajax({ 
+		         type : "POST",
+		         dataType : "json",
+		         url : "/modfiyMerchantRate",
+		         data : {
+		        	 userId : userId,
+		        	 rate : $("#"+userId).val()
+		         },                        
+		         success : function(msg) {            	  
+		      	   if (msg.responseCode=="success"){
+		      		 alert("设置费率成功");	      		
+		      	   }else{
+		      		 alert(msg.responseMsg);
+		      	   }
+		         }
+		     });              
+	   }	    
    }
    
    
-   function confirmWithdraw(transId){
-	   $.ajax({ 
-	         type : "POST",
-	         dataType : "json",
-	         url : "/confirmWithdraw",
-	         data : {
-	        	 transId : transId,	        	    	
-	         },                        
-	         success : function(msg) {            	  
-	      	   if (msg.responseCode=="success"){
-	      		 alert("结算成功");
-	      		window.location.href="/merchantSettlement"; 
-	      	   }else{
-	      		 alert(msg.responseMsg);
-	      	   }
-	         }
-	     });              
+   function merchantSettlement(userId){	  
+	   window.location.href="/merchantSettlement?userId="+userId; 
    }
 </script>
 </html>

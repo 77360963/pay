@@ -2,6 +2,8 @@ package com.yunpan.data.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.yunpan.data.entity.MerchantEntity;
 
 public interface MerchantDao {
@@ -50,4 +52,12 @@ public interface MerchantDao {
      * @return
      */
     List<MerchantEntity> queryMerchantByParentUserId(Long userId);
+    
+    /**
+     *根据userId 与 parentUserId 查询
+     * @param userId
+     * @param parentUserId
+     * @return
+     */  
+    MerchantEntity queryMerchantByUser(@Param("userId") Long userId,@Param("parentUserId") Long parentUserId);
 }

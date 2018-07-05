@@ -223,14 +223,20 @@
     where 1=1    
   </select>
   
-    <select id="queryMerchantByParentUserId"  resultMap="BaseResultMap">
-    <!--
-    @mbggenerated
-    -->
+    <select id="queryMerchantByParentUserId"  resultMap="BaseResultMap">   
     select 
     <include refid="Base_Column_List" />
     from t_merchant
     where 1=1   
+    and  parent_user_id = #{parentUserId,jdbcType=BIGINT} 
+  </select>
+  
+   <select id="queryMerchantByUser"  resultMap="BaseResultMap">   
+    select 
+    <include refid="Base_Column_List" />
+    from t_merchant
+    where 1=1   
+    and  user_id = #{userId,jdbcType=BIGINT}
     and  parent_user_id = #{parentUserId,jdbcType=BIGINT} 
   </select>
 </mapper>

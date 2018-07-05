@@ -1,5 +1,6 @@
 package com.yunpan.service.service.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -120,7 +121,7 @@ public class UserServiceImpl implements UserService {
 		List<MerchantEntity> merchantEntityList=merchantDao.queryMerchantByParentUserId(userId);		
 		MerchantInfoBean merchantInfoBean=null;
 		for(MerchantEntity merchantEntity:merchantEntityList){
-			MerchantRateEntity merchantRateEntity=merchantRateDao.selectByUserId(userId);
+			MerchantRateEntity merchantRateEntity=merchantRateDao.selectByUserId(merchantEntity.getUserId());
 			merchantInfoBean=new MerchantInfoBean();
 			merchantInfoBean.setMerchantEntity(merchantEntity);
 			merchantInfoBean.setMerchantRateEntity(merchantRateEntity);
@@ -128,5 +129,34 @@ public class UserServiceImpl implements UserService {
 		}
 		return list;
 	}
+
+    @Override
+    public int modfiyRecommendRate(long userId, long parentUserId, BigDecimal rate) {
+        MerchantEntity merchantEntity=merchantDao.queryMerchantByUser(userId, parentUserId);
+        if(null==merchantEntity){
+            logger.info("未找到相关商户信息，商户userId={},parentUserId={}",userId,parentUserId);
+            throw new MerchantException("", "未找到相关商户信息");
+        }
+        MerchantRateEntity merchantRateEntity=merchantRateDao.selectByUserId(userId);
+        if(null==merchantRateEntity){
+            logger.info("未找到相关商户费率信息，商户userId={},",userId);
+            throw new MerchantException("", "未找到相关商户费率信息");
+        }
+        MerchantRateEntity parentMerchantRateEntity=merchantRateDao.selectByUserId(parentUserId);
+        if(null==parentMerchantRateEntity){
+            logger.info("未找到相关代理商户费率信息，parentUserId={},",parentUserId);
+            throw new MerchantException("", "未找到相关代理商户费率信息");
+        }        
+        if(rate.compareTo(parentMerchantRateEntity.getRate())<0){
+            throw new MerchantException("", "不能低于平台代理商的费率");
+        }        
+        if(rate.compareTo(AppCommon.PLATFORM_RATE_MIN)<0){
+            throw new MerchantException("", "不能低于平台最低费率");
+        }        
+        MerchantRateEntity updateMerchantRateEntity=new MerchantRateEntity();
+        updateMerchantRateEntity.setId(merchantRateEntity.getId());
+        updateMerchantRateEntity.setRate(rate);
+        return merchantRateDao.updateByPrimaryKeySelective(updateMerchantRateEntity);
+    }
 
 }

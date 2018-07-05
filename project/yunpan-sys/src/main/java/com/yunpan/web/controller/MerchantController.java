@@ -171,6 +171,25 @@ public class MerchantController {
 		 return "/merchantRecommendList";		
 	}
 	
+	/**
+     * 修改推荐用户费率
+     * @param request
+     * @throws Exception 
+     */
+    @IfNeedLogin
+    @RequestMapping(value ="/modfiyRecommendRate")
+    @ResponseBody
+    public Map modfiyRecommendRate(HttpServletRequest request,HttpServletResponse response,final ModelMap model) throws Exception{
+          MerchantEntity merchantEntity=getUserSession(request,response); 
+          String userId=request.getParameter("userId");
+          String rate=request.getParameter("rate");
+          int updateStatus=userService.modfiyRecommendRate(Long.valueOf(userId), merchantEntity.getUserId(), new BigDecimal(rate));
+         if(updateStatus>0){
+             return Result.success();
+         }
+         return Result.failed("修改费率失败");
+    }
+	
 	
 	/**
 	 * 商户登录
