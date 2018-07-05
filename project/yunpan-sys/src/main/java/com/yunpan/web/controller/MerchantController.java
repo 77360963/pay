@@ -197,7 +197,7 @@ public class MerchantController {
 					String path = request.getContextPath();
 					String webStockPath = request.getScheme() + "://"+ request.getServerName() + ":" + request.getServerPort()+ path + "/webSocketServer";
 					request.getSession().setAttribute("webStockPath", webStockPath);
-					response.sendRedirect(request.getContextPath() + "/queryMerchantAccount");
+					response.sendRedirect(request.getContextPath() + "/merchantIndex");
 				} catch (Exception e) {					
 					logger.info("Cookie登录出错,loginCookieUserName={},loginCookiePassword={}",loginCookieUserName,loginCookiePassword);
 				}
