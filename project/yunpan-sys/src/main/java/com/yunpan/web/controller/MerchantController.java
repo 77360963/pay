@@ -3,15 +3,15 @@ package com.yunpan.web.controller;
 
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,13 +23,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.code.kaptcha.Constants;
 import com.yunpan.base.annotation.IfNeedLogin;
 import com.yunpan.base.tool.DeviceUtils;
+import com.yunpan.base.web.util.CookieUtil;
 import com.yunpan.base.web.util.Result;
 import com.yunpan.data.entity.MerchantEntity;
 import com.yunpan.data.entity.MerchantRateEntity;
 import com.yunpan.data.entity.MerchantTradeEntity;
 import com.yunpan.service.bean.AppCommon;
 import com.yunpan.service.bean.MerchantAccountEntityBean;
-import com.yunpan.service.bean.MerchantEntityBean;
 import com.yunpan.service.bean.MerchantTradeEntityBean;
 import com.yunpan.service.exception.MerchantException;
 import com.yunpan.service.service.MerchantAccountService;
@@ -190,41 +190,48 @@ public class MerchantController {
          return Result.failed("修改费率失败");
     }
 	
+    /**
+	 * 商户退出
+	 * @param request
+     * @throws IOException 
+	 */
+	@RequestMapping(value ="/logout")
+	public void logout(HttpServletRequest request,HttpServletResponse response) throws IOException{		
+		CookieUtil.removeCookie(response, "loginUserName");
+		CookieUtil.removeCookie(response, "loginPassword");         
+ 		//false代表：不创建session对象，只是从request中获取。
+ 		HttpSession session = request.getSession(false);
+ 		if(session!=null){
+ 			logger.info("用户主动退出");
+ 			session.removeAttribute(AppCommon.SESSION_KEY);
+ 			session.removeAttribute(AppCommon.SESSION_KEY_ROLE);
+ 		} 		
+ 		response.sendRedirect(request.getContextPath() + "/login");
+	}
+    
 	
 	/**
 	 * 商户登录
 	 * @param request
+	 * @throws UnsupportedEncodingException 
 	 */
 	@RequestMapping(value ="/login")
-	public String merchantIndex(HttpServletRequest request,HttpServletResponse response){
-		 String loginCookieUserName = "";  
-         String loginCookiePassword = "";                 
-         Cookie[] cookies = request.getCookies();  
-         if(null!=cookies){    
-             for(Cookie cookie : cookies){    
-                     if("loginUserName".equals(cookie.getName())){  
-                         loginCookieUserName = cookie.getValue();  
-                     }else if("loginPassword".equals(cookie.getName())){  
-                         loginCookiePassword = cookie.getValue();  
-                     }  
-             }
-             if(!"".equals(loginCookieUserName) && !"".equals(loginCookiePassword)){  
-            	try {
-					MerchantInfoBean merchantInfoBean=merchantService.merchantLogin(loginCookieUserName, loginCookiePassword);
-					request.getSession().setAttribute(AppCommon.SESSION_KEY, merchantInfoBean.getMerchantEntity());
-					request.getSession().setAttribute(AppCommon.SESSION_KEY_ROLE, merchantInfoBean.getUniUserEntity().getRole());
-					String path = request.getContextPath();
-					String webStockPath = request.getScheme() + "://"+ request.getServerName() + ":" + request.getServerPort()+ path + "/webSocketServer";
-					request.getSession().setAttribute("webStockPath", webStockPath);
-					response.sendRedirect(request.getContextPath() + "/merchantIndex");
-				} catch (Exception e) {					
-					logger.info("Cookie登录出错,loginCookieUserName={},loginCookiePassword={}",loginCookieUserName,loginCookiePassword);
-				}
-             }  
-         }			
-		
-		return "/merchantLogin";
-	}
+	public String merchantIndex(HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException{
+		 String loginCookieUserName = CookieUtil.getUid(request, "loginUserName");  
+         String loginCookiePassword = CookieUtil.getUid(request, "loginPassword");        
+     	 try {
+				MerchantInfoBean merchantInfoBean=merchantService.merchantLogin(loginCookieUserName, loginCookiePassword);
+				request.getSession().setAttribute(AppCommon.SESSION_KEY, merchantInfoBean.getMerchantEntity());
+				request.getSession().setAttribute(AppCommon.SESSION_KEY_ROLE, merchantInfoBean.getUniUserEntity().getRole());
+				String path = request.getContextPath();
+				String webStockPath = request.getScheme() + "://"+ request.getServerName() + ":" + request.getServerPort()+ path + "/webSocketServer";
+				request.getSession().setAttribute("webStockPath", webStockPath);
+				response.sendRedirect(request.getContextPath() + "/merchantIndex");
+		  } catch (Exception e) {					
+				logger.info("Cookie登录出错,loginCookieUserName={},loginCookiePassword={}",loginCookieUserName,loginCookiePassword);
+		  }		
+		 return "/merchantLogin";
+	 }
 	
 	/**
      * 商户登录
@@ -246,14 +253,9 @@ public class MerchantController {
 			request.getSession().setAttribute(AppCommon.SESSION_KEY, merchantInfoBean.getMerchantEntity());
 			request.getSession().setAttribute(AppCommon.SESSION_KEY_ROLE, merchantInfoBean.getUniUserEntity().getRole());
 			request.getSession().setAttribute("webStockPath", webStockPath);
-			Cookie userNameCookie = new Cookie("loginUserName", loginName);  
-		    Cookie passwordCookie = new Cookie("loginPassword", password);  
-		    userNameCookie.setMaxAge(7*24*3600);//7天
-		    userNameCookie.setPath("/"); 
-		    response.addCookie(userNameCookie);  
-		    response.addCookie(passwordCookie);  
-			
-			 return Result.success();
+			CookieUtil.addCookie(response, "loginUserName", loginName);
+			CookieUtil.addCookie(response, "loginPassword", password);			
+			return Result.success();
 		} catch (Exception e) {
 			 return Result.failed(e.getMessage());
 		}
