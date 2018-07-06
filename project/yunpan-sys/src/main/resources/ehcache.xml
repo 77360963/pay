@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
+    updateCheck="false">
+    <diskStore path="java.io.tmpdir/Tmp_EhCache" />
+
+    <!-- 默认配置 -->
+    <defaultCache maxElementsInMemory="5000" eternal="false"
+        timeToIdleSeconds="120" timeToLiveSeconds="120"
+        memoryStoreEvictionPolicy="LRU" overflowToDisk="false" />
+
+   <!--查询开户信息缓存 -->
+     <cache
+          name="getBaiduToken"
+          maxEntriesLocalHeap="1000"
+          eternal="false"
+          timeToIdleSeconds="2591000"
+          timeToLiveSeconds="2591000"
+          overflowToDisk="false"
+          memoryStoreEvictionPolicy="LRU" />
+
+
+</ehcache>
