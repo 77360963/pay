@@ -52,11 +52,13 @@ public class CookieUtil {
     public static String getUid(HttpServletRequest request,String cookieName) {
         try {
 			Cookie cookies[] = request.getCookies();
-			for (Cookie cookie : cookies) {
-			    if (cookie.getName().equals(cookieName)) {
-			        return URLDecoder.decode(cookie.getValue(),"UTF-8");
-			    }
-			}
+			if(null!=cookies){
+				for (Cookie cookie : cookies) {
+				    if (cookie.getName().equals(cookieName)) {
+				        return URLDecoder.decode(cookie.getValue(),"UTF-8");
+				    }
+				}
+			}			
 		} catch (UnsupportedEncodingException e) {
 			
 		}

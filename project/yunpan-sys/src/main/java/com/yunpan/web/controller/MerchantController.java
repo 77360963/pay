@@ -216,7 +216,7 @@ public class MerchantController {
 	 * @throws UnsupportedEncodingException 
 	 */
 	@RequestMapping(value ="/login")
-	public String merchantIndex(HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException{
+	public String merchantLoginIndex(HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException{
 		 String loginCookieUserName = CookieUtil.getUid(request, "loginUserName");  
          String loginCookiePassword = CookieUtil.getUid(request, "loginPassword");        
      	 try {
@@ -274,9 +274,12 @@ public class MerchantController {
     /**
 	 * 商户首页
 	 * @param request
+     * @throws Exception 
 	 */
+    @IfNeedLogin
 	@RequestMapping(value ="/merchantIndex")
-	public String merchantIndex(HttpServletRequest request){
+	public String merchantIndex(HttpServletRequest request,HttpServletResponse response) throws Exception{
+    	Long userId=getUserSession(request,response).getUserId();
 		return "/merchantIndex";
 	}
     

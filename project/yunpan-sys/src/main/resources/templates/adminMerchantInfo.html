@@ -55,19 +55,18 @@
                     <div class="hto-img">
                         <a href="#">                                             
                                 <h3 class="hto-ph3 m-b-5 f28">商户名：<label th:text="${merchantInfoBean.merchantEntity.name}"></label></h3>
-                                <p class="hto-title clearFloat  f28">交易费率：<input th:id="${merchantInfoBean.merchantEntity.userId}"  th:value="${merchantInfoBean.merchantRateEntity.rate}" /> </p>
+                                <p class="hto-title clearFloat  f28">交易费率：<input th:id="${merchantInfoBean.merchantEntity.userId}"  th:value="${merchantInfoBean.merchantRateEntity.rate}"  maxlength="6"/> </p>
                                 <p class="hto-title clearFloat  f28">注册时间：<label th:text="${#dates.format(merchantInfoBean.merchantEntity.createdTime,'yyyy-MM-dd HH:mm')}"></label> </p>
+                                <p class="hto-title clearFloat  f28">提现账户：<label th:text="${merchantInfoBean.merchantEntity.paymentMethod}"></label> </p>
+                                <p class="hto-title clearFloat  f28">提现姓名：<label th:text="${merchantInfoBean.merchantEntity.contacts}"></label> </p>
                                 <p class="hto-title clearFloat  f28">可用余额：<label th:text="${#numbers.formatDecimal((merchantInfoBean.merchantAccountEntity.avlAmt+0.00)/100, 1, 2)}"></label> </p>
                                 <p class="hto-title clearFloat  f28">提现：<label th:text="${#numbers.formatDecimal((merchantInfoBean.merchantAccountEntity.freAmt+0.00)/100, 1, 2)}"></label> </p>                              
-                               <p class="hto-title clearFloat  f28">
-                                     <button type="button" th:onclick="'javascript:modfiyMerchantRate('+${merchantInfoBean.merchantEntity.userId}+')'">修改费率 </button> 
+                               <p>
+                                  <button type="button" th:onclick="'javascript:modfiyMerchantRate('+${merchantInfoBean.merchantEntity.userId}+')'">修改费率 </button> 
+                                   &nbsp;&nbsp;  
+                                  <button type="button" th:onclick="'javascript:merchantSettlement('+${merchantInfoBean.merchantEntity.userId}+')'">查看交易信息 </button> 
                                </p> 
-                                <p class="hto-title clearFloat  f28">
-                                 &nbsp;
-                               </p> 
-                               <p class="hto-title clearFloat  f28">
-                                     <button type="button" th:onclick="'javascript:merchantSettlement('+${merchantInfoBean.merchantEntity.userId}+')'">查看交易信息 </button> 
-                               </p> 
+                               
                         </a>                        
                     </div>
                 </li>              
@@ -82,7 +81,7 @@
 </body>
 <script language="javascript" type="text/javascript">
    
-   function modfiyMerchantRate(userId){
+   function modfiyMerchantRate(userId){	 
 	   if (confirm("确认修改")==true){
 		   $.ajax({ 
 		         type : "POST",

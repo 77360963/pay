@@ -56,7 +56,7 @@
                         <a href="#">                                             
                            <h3 class="hto-ph3 m-b-5 f28">商户名：<label th:text="${merchantInfoBean.merchantEntity.name}"></label></h3>
                            <p class="hto-title clearFloat  f28">注册时间：<label th:text="${#dates.format(merchantInfoBean.merchantEntity.createdTime,'yyyy-MM-dd HH:mm')}"></label> </p>
-                            <p class="hto-title clearFloat  f28">交易费率：<input th:id="${merchantInfoBean.merchantEntity.userId}"  th:value="${merchantInfoBean.merchantRateEntity.rate}" /> </p>  
+                            <p class="hto-title clearFloat  f28">交易费率：<input th:id="${merchantInfoBean.merchantEntity.userId}"  th:value="${merchantInfoBean.merchantRateEntity.rate}" maxlength="6"/> </p>  
                             <p class="hto-title clearFloat  f28">
                           <button type="button" th:onclick="'javascript:check('+${merchantInfoBean.merchantEntity.userId}+')'">修改费率 </button> 
                             </p>                        
