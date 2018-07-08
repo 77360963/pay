@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,9 +43,13 @@ public class WebSocketController {
         logger.info("用户" + i++ + "---" + user);
         }  
        
+       String user= request.getParameter("user");
+       if(StringUtils.isBlank(user)){
+    	   user="222734647";
+       }
        //发送消息给指定用户
        String redioPath= baiduText2audio.getText2audio("1","189.03"); 
-       messagingTemplate.convertAndSendToUser("222734647", "/queue/message", redioPath);
+       messagingTemplate.convertAndSendToUser(user, "/queue/message", redioPath);
        
        Map map=new HashMap();
        map.put("在线人数", userRegistry.getUserCount());

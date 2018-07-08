@@ -37,7 +37,6 @@
         .hto-title{
             line-height: 0.671875rem;
         }
-         .container{height: 1000px;overflow:scroll;overflow-x:hidden;   }
     </style>
 
 
@@ -46,30 +45,30 @@
 
 <body>
 <!--wapper-->
-<div class="wapper container">
+<div class="wapper">
 
     <!--热闹活动-->
     <div class="hot p-l-30 p-r-30  p-b-27 clearFloat bag-fff">    
         <div class="hot-content">
         
             <ul class="clearFloat">  
-               <div class="norow" style="display: none">
-                    <li class="b-b-e6e6e6">暂无签到交易记录</li>
-               </div>  
+               <div th:if="${#lists.isEmpty(userSigninList)}">
+                    <li class="b-b-e6e6e6">暂无签到记录</li>                    
+               </div>
                
                  <li class="b-b-e6e6e6">
                   <a href="#"  class="denglusub denglusuba sqsubmit" onclick="userSignin()">签到</a>
                  </li> 
                
                         
-                 <li class="b-b-e6e6e6 add" style="display: none">
+                <li class="b-b-e6e6e6" th:each="userSignin,userSigninStat: ${userSigninList}">
                     <div class="hto-img">
                        
                         <div class="hto-p">
                             <a href="#">
-                                <h3 class="hto-ph3 m-b-5 f28">签到金额：：<label class="payAmount"></label></h3>                              
+                                <h3 class="hto-ph3 m-b-5 f28">签到金额：<label th:text="${userSignin.payAmount}"></label></h3>                              
                                </p>
-                                <p class="hto-title clearFloat f28">时间：<label class="createdTime"></label> </p>                                                                
+                                <p class="hto-title clearFloat f28">时间：<label th:text="${userSignin.createdTime}"></label> </p>                                                                
                             </a>
                         </div>
                       </br>  </br>  </br>                      
@@ -87,69 +86,6 @@
 </body>
 
 <script language="javascript" type="text/javascript">
-
-var currentPage = 0;
-var pageCount = 1;
-
-function loadMore() {	
-    currentPage++;   
-   
-    $.ajax({       
-          dataType : "json",
-          url : "/userSigninListAjax",
-          data : "currentPage=" + currentPage,
-          beforeSend : function() {
-                 $("#loading").show();
-          },
-          complete : function(data) {
-                 $("#loading").hide();
-          },
-          success : function(msg) {
-                 if (msg.responseCode == "success") {                	
-                	 var records = msg.data;
-                	 if (records.length > 0) {                		
-                		 for (i = 0; i < records.length; i++) {
-                			 var shortMsg=records[i];
-                			 var first = $(".add:first").clone();
-                			 $(".add:last").after(first);
-                			 $(".add:last").find(".payAmount").text(shortMsg.payAmount);
-                			 $(".add:last").find(".createdTime").text(shortMsg.createdTime);
-                			 $(".add:last").show();
-                		 }
-                	 }else {
-                         if (currentPage == 1) {
-                             $(".norow").show();
-                         }
-                     }
-                       
-                 } else {
-                       
-                 }
-
-          }
-    });
-
-  
-}
-
-
-$(document).ready(function() {
-    loadMore();
-    var flag = false;
-    $(".container").scroll(function() {
-           var divHeight = $(this).height();
-           var nScrollHeight = $(this)[0].scrollHeight;
-           var nScrollTop = $(this)[0].scrollTop;
-           if (nScrollTop + divHeight >= nScrollHeight - 1) {
-                  //请求数据
-                  flag = true;
-                  //alert("到达底部了");
-                  loadMore();
-           }
-    });
-
-});
-
 function userSignin(){
 	   $.ajax({ 
 	         type : "POST",

@@ -102,6 +102,7 @@ public class EMailSender implements IEMailSender {
                     map.put("context", sb.toString());
                     //发送语音消息给指定用户
                     String Text2audioPath=baiduText2audio.getText2audio(context.get("fromSource"), context.get("payAmount"));
+                    logger.info("userId={},语音内容={}",context.get("userId"),Text2audioPath);
                     messagingTemplate.convertAndSendToUser(context.get("userId"), "/queue/message", Text2audioPath);
                 }else if("signin".equals(mailType)){
                     sb.append("商户名称:").append(context.get("merchantName")).append("\r\n");

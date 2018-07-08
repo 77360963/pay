@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.github.pagehelper.PageHelper;
 import com.yunpan.base.mail.IEMailSender;
 import com.yunpan.base.tool.DateTool;
 import com.yunpan.base.tool.MoneyUtil;
@@ -256,10 +257,11 @@ public class MerchantRechargeServiceImpl implements MerchantRechargeService {
 	
 
 	@Override
-	public List<MerchantTradeEntityBean> queryMerchantTradeByUserId(long userId,String transType) {
+	public List<MerchantTradeEntityBean> queryMerchantTradeByUserId(long userId,String transType,int currentPage) {
 	    MerchantTradeEntity query=new MerchantTradeEntity();
 	    query.setUserId(userId);
 	    query.setTransType(transType);
+	    PageHelper.startPage(currentPage, 10);
 		List<MerchantTradeEntity> list=merchantTradeDao.queryTrade(query);
 		List<MerchantTradeEntityBean> listBean=new ArrayList<MerchantTradeEntityBean>();
 		MerchantTradeEntityBean merchantTradeEntityBean=null;

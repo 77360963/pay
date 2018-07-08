@@ -36,7 +36,7 @@ public interface MerchantRechargeService {
 	 * @param merchantId
 	 * @return
 	 */
-	public List<MerchantTradeEntityBean> queryMerchantTradeByUserId(long merchantId,String transType);
+	public List<MerchantTradeEntityBean> queryMerchantTradeByUserId(long merchantId,String transType,int currentPage);
 	
 	   /**
      * 查询指定商户充值记录

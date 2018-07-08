@@ -112,18 +112,45 @@ public class MerchantController {
 	}
 	
 	/**
-	 * 查询商户充值交易记录
+	 * 查询商户充值交易记录页面
 	 * @param request
 	 * @throws Exception 
 	 */
 	@IfNeedLogin
-	@RequestMapping(value ="/queryRechargeTrade")
+	@RequestMapping(value ="/queryRechargeTrade")	
 	public String queryRechargeTradeList(HttpServletRequest request,HttpServletResponse response,final ModelMap model) throws Exception{
-		 MerchantEntity merchantEntity=getUserSession(request,response);	
-		 String transType="I";		 
-		 List<MerchantTradeEntityBean> merchantRechargeList=merchantRechargeService.queryMerchantTradeByUserId(merchantEntity.getUserId(),transType);
-		 model.addAttribute("merchantRechargeList", merchantRechargeList);
+		 getUserSession(request,response);		
 		 return "/merchantRechargeList";		
+	}
+	
+	/**
+	 * 查询商户充值交易记录 ajax请求
+	 * @param request
+	 * @throws Exception 
+	 */
+	@IfNeedLogin
+	@RequestMapping(value ="/queryRechargeTradeAjax")
+	@ResponseBody
+	public Map queryRechargeTradeListAjax(HttpServletRequest request,HttpServletResponse response,final ModelMap model) throws Exception{
+		 MerchantEntity merchantEntity=getUserSession(request,response);
+		 String currentPage=request.getParameter("currentPage");
+		 String transType="I";		 
+		 List<MerchantTradeEntityBean> merchantRechargeList=merchantRechargeService.queryMerchantTradeByUserId(merchantEntity.getUserId(),transType,Integer.valueOf(currentPage));
+		 return Result.success(merchantRechargeList);
+	}
+	
+	
+	
+	/**
+	 * 查询商户提现交易记录 页面
+	 * @param request
+	 * @throws Exception 
+	 */
+	@IfNeedLogin
+	@RequestMapping(value ="/queryWithdrawTrade")
+	public String queryWithdrawTradeList(HttpServletRequest request,HttpServletResponse response,final ModelMap model) throws Exception{
+		 getUserSession(request,response);		 
+		 return "/merchantWithdrawList";		
 	}
 	
 	/**
@@ -132,13 +159,14 @@ public class MerchantController {
 	 * @throws Exception 
 	 */
 	@IfNeedLogin
-	@RequestMapping(value ="/queryWithdrawTrade")
-	public String queryWithdrawTradeList(HttpServletRequest request,HttpServletResponse response,final ModelMap model) throws Exception{
-		  MerchantEntity merchantEntity=getUserSession(request,response);	
+	@RequestMapping(value ="/queryWithdrawTradeAjax")
+	@ResponseBody
+	public Map queryWithdrawTradeListAjax(HttpServletRequest request,HttpServletResponse response,final ModelMap model) throws Exception{
+		  MerchantEntity merchantEntity=getUserSession(request,response);
+		  String currentPage=request.getParameter("currentPage");
 		  String transType="O";
-		 List<MerchantTradeEntityBean> merchantRechargeList=merchantRechargeService.queryMerchantTradeByUserId(merchantEntity.getUserId(),transType);
-		 model.addAttribute("merchantRechargeList", merchantRechargeList);
-		 return "/merchantWithdrawList";		
+		 List<MerchantTradeEntityBean> merchantRechargeList=merchantRechargeService.queryMerchantTradeByUserId(merchantEntity.getUserId(),transType,Integer.valueOf(currentPage));
+		 return Result.success(merchantRechargeList);	
 	}
 	
 	
@@ -150,12 +178,46 @@ public class MerchantController {
 	@IfNeedLogin
 	@RequestMapping(value ="/queryCommissionTrade")
 	public String queryCommissionTradeList(HttpServletRequest request,HttpServletResponse response,final ModelMap model) throws Exception{
-		  MerchantEntity merchantEntity=getUserSession(request,response);	
-		  String transType="F";
-		 List<MerchantTradeEntityBean> merchantRechargeList=merchantRechargeService.queryMerchantTradeByUserId(merchantEntity.getUserId(),transType);
-		 model.addAttribute("merchantRechargeList", merchantRechargeList);
+		  getUserSession(request,response);		 
 		 return "/merchantCommissionList";		
 	}
+	
+	/**
+	 * 查询商户返现佣金交易记录
+	 * @param request
+	 * @throws Exception 
+	 */
+	@IfNeedLogin
+	@RequestMapping(value ="/queryCommissionTradeAjax")
+	@ResponseBody
+	public Map queryCommissionTradeListAjax(HttpServletRequest request,HttpServletResponse response,final ModelMap model) throws Exception{
+		  MerchantEntity merchantEntity=getUserSession(request,response);
+		  String currentPage=request.getParameter("currentPage");
+		  String transType="F";
+		 List<MerchantTradeEntityBean> merchantRechargeList=merchantRechargeService.queryMerchantTradeByUserId(merchantEntity.getUserId(),transType,Integer.valueOf(currentPage));
+		 return Result.success(merchantRechargeList);		
+	}
+	
+	@IfNeedLogin
+    @RequestMapping(value ="/userSigninList")
+    public String userSigninList(HttpServletRequest request,HttpServletResponse response,final ModelMap model) throws Exception{      
+        getUserSession(request,response);        
+       return "/userSigninList";  
+    }
+	
+	@IfNeedLogin
+    @RequestMapping(value ="/userSigninListAjax")
+	@ResponseBody
+    public Map userSigninListAjax(HttpServletRequest request,HttpServletResponse response,final ModelMap model) throws Exception{      
+        MerchantEntity merchantEntity=getUserSession(request,response); 
+        String currentPage=request.getParameter("currentPage");
+        String transType=AppCommon.TRANS_TYPE_P;      
+       List<MerchantTradeEntityBean> userSigninList=merchantRechargeService.queryMerchantTradeByUserId(merchantEntity.getUserId(),transType,Integer.valueOf(currentPage));      
+       return Result.success(userSigninList);
+    }
+	
+	
+	
 	
 	/**
 	 * 查询商户推荐用户记录
@@ -404,15 +466,6 @@ public class MerchantController {
         }       
 	}
     
-	@IfNeedLogin
-    @RequestMapping(value ="/userSigninList")
-    public String userSigninList(HttpServletRequest request,HttpServletResponse response,final ModelMap model) throws Exception{      
-        MerchantEntity merchantEntity=getUserSession(request,response); 
-        String transType=AppCommon.TRANS_TYPE_P;      
-       List<MerchantTradeEntityBean> userSigninList=merchantRechargeService.queryMerchantTradeByUserId(merchantEntity.getUserId(),transType);
-       model.addAttribute("userSigninList", userSigninList);
-       return "/userSigninList";  
-    }
 	
 	
 	public MerchantEntity getUserSession(HttpServletRequest request,HttpServletResponse response) throws Exception{		

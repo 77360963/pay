@@ -6,7 +6,8 @@ import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
 
-import org.springframework.cache.annotation.Cacheable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
@@ -16,6 +17,8 @@ import com.yunpan.base.tool.HttpClientUtil;
 
 @Component
 public class BaiduText2audio {
+	
+	 protected  final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	private  String client_id="i1Go7bAvVv3DbyXqij7L8VyZ";
 	
@@ -33,9 +36,11 @@ public class BaiduText2audio {
 	public  String getToken(){        
         Cache cache = cacheManager.getCache("getBaiduToken");
         Element element = cache.get(baiduTokenKey);        
-        if(null!=element){             
+        if(null!=element){ 
+        	logger.info("百度语音token缓存中获取");
             return String.class.cast(element.getObjectValue());
         }else{
+        	logger.info("百度语音token post网站中获取");
             String getHttpPath=MessageFormat.format(getTokenPath, client_id,client_secret);            
             String html = HttpClientUtil.getInstance().sendHttpGet(getHttpPath);            
             JSONObject object= JSON.parseObject(html);    
@@ -53,7 +58,8 @@ public class BaiduText2audio {
 	    }else if("2".equals(formSource)){
 	    	textString="微信到账"+amount+"元";
 	    }		
-		String Text2audio=MessageFormat.format(getText2audio, access_token,textString);		
+		String Text2audio=MessageFormat.format(getText2audio, access_token,textString);	
+		logger.info("百度语音生成={}",Text2audio);
 		return Text2audio;
 	}
 	
