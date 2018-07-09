@@ -2,6 +2,7 @@ package com.yunpan.service.service;
 
 import java.util.List;
 
+import com.yunpan.data.entity.ChannelTradeEntity;
 import com.yunpan.data.entity.MerchantTradeEntity;
 import com.yunpan.service.bean.MerchantTradeEntityBean;
 import com.yunpan.service.exception.MerchantException;
@@ -44,5 +45,21 @@ public interface MerchantRechargeService {
      * @return
      */
     public MerchantTradeEntity queryTradeByUserIdandThreadOrderNo(long userId,String threadOrderNo);
+    
+    
+    /**
+     * 根据流水id 查询商户充值记录
+     * @param orderId
+     * @return
+     */
+    public MerchantTradeEntity queryTradeById(long  tradeId) throws MerchantException;
+    
+    
+    /**
+     * 根据渠道充值流水号查询渠道支付信息
+     * @param orderId
+     * @return
+     */
+    public ChannelTradeEntity queryChannelTradeByRequestTradeNo(String  requestTradeNo) throws MerchantException;
 
 }

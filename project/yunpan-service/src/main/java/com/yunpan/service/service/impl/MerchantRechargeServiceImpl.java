@@ -136,6 +136,7 @@ public class MerchantRechargeServiceImpl implements MerchantRechargeService {
 			throw new MerchantException("", "充值订单不存在");
 		}
 		if(merchantTradeEntity.getPayStatus().equals(AppCommon.PAY_STATUS_SUCCESS)){
+		    logger.info("充值订单支付状态为成功,无需后续操作,充值订单号={}",tradeOrderId);
 			paymentStatus=true;
 			return paymentStatus;
 		}
@@ -286,6 +287,24 @@ public class MerchantRechargeServiceImpl implements MerchantRechargeService {
          MerchantTradeEntity queryMerchantTradeEntity=merchantTradeDao.queryTradeByUserIdandThreadOrder(userId, threadOrderNo);
          return queryMerchantTradeEntity;
     }
+
+    @Override
+    public MerchantTradeEntity queryTradeById(long tradeId)  throws MerchantException {        
+        return merchantTradeDao.selectByPrimaryKey(tradeId);
+    }
+    
+    @Override
+    public ChannelTradeEntity queryChannelTradeByRequestTradeNo(String requestTradeNo)  throws MerchantException {
+        logger.info("根据支付请求流水号查询商户信息,requestTradeNo={}",requestTradeNo);      
+        ChannelTradeEntity channelTradeEntity=channelTradeDao.selectByRequestTradeNo(requestTradeNo);
+        if(null==channelTradeEntity){
+            logger.info("渠道充值订单不存在,充值请求订单号={}",requestTradeNo);
+            throw new MerchantException("", "渠道充值订单不存在");
+        }       
+        return channelTradeEntity;
+    }
+
+    
 
 	
 

@@ -2,6 +2,7 @@ package com.yunpan.service.service;
 
 import com.yunpan.data.entity.MerchantEntity;
 import com.yunpan.data.entity.MerchantRateEntity;
+import com.yunpan.data.entity.MerchantSignEntity;
 import com.yunpan.service.bean.MerchantAccountEntityBean;
 import com.yunpan.service.service.bean.MerchantInfoBean;
 import com.yunpan.service.service.bean.MerchantRegisterBean;
@@ -44,5 +45,12 @@ public interface MerchantService {
 	 * @return
 	 */
 	public MerchantRateEntity queryMerchantRateByUserId(long userId);
+	
+	   /**
+     * 查询商户签约
+     * @param userId
+     * @return
+     */
+    public MerchantSignEntity queryMerchantSignByUserId(long userId);
 
 }

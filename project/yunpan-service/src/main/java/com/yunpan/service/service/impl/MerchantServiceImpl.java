@@ -15,10 +15,12 @@ import com.yunpan.base.tool.MoneyUtil;
 import com.yunpan.data.dao.MerchantAccountDao;
 import com.yunpan.data.dao.MerchantDao;
 import com.yunpan.data.dao.MerchantRateDao;
+import com.yunpan.data.dao.MerchantSignDao;
 import com.yunpan.data.dao.UniUserDao;
 import com.yunpan.data.entity.MerchantAccountEntity;
 import com.yunpan.data.entity.MerchantEntity;
 import com.yunpan.data.entity.MerchantRateEntity;
+import com.yunpan.data.entity.MerchantSignEntity;
 import com.yunpan.data.entity.UniUserEntity;
 import com.yunpan.service.bean.AppCommon;
 import com.yunpan.service.bean.MerchantAccountEntityBean;
@@ -40,6 +42,9 @@ public class MerchantServiceImpl implements MerchantService {
 	
 	@Autowired
 	private MerchantRateDao merchantRateDao;
+	
+	@Autowired
+	private MerchantSignDao merchantSignDao;
 	
 	@Autowired
 	private UniUserDao UniUserDao;
@@ -145,5 +150,10 @@ public class MerchantServiceImpl implements MerchantService {
 	public MerchantRateEntity queryMerchantRateByUserId(long userId) {
 		return merchantRateDao.selectByUserId(userId);
 	}
+
+    @Override
+    public MerchantSignEntity queryMerchantSignByUserId(long userId) {        
+        return merchantSignDao.selectByUserId(userId);
+    }
 
 }
