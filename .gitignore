@@ -1,6 +1,9 @@
-.project
-.gradletasknamecache
+*.project
+*.tmp
+.gradletasknamecach
+knamecache
 .settings/
+.metadata/
 .gradle/
 target/
 bin/
@@ -18,3 +21,24 @@ out/
 *.jar
 *.war
 *.ear
+settings/
+.metadata/
+.gradle/
+target/
+bin/
+out/
+.classpath
+.springBeans
+*.iml
+.idea
+*/build
+*.bak
+.DS_Store
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+*.zip
+*.log
