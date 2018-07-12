@@ -47,6 +47,11 @@ public class MerchantRegisterBean {
 	     * </pre>
 	     */
 	    private String paymentMethod;
+	    
+	    /**
+	     * 推荐人
+	     */
+	    private Long parentUserId;
 
 		public String getLoginName() {
 			return loginName;
@@ -111,6 +116,16 @@ public class MerchantRegisterBean {
 		public void setPaymentMethod(String paymentMethod) {
 			this.paymentMethod = paymentMethod;
 		}
+
+        public Long getParentUserId() {
+            return parentUserId;
+        }
+
+        public void setParentUserId(Long parentUserId) {
+            this.parentUserId = parentUserId;
+        }
+
+       
         
 	    
 

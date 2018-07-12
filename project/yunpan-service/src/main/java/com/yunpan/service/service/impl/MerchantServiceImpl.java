@@ -66,7 +66,16 @@ public class MerchantServiceImpl implements MerchantService {
 		UniUserEntity queryUniUserEntity=UniUserDao.selectByLoginName(merchantRegisterBean.getLoginName());
 		if(null!=queryUniUserEntity){
 			throw new MerchantException("", "该用户已存在");
-		}		
+		}	
+		
+		if(null!=merchantRegisterBean.getParentUserId()){
+		    MerchantEntity queryMerchantEntity=  merchantDao.selectMerchantEntityByUserId(Long.valueOf(merchantRegisterBean.getParentUserId()));
+		    if(null==queryMerchantEntity){
+		        logger.error("未找到推荐商户信息,parentUserId={}",merchantRegisterBean.getParentUserId());
+		        merchantRegisterBean.setParentUserId(null);
+		    }
+		}
+		
 		
 		//统一用户表
 		UniUserEntity uniUserEntity=new UniUserEntity();
@@ -87,6 +96,7 @@ public class MerchantServiceImpl implements MerchantService {
 		merchantEntity.setImage(merchantRegisterBean.getImage());
 		merchantEntity.setPaymentMethod(merchantRegisterBean.getPaymentMethod());
 		merchantEntity.setPaymentMinamt(AppCommon.PAYMENTMINAMT);
+		merchantEntity.setParentUserId(merchantRegisterBean.getParentUserId());
 		 merchantDao.insertSelective(merchantEntity);
 		 
 		//商户账户表

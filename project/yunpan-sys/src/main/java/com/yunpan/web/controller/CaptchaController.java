@@ -15,6 +15,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.Producer;
+import com.yunpan.base.annotation.IfNeedLogin;
+import com.yunpan.base.tool.QRCodeUtil;
+import com.yunpan.data.entity.MerchantEntity;
+import com.yunpan.service.bean.AppCommon;
 
 @Controller
 public class CaptchaController {
@@ -42,6 +46,28 @@ public class CaptchaController {
         } finally {
             out.close();
         }
+    }
+    
+    @IfNeedLogin
+    @RequestMapping(value = "/myRecommendScanQR", method = RequestMethod.GET)
+    public void myRecommendScanQR(HttpServletRequest request,HttpServletResponse response) throws Exception {
+        MerchantEntity merchantEntity=getUserSession(request,response);      
+        String path = request.getContextPath();
+        String registerUrl = request.getScheme() + "://"+ request.getServerName() + ":" + request.getServerPort()+ path + "/register?parentUserId="+merchantEntity.getUserId();
+        String text = registerUrl; // 随机生成验证码
+        System.out.println("随机码： " + text);
+        int width = 537; // 二维码图片的宽
+        int height = 537; // 二维码图片的高
+        String format = "png"; // 二维码图片的格式
+        QRCodeUtil.generateQRCode(text, width, height, format, response);
+    }
+    
+    public MerchantEntity getUserSession(HttpServletRequest request,HttpServletResponse response) throws Exception{     
+        MerchantEntity merchantEntity=(MerchantEntity)request.getSession().getAttribute(AppCommon.SESSION_KEY);
+        if(null==merchantEntity){
+              response.sendRedirect(request.getContextPath()+"/merchantLoginIndex");
+        }
+        return merchantEntity;
     }
 
 

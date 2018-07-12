@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -351,9 +352,23 @@ public class MerchantController {
 	 * @param request
 	 */
 	@RequestMapping(value ="/register")
-	public String merchantRegister(HttpServletRequest request){
+	public String merchantRegister(HttpServletRequest request,final ModelMap model){
+	    String parentUserId=request.getParameter("parentUserId");
+	    model.addAttribute("parentUserId", parentUserId);  
 		return "/merchantRegister";
 	}
+	
+	/**
+     * 商户推广码
+     * @param request
+	 * @throws Exception 
+     */
+    @RequestMapping(value ="/merchantRecommendScanQR")
+    public String queryRecommendTrade(HttpServletRequest request,HttpServletResponse response,final ModelMap model) throws Exception{
+        MerchantEntity merchantEntity=getUserSession(request,response); 
+        model.addAttribute("merchantEntity", merchantEntity);     
+        return "/merchantRecommendScanQR";
+    }
 	
 	
 	/**
@@ -370,6 +385,7 @@ public class MerchantController {
 			String mobile=request.getParameter("mobile").trim();
 			String contacts=request.getParameter("contacts").trim();
 			String paymentMethod=request.getParameter("paymentMethod").trim();
+			String parentUserId=request.getParameter("parentUserId").trim();
 			MerchantRegisterBean merchantRegisterBean=new MerchantRegisterBean();
 			merchantRegisterBean.setLoginName(loginName);
 			merchantRegisterBean.setPassword(password);
@@ -377,6 +393,9 @@ public class MerchantController {
 			merchantRegisterBean.setMobile(mobile);	
 			merchantRegisterBean.setContacts(contacts);
 			merchantRegisterBean.setPaymentMethod(paymentMethod);
+			if(StringUtils.isNotBlank(parentUserId)){
+			    merchantRegisterBean.setParentUserId(Long.valueOf(parentUserId));
+			}			
 			merchantService.addMerchant(merchantRegisterBean);
 			return Result.success();
 		} catch (Exception e) {

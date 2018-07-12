@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>商户收款后台管理系统</title>
+    <meta content="yes" name="apple-mobile-web-app-capable"><!-- 这meta的作用就是删除默认的苹果工具栏和菜单栏允许全屏模式浏览-->
+    <meta name="apple-touch-fullscreen" content="yes"><!-- 开启对web app程序的支持  -->
+    <meta content="telephone=no,email=no" name="format-detection"><!-- iPhone会自动把你这个文字加链接样式、并且点击这个数字还会自动拨号！telephone=no就忽略页面中的数字识别为电话号码 ,email=no 忽略识别邮箱 -->
+    <!--base css-->
+    <link rel="stylesheet" href="css/reset.css"/>
+    <link rel="stylesheet" href="css/index.css"/>
+    <link rel="stylesheet" href="font/iconfont.css"/>
+    <!--base css end-->
+    <!--base js-->
+    <!--<meta content="yes" name="apple-mobile-web-app-capable">-->
+    <script>
+        window.scrollTo(0, 0);
+    </script>
+    <!--<meta content="yes" name="apple-mobile-web-app-capable"> end-->
+    <script src="js/reset.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/zepto.min.js"></script>  
+</head>
+
+<body>
+<!--wapper-->
+<div class="wapper">
+    <!--推广-->
+    <div class="dp-list p-l-30 p-r-30 bag-fff">
+        <!--list-->
+        <div class="dp-listcon m-b-50">
+            <div class="dianping p-t-30 p-b-30 ">
+                <div class="dp-user b-b-dcdcdc p-t-20 p-b-20">
+                    <img src="images/user.png" alt="" class="dp-userimg"/>
+                    <span class="f24 text-3c3c3c p-l-5"><label th:text="${merchantEntity.name}"></label></span>
+                </div>
+                <div class="dp-contetn text-center p-t-20 p-b-20">
+                    <br><br>
+                    <img src="/myRecommendScanQR" alt="" width="90%"/>
+                </div>
+                <div class="text-center">
+                    扫一扫上面的二维码，跟我一起商户收款!<br><br>
+                </div>
+
+            </div>
+        </div>
+        <br><br>
+        <!--list end-->
+    </div>
+    <div th:replace="/commons::footer"></div>
+</div>
+<!--wapper end-->
+
+</body>
+</html>

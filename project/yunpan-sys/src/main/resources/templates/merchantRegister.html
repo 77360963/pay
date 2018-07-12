@@ -84,14 +84,8 @@
                             <input type="text" id="mobile" name="mobile" class="sforinwidt"/>
                         </div>
                     </div>            
-           <div class="sformdiv m-b-20">
-                        <div class="sforspan floatLeft">
-                            地址：
-                        </div>
-                        <div class="sfroinput floatLeft">
-                            <input type="text" id="address" class="sforinwidt"/>
-                        </div>
-                    </div>               
+          
+                 <input type="hidden" id="parentUserId" name="parentUserId" th:value="${parentUserId}"/>
 
                      <a id="submitPay" class="denglusub denglusuba">确认提交</a>
  <br>  <a class="text-e94820" href="/login">商户登录>></a>
@@ -123,6 +117,7 @@ $("#submitPay").click(function(){
         	 mobile : $("#mobile").val(),
         	 address : $("#address").val(),
         	 contacts : $("#contacts").val(), 
+        	 parentUserId : $("#parentUserId").val(), 
         	 paymentMethod : $("#paymentMethod").val(), 
          },                        
          success : function(msg) {            	  
