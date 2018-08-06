@@ -61,6 +61,7 @@ public class ThreadMerchantController {
 	    String merchantId=request.getParameter("merchantId");		
 		String payAmount=request.getParameter("payAmount");
 		String threadOrderNo=request.getParameter("orderNo");
+		String nonce_str=request.getParameter("nonce_str");
 		String requestSign=request.getParameter("sign"); 
 		String html="下单出错";    
 		if(StringUtils.isBlank(merchantId)||StringUtils.isBlank(payAmount)||StringUtils.isBlank(threadOrderNo)){
@@ -81,7 +82,8 @@ public class ThreadMerchantController {
     	         HashMap map=new HashMap();
     	         map.put("merchantId", merchantId);
     	         map.put("payAmount", payAmount);
-    	         map.put("orderNo", threadOrderNo);      
+    	         map.put("orderNo", threadOrderNo);
+    	         map.put("nonce_str", nonce_str);      
     	         Map<String,String> contentData= PaymentUtils.filterBlank(map);
     	         String data=PaymentUtils.coverMap2String(contentData);
     	         String stringSignTemp=data+"&key="+merchantSignEntity.getPublicKey();        
@@ -155,6 +157,7 @@ public class ThreadMerchantController {
         try {  
             String merchantId=request.getParameter("merchantId");
             String threadOrderNo=request.getParameter("orderNo");
+            String nonce_str=request.getParameter("nonce_str");
             String requestSign=request.getParameter("sign"); 
             MerchantSignEntity merchantSignEntity= merchantService.queryMerchantSignByUserId(Long.valueOf(merchantId));
             if(null==merchantSignEntity){
@@ -162,7 +165,8 @@ public class ThreadMerchantController {
             }            
             HashMap map=new HashMap();
             map.put("merchantId", merchantId);          
-            map.put("orderNo", threadOrderNo);      
+            map.put("orderNo", threadOrderNo);  
+            map.put("nonce_str", nonce_str);  
             Map<String,String> contentData= PaymentUtils.filterBlank(map);
             String data=PaymentUtils.coverMap2String(contentData);
             String stringSignTemp=data+"&key="+merchantSignEntity.getPublicKey();        
@@ -177,6 +181,7 @@ public class ThreadMerchantController {
             Map<String,Object> resultMap=new HashMap<String,Object>();
             if(null!=merchantTradeEntity){
                 resultMap.put("amount", merchantTradeEntity.getPayAmount());
+                resultMap.put("needPayAmount", merchantTradeEntity.getNeedPayAmount());
                 resultMap.put("payStatus", merchantTradeEntity.getPayStatus());
                 resultMap.put("paymentOrder", merchantTradeEntity.getId());
                 resultMap.put("paymentTime", merchantTradeEntity.getConfirmPayTime());
