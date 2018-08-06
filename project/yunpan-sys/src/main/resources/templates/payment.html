@@ -103,7 +103,8 @@
 <script language="javascript" type="text/javascript">
 $(function(){               
     $("#submitPay").click(function(){
-       $.ajax({ 
+    	alert("系统升级中");
+      /*  $.ajax({ 
            type : "POST",
            dataType : "json",
            url : "/merchantRecharge",
@@ -125,7 +126,7 @@ $(function(){
         		  alert("系统出错")
         	   }
            }
-       });                  
+       });                   */
     });          
 });
 </script>

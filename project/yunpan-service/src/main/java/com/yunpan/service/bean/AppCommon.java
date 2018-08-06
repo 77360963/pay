@@ -81,7 +81,7 @@ public class AppCommon {
 	/**
 	 * 签到最大金额
 	 */
-	public static int SIGNIN_MAX_AMOUNT=6;
+	public static int SIGNIN_MAX_AMOUNT=1;
 	
 	/**
 	 * 发送短信(注册)
