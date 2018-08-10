@@ -51,11 +51,19 @@ public class AppCommon {
 	
 	public static String SESSION_KEY_ROLE="merchantEntityKeyRole";
 	
+	/**
+	 * 用户类型
+	 */
+	public static int  USER_STATE_ACTIVE=1; 
 	
-	public static int  USER_TYPE_MERCHANT=1; 
+	public static int  USER_STATE_STOP=2; 
 	
-	public static int  USER_TYPE_CUSTOMER=2; 
-	
+	/**
+	 * 用户状态
+	 */
+     public static int  USER_TYPE_MERCHANT=1; 
+    
+    public static int  USER_TYPE_CUSTOMER=2; 
 	/**
 	 * 来源平台
 	 */

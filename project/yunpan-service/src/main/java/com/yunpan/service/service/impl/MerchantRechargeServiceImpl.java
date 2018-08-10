@@ -22,11 +22,13 @@ import com.yunpan.data.dao.MerchantAccountDao;
 import com.yunpan.data.dao.MerchantDao;
 import com.yunpan.data.dao.MerchantRateDao;
 import com.yunpan.data.dao.MerchantTradeDao;
+import com.yunpan.data.dao.UniUserDao;
 import com.yunpan.data.entity.ChannelTradeEntity;
 import com.yunpan.data.entity.MerchantAccountEntity;
 import com.yunpan.data.entity.MerchantEntity;
 import com.yunpan.data.entity.MerchantRateEntity;
 import com.yunpan.data.entity.MerchantTradeEntity;
+import com.yunpan.data.entity.UniUserEntity;
 import com.yunpan.service.bean.AppCommon;
 import com.yunpan.service.bean.MerchantTradeEntityBean;
 import com.yunpan.service.bean.PaymentResult;
@@ -59,6 +61,9 @@ public class MerchantRechargeServiceImpl implements MerchantRechargeService {
 	
 	@Autowired
     private IEMailSender mailSender;
+	
+	@Autowired
+	private UniUserDao uniUserDao;
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
@@ -69,6 +74,15 @@ public class MerchantRechargeServiceImpl implements MerchantRechargeService {
 	    }
 	    merchantTradeEntity.setPayStatus(AppCommon.PAY_STATUS_INIT);
 	    merchantTradeEntity.setTransType(AppCommon.TRANS_TYPE_I);
+	    UniUserEntity uniUserEntity=uniUserDao.selectByPrimaryKey(merchantTradeEntity.getUserId());
+	    if(null==uniUserEntity){
+            logger.info("未找到相关用户信息，商户id={}",merchantTradeEntity.getUserId());
+            throw new MerchantException("", "未找到相关用户信息");
+        }
+	    if(uniUserEntity.getUserState().equals(AppCommon.USER_STATE_STOP)){
+	        throw new MerchantException("", "商户收单维护中");
+	    }
+	    
 	    MerchantEntity merchantEntity=merchantDao.selectMerchantEntityByUserId(merchantTradeEntity.getUserId());
 		if(null==merchantEntity){
 			logger.info("未找到相关商户信息，商户id={}",merchantTradeEntity.getUserId());

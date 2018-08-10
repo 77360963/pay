@@ -87,7 +87,7 @@ public class MerchantController {
 			Map map=paymentService.webPayMap(payAmount,rechargeRequestNo,notifyUrl);
 			return Result.success(map);
 		} catch (MerchantException e) {				
-			 return Result.failed("failed","下单失败");
+			 return Result.failed("failed",e.getMessage());
 		}
 	}
 	
@@ -414,12 +414,8 @@ public class MerchantController {
 	@RequestMapping(value ="/merchantInfoScanQR")	
 	public String queryMerchantById(HttpServletRequest request,HttpServletResponse response,final ModelMap model) throws Exception{
 		Long userId=getUserSession(request,response).getUserId();
-		MerchantEntity merchantEntity=merchantService.queryMerchantInfoByUserId(userId);
-		String path = request.getContextPath();
-        String basePath = request.getScheme() + "://"+ request.getServerName() + ":" + request.getServerPort()+ path + "/merchantPayment?merchantId="+userId;
-		System.out.println(basePath);
-		model.addAttribute("merchantEntity", merchantEntity);
-		model.addAttribute("basePath", basePath);
+		MerchantEntity merchantEntity=merchantService.queryMerchantInfoByUserId(userId);		
+		model.addAttribute("merchantEntity", merchantEntity);		
 		return "/merchantInfoScanQR";	
 	}
 	

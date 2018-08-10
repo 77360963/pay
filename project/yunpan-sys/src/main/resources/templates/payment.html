@@ -102,9 +102,8 @@
 </body>
 <script language="javascript" type="text/javascript">
 $(function(){               
-    $("#submitPay").click(function(){
-    	alert("系统升级中");
-      /*  $.ajax({ 
+    $("#submitPay").click(function(){    	
+         $.ajax({ 
            type : "POST",
            dataType : "json",
            url : "/merchantRecharge",
@@ -123,10 +122,10 @@ $(function(){
         		   $("#payment").attr('action',msg.data.post_url); 
         		   $("#payment").submit();         		 
         	   }else{
-        		  alert("系统出错")
+        		  alert(msg.responseMsg)
         	   }
            }
-       });                   */
+       });                  
     });          
 });
 </script>
